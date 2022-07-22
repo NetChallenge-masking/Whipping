@@ -14,14 +14,46 @@
         android:theme="@style/Theme.Whipping"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
+            android:name=".SearchActivity"
+            android:exported="false"
+            android:screenOrientation="landscape"
+            android:theme="@style/CleanTheme"/>
+        <activity
+            android:name=".LocationActivity"
+            android:exported="false"
+            android:screenOrientation="landscape"
+            android:theme="@style/CleanTheme"/>
+        <activity
+            android:name=".ScanActivity"
+            android:exported="false"
+            android:screenOrientation="landscape"
+            android:theme="@style/CleanTheme"/>
+        <activity
+            android:name=".CartActivity"
+            android:exported="false"
+            android:screenOrientation="landscape"
+            android:theme="@style/CleanTheme"/>
+        <activity
+            android:name=".HomeActivity"
+            android:exported="false"
+            android:screenOrientation="landscape"
+            android:theme="@style/CleanTheme" />
+        <activity
+            android:name=".SplashActivity"
+            android:exported="true"
+            android:screenOrientation="landscape"
+            android:theme="@style/CleanTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"
+            android:screenOrientation="landscape"
+            android:theme="@style/CleanTheme" />
     </application>
 
 </manifest>
