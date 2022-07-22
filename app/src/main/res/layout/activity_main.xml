@@ -28,7 +28,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
         android:onClick="startShopping"
-        tools:ignore="UsingOnClickInXml" />
+        tools:ignore="UsingOnClickInXml"
+        android:contentDescription="쇼핑 시작"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

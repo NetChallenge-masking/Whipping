@@ -16,7 +16,8 @@
         android:src="@drawable/btn_home_search"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:onClick="goSearch"/>
+        android:onClick="goSearch"
+        android:contentDescription="상품 검색"/>
 
     <ImageView
         android:layout_width="260dp"
@@ -26,7 +27,8 @@
         android:src="@drawable/btn_home_cart"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:onClick="goCart"/>
+        android:onClick="goCart"
+        android:contentDescription="장바구니"/>
 
     <ImageView
         android:layout_width="260dp"
@@ -36,7 +38,8 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="30dp"
         android:layout_marginRight="40dp"
-        android:onClick="goScan"/>
+        android:onClick="goScan"
+        android:contentDescription="상품 확인"/>
 
     <ImageView
         android:layout_width="260dp"
@@ -46,7 +49,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginRight="40dp"
         android:layout_marginBottom="30dp"
-        android:onClick="goLocation"/>
+        android:onClick="goLocation"
+        android:contentDescription="위치 검색"/>
 
     <ImageView
         android:layout_width="250dp"
@@ -56,7 +60,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:onClick="finishShopping"/>
+        android:onClick="finishShopping"
+        android:contentDescription="쇼핑 종료"/>
 
 
 
