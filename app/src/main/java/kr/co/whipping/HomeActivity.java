@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import kr.co.whipping.scan.ScanActivity;
+
+
 public class HomeActivity extends AppCompatActivity {
 
     @Override

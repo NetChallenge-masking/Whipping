@@ -12,7 +12,9 @@
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:layout_marginTop="80dp"
+        android:layout_marginBottom="75dp"
         android:src="@drawable/image_main_logo"
+        app:layout_constraintBottom_toTopOf="@+id/start_shopping"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
