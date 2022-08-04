@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.MICROPHONE" />
+    <queries> <package android:name="com.google.android.googlequicksearchbox"/> </queries>
 
 
     <application
@@ -21,11 +22,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Whipping"
         tools:targetApi="31">
-        <activity
-            android:name=".SearchActivity"
-            android:exported="false"
-            android:screenOrientation="landscape"
-            android:theme="@style/CleanTheme"/>
         <activity
             android:name=".LocationActivity"
             android:exported="false"
@@ -61,6 +57,8 @@
             android:name=".MainActivity"
             android:exported="false"
             android:theme="@style/CleanTheme" />
+        <activity android:name=".search.SearchActivity"/>
+        <activity android:name=".search.Search2Activity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

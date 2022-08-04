@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import kr.co.whipping.scan.ScanActivity;
+import kr.co.whipping.search.SearchActivity;
 
 
 public class HomeActivity extends AppCompatActivity {
