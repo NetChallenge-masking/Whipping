@@ -3,9 +3,19 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/MASKING/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2495" />
         <entry key="..\:/MASKING/app/src/main/res/drawable/radius_gray10.xml" value="0.244" />
+        <entry key="..\:/MASKING/app/src/main/res/layout-land/test.xml" value="0.1" />
         <entry key="..\:/MASKING/app/src/main/res/layout/activity_barcode.xml" value="0.23802083333333332" />
+        <entry key="..\:/MASKING/app/src/main/res/layout/activity_barcodescan.xml" value="0.2526041666666667" />
+        <entry key="..\:/MASKING/app/src/main/res/layout/activity_camerascan.xml" value="0.25364583333333335" />
+        <entry key="..\:/MASKING/app/src/main/res/layout/activity_cart.xml" value="0.25364583333333335" />
+        <entry key="..\:/MASKING/app/src/main/res/layout/activity_home.xml" value="0.25364583333333335" />
+        <entry key="..\:/MASKING/app/src/main/res/layout/activity_location.xml" value="0.25364583333333335" />
+        <entry key="..\:/MASKING/app/src/main/res/layout/activity_main.xml" value="0.25364583333333335" />
         <entry key="..\:/MASKING/app/src/main/res/layout/activity_scan.xml" value="0.15052083333333333" />
+        <entry key="..\:/MASKING/app/src/main/res/layout/activity_search.xml" value="0.25364583333333335" />
+        <entry key="..\:/MASKING/app/src/main/res/layout/activity_splash.xml" value="0.25364583333333335" />
         <entry key="app/src/main/res/layout-land/activity_splash.xml" value="0.22552083333333334" />
         <entry key="app/src/main/res/layout/activity_cart.xml" value="0.14791666666666667" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.11302083333333333" />
