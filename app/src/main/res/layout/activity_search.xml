@@ -12,7 +12,7 @@
         android:layout_height="250dp"
         android:layout_marginTop="244dp"
 
-        android:background="@drawable/ic_mic_offs"
+        android:background="@drawable/ic_mics"
         android:contentDescription="가운데에 위치한 음성 인식 버튼을 눌러주세요."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,7 +22,7 @@
         android:id="@+id/rec_EditTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Tap To Speech"
+        android:hint="음성 검색 시작"
         android:textColor="@color/searchcolor"
         android:textSize="40sp"
         android:textStyle="bold"

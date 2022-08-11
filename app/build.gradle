@@ -52,5 +52,11 @@ dependencies {
     implementation 'com.google.http-client:google-http-client-gson:1.23.0' exclude module: 'okhttp'
     implementation 'com.google.apis:google-api-services-vision:v1-rev369-1.23.0'
     implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'
+    //비콘
+
+    implementation 'org.greenrobot:eventbus:3.0.0'
+    implementation 'com.google.code.gson:gson:2.2.4'
+    implementation files('libs/minewBeaconScan.jar')
+
 
 }

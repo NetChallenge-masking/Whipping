@@ -3,15 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="kr.co.whipping">
 
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.MICROPHONE" />
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <queries> <package android:name="com.google.android.googlequicksearchbox"/> </queries>
 
 
     <application
+        android:usesCleartextTraffic="true"
         android:screenOrientation="landscape"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -59,7 +65,7 @@
             android:theme="@style/CleanTheme" />
         <activity android:name=".search.SearchActivity"/>
         <activity android:name=".search.Search2Activity" />
-
+        <activity android:name=".locationinfo.BeaconMainActivity"/>
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"

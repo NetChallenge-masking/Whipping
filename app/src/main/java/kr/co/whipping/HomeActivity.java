@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import kr.co.whipping.locationinfo.BeaconMainActivity;
 import kr.co.whipping.scan.ScanActivity;
 import kr.co.whipping.search.SearchActivity;
 
@@ -33,7 +34,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void goLocation(View view) {
-        Intent intent = new Intent(getApplicationContext(), LocationActivity.class);
+        Intent intent = new Intent(getApplicationContext(), BeaconMainActivity.class);
         startActivity(intent);
     }
 
