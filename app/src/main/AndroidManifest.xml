@@ -10,6 +10,13 @@
     <uses-permission android:name="android.permission.MICROPHONE" />
     <queries> <package android:name="com.google.android.googlequicksearchbox"/> </queries>
 
+    <!--태블릿에서 연결 어플로 바로 보내도록 함-->
+    <queries>
+        <package android:name="com.google.zxing.client.android" />
+    </queries>
+
+
+
 
     <application
         android:screenOrientation="landscape"
@@ -49,7 +56,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".scan.ScanActivity"/>
-        <activity android:name=".scan.barcordscan.BarcodeScanActivity"/>
+        <activity android:name=".scan.barcordscan.BarcodeScanActivity"
+            android:configChanges="screenSize|orientation"
+            />
         <activity android:name=".scan.camerascan.CameraScanActivity"
             android:configChanges="screenSize|orientation"
             />

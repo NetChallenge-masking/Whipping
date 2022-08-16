@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ScanActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="50dp">
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onClick"
+                android:text="scan starten" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="barcode number" />
+
+            <TextView
+                android:id="@+id/etBarcode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/radius_gray10"
+                android:textColor="@color/white" />
+
+
+            <TextView
+                android:id="@+id/nameOfProd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="barcode type"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/etTyp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/radius_gray10"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/img_barcode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@android:drawable/editbox_dropdown_light_frame"
+            tools:layout_editor_absoluteX="188dp"
+            tools:layout_editor_absoluteY="456dp" />
+    </LinearLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

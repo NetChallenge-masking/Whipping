@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import kr.co.whipping.R;
 import kr.co.whipping.databinding.ActivityScanBinding;
 import kr.co.whipping.scan.barcordscan.BarcodeScanActivity;
+import kr.co.whipping.scan.barcordscan.IntentIntegrator;
 import kr.co.whipping.scan.camerascan.CameraScanActivity;
 
 public class ScanActivity extends AppCompatActivity {
@@ -30,8 +31,7 @@ public class ScanActivity extends AppCompatActivity {
         });
         binding.barcordscanBtn.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), BarcodeScanActivity.class);
                 startActivity(intent);
             }
