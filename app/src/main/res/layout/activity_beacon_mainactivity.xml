@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/start_scan"
+        android:textStyle="bold"
+        android:textSize="50sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:text="검색" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/beaconInfo1TextView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="20dp"
+            android:layout_weight="1"
+            android:background="@color/scanColor"
+            android:gravity="center"
+            android:text="매대이름1"
+            android:textSize="50sp"
+            android:textColor="@color/white"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/itemInfoTextView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="20dp"
+                android:layout_weight="0.5"
+                android:background="@drawable/search2"
+                android:contentDescription="상품 정보 확인"
+                android:textSize="50sp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/barcodeInfoBtn"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="20dp"
+                android:layout_weight="0.5"
+                android:background="@drawable/barcode2"
+                android:contentDescription="바코드로 상품 담기"
+                android:textSize="50sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/beaconInfo2TextView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="20dp"
+            android:layout_weight="1"
+            android:background="@color/scanColor"
+            android:gravity="center"
+
+            android:text="매대이름2"
+            android:textColor="#FFFFFF"
+            android:textSize="50sp" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
