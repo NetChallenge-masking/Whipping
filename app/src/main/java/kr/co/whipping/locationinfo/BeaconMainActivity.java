@@ -189,71 +189,39 @@ public class BeaconMainActivity extends AppCompatActivity {
              */
             @Override
             public void onRangeBeacons(final List<MinewBeacon> minewBeacons) {
-
+                String beaconName = minewBeacons.get(0).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Name).getStringValue();
                 if (!minewBeacons.isEmpty()) { //근처에 비콘이 없을 경우가 아니라면
-                    //비콘 1을 인식했을 경우
-                    Log.e("제일 가까운 beacon인식: ",minewBeacons.get(0).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Name).getStringValue());
-                    if (minewBeacons.get(0).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Name).getStringValue().equals("beacon1")
-                            || (minewBeacons.get(0).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Name).getStringValue().equals("beacon2"))) {
-                        Log.e("beacon1,2인식" ,"화면 문구 : 트린트먼트, 의약제품 , 음성안내문구 : 왼쪽에 트린트먼트 제품이 있습니다, 오른쪽에 의약제품이 있습니다.");
+                    if (beaconName.equals("beacon1")
+                            || (beaconName.equals("beacon2"))) {
+                        Log.e("beacon1,2인식" ,"화면 문구 : 트린트먼트, 의약제품 , 음성안내문구 : 왼쪽에 트린트먼트 제품이 있습니다, 오른쪽에 의약제품 및 가그린이 있습니다.");
                         //텍스트 안내
-                        beaconInfo1TextView.setText("트린트먼트");
-                        beaconInfo2TextView.setText("의약제품");
-                        //음성안내
-                        beaconInfo1TextView.setContentDescription("왼쪽에 트린트먼트 제품이 있습니다.");
-                        beaconInfo2TextView.setContentDescription("오른쪽에 의약제품이 있습니다.");
+                        setBeaconItemInfo("트린트먼트","의약제품 및 가그린");
                     }
-                    else if((minewBeacons.get(0).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Name).getStringValue().equals("beacon3"))
-                    || (minewBeacons.get(0).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Name).getStringValue().equals("beacon4"))){
+                    else if((beaconName.equals("beacon3"))
+                    || (beaconName.equals("beacon4"))){
                         Log.e("beacon3,4인식" ,"화면 문구 : 샴푸, 면도기 , 음성안내문구 : 왼쪽에 삼푸 제품이 있습니다, 오른쪽에 면도기제품이 있습니다.");
-                        //텍스트 안내
-                        beaconInfo1TextView.setText("샴푸");
-                        beaconInfo2TextView.setText("면도기");
-                        //음성안내
-                        beaconInfo1TextView.setContentDescription("왼쪽에 샴푸 제품이 있습니다.");
-                        beaconInfo2TextView.setContentDescription("오른쪽에 면도기 제품이 있습니다.");
+
+                        setBeaconItemInfo("샴푸","면도기");
                     }
-                    else if(minewBeacons.get(0).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Name).getStringValue().equals("beacon5")){
-                        Log.e("beacon5인식" ,"화면 문구 : 샴푸, 면도기 , 음성안내문구 : 왼쪽에 삼푸 제품이 있습니다, 오른쪽에 가그린제품이 있습니다.");
+                    else if(beaconName.equals("beacon5")){
+                        Log.e("beacon5인식" ,"화면 문구 : 샴푸, 면도기 , 음성안내문구 : 왼쪽에 헤어 용품이 있습니다, 오른쪽에 구강 용품이 있습니다.");
                         //텍스트 안내
-                        beaconInfo1TextView.setText("샴푸");
-                        beaconInfo2TextView.setText("가그린");
-                        //음성안내
-                        beaconInfo1TextView.setContentDescription("왼쪽에 샴푸 제품이 있습니다.");
-                        beaconInfo2TextView.setContentDescription("오른쪽에 가그린 제품이 있습니다.");
+                        setBeaconItemInfo("헤어용품","구강용품");
+
                     }
-                    else if(minewBeacons.get(0).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Name).getStringValue().equals("beacon6")){
-                        Log.e("beacon6인식" ,"화면 문구 : 샴푸, 면도기 , 음성안내문구 : 왼쪽에 헤어 용품이 있습니다, 오른쪽에 구강 용품이 있습니다.");
-                        //텍스트 안내
-                        beaconInfo1TextView.setText("헤어용품");
-                        beaconInfo2TextView.setText("구강용품");
-                        //음성안내
-                        beaconInfo1TextView.setContentDescription("왼쪽에 헤어 용품이 있습니다.");
-                        beaconInfo2TextView.setContentDescription("오른쪽에 구강 용품이 있습니다.");
+                    else if(beaconName.equals("beacon6")){
+                        Log.e("beacon6인식" ,"화면 문구 : 지하1층 , 음성안내문구 : 지하1층 입니다.");
+                        setBeaconFacilitiesInfo("지하 1층");
+
+                    }
+                    else if(beaconName.equals("beacon7")){
+                        Log.e("beacon7인식" ,"화면 문구 : 리엔 물들임 트린트먼트150ml(흑갈색),헤드앤숄더 샴푸850ml , 음성안내문구 : 추천,세일 상품안내");
+                        setBeaconSaleInfo("리엔 물들임 트린트먼트150ml(흑갈색)","헤드앤숄더 샴푸850ml");
 
                     }
                 }
             }
-//                else if (minewBeacons.get(0).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Name).getStringValue().equals("beacon2")
-//                            &&(minewBeacons.get(1).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Name).getStringValue().equals("beacon1"))) {
-//                        //텍스트 안내
-//                        beaconInfo1TextView.setText("트린트먼트");
-//                        beaconInfo2TextView.setText("의약제품");
-//                        //음성안내
-//                        beaconInfo1TextView.setContentDescription("왼쪽에 트린트먼트 제품이 있습니다.");
-//                        beaconInfo2TextView.setContentDescription("오른쪽에 의약제품이 있습니다.");
-//                        Log.e("beacon1,2인식 상태: ", state + " 화면 문구 : 트린트먼트. 의약제품 , 음성안내문구 : 왼족에 트린트먼트 제품이 있습니다, 오른쪽에 의약제품이 있습니다.");
-//                    }
 
-
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//
-//
-//                    }
-//                });
-//            }
 
             /**
              *  the manager calls back this method when BluetoothStateChanged.
@@ -274,6 +242,35 @@ public class BeaconMainActivity extends AppCompatActivity {
             }
         });
     }
+    //매대 안내를 위한 비콘 함수
+    private void setBeaconItemInfo(String leftItem1,String rightItem2){
+        //텍스트 안내
+        beaconInfo1TextView.setText(leftItem1);
+        beaconInfo2TextView.setText(rightItem2);
+        //음성안내
+        beaconInfo1TextView.setContentDescription("왼쪽에 "+leftItem1+"이 있습니다.");
+        beaconInfo2TextView.setContentDescription("오른쪽에"+rightItem2+"이 있습니다.");
+    }
+    //편의시설 안내를 위한 비콘 함수
+    private void setBeaconFacilitiesInfo(String facilities){
+        //텍스트 안내
+        beaconInfo1TextView.setText(facilities);
+        beaconInfo2TextView.setText(facilities);
+        //음성안내
+        beaconInfo1TextView.setContentDescription("현재 위치는 " + facilities + "입니다.");
+        beaconInfo1TextView.setContentDescription("현재 위치는 " + facilities + "입니다.");
+    }
+    //행사상품 안내를 위한 비콘 함수
+    private void setBeaconSaleInfo(String saleItem1,String saleItem2){
+        //텍스트 안내
+        beaconInfo1TextView.setText(saleItem1);
+        beaconInfo1TextView.setText(saleItem2);
+        //음성안내
+        beaconInfo1TextView.setContentDescription("추천 상품인"+ saleItem1+" 있습니다.");
+        beaconInfo1TextView.setContentDescription("1+1 행사 중인"+ saleItem2+" 있습니다.");
+    }
+
+
 
     //액티비티 종료되면 비콘스캔 종료
     @Override
