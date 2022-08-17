@@ -189,13 +189,14 @@ public class BeaconMainActivity extends AppCompatActivity {
              */
             @Override
             public void onRangeBeacons(final List<MinewBeacon> minewBeacons) {
-                String beaconName = minewBeacons.get(0).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Name).getStringValue();
+
                 if (!minewBeacons.isEmpty()) { //근처에 비콘이 없을 경우가 아니라면
+                    String beaconName = minewBeacons.get(0).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Name).getStringValue();
                     if (beaconName.equals("beacon1")
                             || (beaconName.equals("beacon2"))) {
-                        Log.e("beacon1,2인식" ,"화면 문구 : 트린트먼트, 의약제품 , 음성안내문구 : 왼쪽에 트린트먼트 제품이 있습니다, 오른쪽에 의약제품 및 가그린이 있습니다.");
+                        Log.e("beacon1,2인식" ,"화면 문구 : 트리트먼트, 의약제품 , 음성안내문구 : 왼쪽에 트리트먼트 제품이 있습니다, 오른쪽에 의약제품 및 가그린이 있습니다.");
                         //텍스트 안내
-                        setBeaconItemInfo("트린트먼트","의약제품 및 가그린");
+                        setBeaconItemInfo("트리트먼트","의약제품 및 가그린");
                     }
                     else if((beaconName.equals("beacon3"))
                     || (beaconName.equals("beacon4"))){
