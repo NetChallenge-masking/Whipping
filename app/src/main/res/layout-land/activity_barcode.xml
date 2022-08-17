@@ -57,6 +57,7 @@
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:text="0"
+                        android:textColor="@color/fontColor"
                         android:textSize="48sp" />
 
                     <Button
@@ -101,8 +102,10 @@
                         android:id="@+id/category"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="category"
-                        android:textSize="30sp" />
+                        android:text="사탕/껌/젤리"
+                        android:textColor="@color/fontColor"
+                        android:textSize="30sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -125,8 +128,10 @@
                         android:id="@+id/nameOfProd"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="nameOfPord"
-                        android:textSize="30sp" />
+                        android:text="크라운)새콤달콤(포도)"
+                        android:textColor="@color/fontColor"
+                        android:textSize="30sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -149,8 +154,10 @@
                         android:id="@+id/price"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="price"
-                        android:textSize="30sp" />
+                        android:text="500"
+                        android:textColor="@color/fontColor"
+                        android:textSize="30sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/textView10"
@@ -158,7 +165,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="원"
-                        android:textSize="34sp" />
+                        android:textColor="@color/fontColor"
+                        android:textSize="34sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
             </LinearLayout>
