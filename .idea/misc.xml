@@ -3,29 +3,30 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/MASKING/app/src/main/res/layout-land/activity_barcode.xml" value="0.1" />
+        <entry key="..\:/MASKING/app/src/main/res/layout-land/activity_barcode.xml" value="0.176" />
+        <entry key="..\:/MASKING/app/src/main/res/layout/activity_beacon_mainactivity.xml" value="0.25364583333333335" />
+        <entry key="..\:/MASKING/app/src/main/res/layout/activity_camerascan.xml" value="0.25364583333333335" />
+        <entry key="..\:/MASKING/app/src/main/res/layout/activity_cart.xml" value="0.25364583333333335" />
         <entry key="..\:/MASKING/app/src/main/res/layout/activity_scan.xml" value="0.25364583333333335" />
+        <entry key="..\:/MASKING/app/src/main/res/layout/activity_search.xml" value="0.1125" />
+        <entry key="..\:/MASKING/app/src/main/res/layout/activity_search2.xml" value="0.25364583333333335" />
+        <entry key="..\:/MASKING/app/src/main/res/layout/activity_splash.xml" value="0.1125" />
+        <entry key="..\:/MASKING/app/src/main/res/layout/list_item.xml" value="0.1125" />
         <entry key="app/src/main/res/drawable-v24/enterradius.xml" value="0.3355" />
-        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.199" />
         <entry key="app/src/main/res/drawable-v24/ic_mic_offs.xml" value="0.1995" />
         <entry key="app/src/main/res/drawable-v24/ic_mics.xml" value="0.1295" />
-        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.199" />
-        <entry key="app/src/main/res/drawable/radius_white_15.xml" value="0.199" />
-        <entry key="app/src/main/res/drawable/radius_white_20.xml" value="0.199" />
         <entry key="app/src/main/res/drawable/searchradius.xml" value="0.2545" />
         <entry key="app/src/main/res/drawable/shadow.xml" value="0.3545" />
         <entry key="app/src/main/res/layout-land/activity_splash.xml" value="0.22552083333333334" />
-        <entry key="app/src/main/res/layout/activity_beacon_mainactivity.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_camerascan.xml" value="0.11" />
+        <entry key="app/src/main/res/layout/activity_camerascan.xml" value="0.37083333333333335" />
         <entry key="app/src/main/res/layout/activity_cart.xml" value="0.14791666666666667" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.11302083333333333" />
         <entry key="app/src/main/res/layout/activity_location.xml" value="0.14791666666666667" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_scan.xml" value="0.11" />
+        <entry key="app/src/main/res/layout/activity_scan.xml" value="0.14791666666666667" />
         <entry key="app/src/main/res/layout/activity_search.xml" value="0.14270833333333333" />
         <entry key="app/src/main/res/layout/activity_search2.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/beacon_item.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_cart2.xml" value="0.14791666666666667" />
         <entry key="app/src/main/res/layout/list_item.xml" value="0.25" />
       </map>
