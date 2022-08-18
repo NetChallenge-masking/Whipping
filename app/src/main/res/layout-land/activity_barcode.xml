@@ -102,7 +102,6 @@
                         android:id="@+id/category"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="사탕/껌/젤리"
                         android:textColor="@color/fontColor"
                         android:textSize="30sp"
                         android:textStyle="bold" />
@@ -128,7 +127,6 @@
                         android:id="@+id/nameOfProd"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="크라운)새콤달콤(포도)"
                         android:textColor="@color/fontColor"
                         android:textSize="30sp"
                         android:textStyle="bold" />
@@ -154,7 +152,6 @@
                         android:id="@+id/price"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="500"
                         android:textColor="@color/fontColor"
                         android:textSize="30sp"
                         android:textStyle="bold" />
