@@ -51,12 +51,12 @@
                         android:textSize="24sp" />
 
                     <TextView
-                        android:id="@+id/textView9"
+                        android:id="@+id/count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:text="0"
+                        android:text="1"
                         android:textColor="@color/fontColor"
                         android:textSize="48sp" />
 

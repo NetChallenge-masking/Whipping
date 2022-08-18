@@ -20,6 +20,8 @@ import kr.co.whipping.R;
 
 public class BarcodeScanActivity extends AppCompatActivity {
 
+    int count = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +44,7 @@ public class BarcodeScanActivity extends AppCompatActivity {
             String barcodenum;
             String barcodetype;
 
+
             barcodenum = scanResult.getContents();
             barcodetype = scanResult.getFormatName();
 
@@ -49,7 +52,8 @@ public class BarcodeScanActivity extends AppCompatActivity {
             Button plus = (Button) findViewById(R.id.plus);
             Button cancel = (Button) findViewById(R.id.cancel);
             Button add = (Button) findViewById(R.id.add);
-//
+            TextView prodCount = (TextView) findViewById(R.id.count);
+
             TextView category = (TextView) findViewById(R.id.category);
             TextView nameOfprod = (TextView) findViewById(R.id.nameOfProd);
             TextView price = (TextView) findViewById(R.id.price);
@@ -61,7 +65,7 @@ public class BarcodeScanActivity extends AppCompatActivity {
                 nameOfprod.setText("헤드&숄더 두피 토탈 솔루션 가려운 두피케어");
                 price.setText("15,900");
                 }
-            else if (barcodenum.equals("9806446361252")){
+            else if (barcodenum.equals("8801046361252")){
                 category.setText("트리트먼트");
                 nameOfprod.setText("케라시스 데미지 클리닉 오리지널 컨디셔너 린스 1,000ml ");
                 price.setText("7,900");
@@ -91,6 +95,7 @@ public class BarcodeScanActivity extends AppCompatActivity {
 
 
 
+
 //            TextView etBarcode = (TextView) findViewById(R.id.etBarcode);
 //            TextView etTyp = (TextView) findViewById(R.id.etTyp);
 //            etBarcode.setText(barcodenum);
@@ -110,7 +115,39 @@ public class BarcodeScanActivity extends AppCompatActivity {
                 img_barcode.setImageBitmap(bitmap);
             } catch (Exception e) {
             }
+
+
+            //플러스, 마이너스
+            plus.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                    count++;
+                    prodCount.setText((count+""));
+                }
+            });
+            minus.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                    count--;
+                    prodCount.setText((count+""));
+                }
+            });
+
+            //취소
+            cancel.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                    onBackPressed();
+                }
+            });
+
+            //담기
+            add.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                    //
+                }
+            });
         }
     }
-
 }
