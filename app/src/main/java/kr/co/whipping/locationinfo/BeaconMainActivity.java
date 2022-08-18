@@ -27,6 +27,8 @@ import java.util.Collections;
 import java.util.List;
 
 import kr.co.whipping.R;
+import kr.co.whipping.scan.barcordscan.BarcodeScanActivity;
+import kr.co.whipping.scan.camerascan.CameraScanActivity;
 
 public class BeaconMainActivity extends AppCompatActivity {
     private static final int REQUEST_ACCESS_FINE_LOCATION = 1000;
@@ -113,6 +115,23 @@ public class BeaconMainActivity extends AppCompatActivity {
         itemInfoBtn = (Button) findViewById(R.id.itemInfoTextView);
         barcodeInfoBtn = (Button) findViewById(R.id.barcodeInfoBtn);
 
+        itemInfoBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view)
+            {
+                Intent intent = new Intent(getApplicationContext(), CameraScanActivity.class);
+                startActivity(intent);
+            }
+        });
+        barcodeInfoBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view)
+            {
+                Intent intent = new Intent(getApplicationContext(), BarcodeScanActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
     //비콘 매니저 실행
     private void initManager() {
@@ -198,11 +217,13 @@ public class BeaconMainActivity extends AppCompatActivity {
                         //텍스트 안내
                         setBeaconItemInfo("트리트먼트","의약제품 및 가그린");
                     }
-                    else if((beaconName.equals("beacon3"))
-                    || (beaconName.equals("beacon4"))){
+                    else if(beaconName.equals("beacon3")){
                         Log.e("beacon3,4인식" ,"화면 문구 : 샴푸, 면도기 , 음성안내문구 : 왼쪽에 삼푸 제품이 있습니다, 오른쪽에 면도기제품이 있습니다.");
-
                         setBeaconItemInfo("샴푸","면도기");
+                    }
+                    else if(beaconName.equals("beacon4")){
+                        Log.e("beacon4인식" ,"화면 문구 : 리엔 물들임 트린트먼트150ml(흑갈색),헤드앤숄더 샴푸850ml , 음성안내문구 : 추천,세일 상품안내");
+                        setBeaconSaleInfo("추천 상품\n 리엔 물들임 트린트먼트150ml(흑갈색)","1+1 행사상품\n 헤드앤숄더 샴푸850ml");
                     }
                     else if(beaconName.equals("beacon5")){
                         Log.e("beacon5인식" ,"화면 문구 : 샴푸, 면도기 , 음성안내문구 : 왼쪽에 헤어 용품이 있습니다, 오른쪽에 구강 용품이 있습니다.");
@@ -265,10 +286,10 @@ public class BeaconMainActivity extends AppCompatActivity {
     private void setBeaconSaleInfo(String saleItem1,String saleItem2){
         //텍스트 안내
         beaconInfo1TextView.setText(saleItem1);
-        beaconInfo1TextView.setText(saleItem2);
+        beaconInfo2TextView.setText(saleItem2);
         //음성안내
         beaconInfo1TextView.setContentDescription("추천 상품인"+ saleItem1+" 있습니다.");
-        beaconInfo1TextView.setContentDescription("1+1 행사 중인"+ saleItem2+" 있습니다.");
+        beaconInfo2TextView.setContentDescription("1+1 행사 중인"+ saleItem2+" 있습니다.");
     }
 
 
