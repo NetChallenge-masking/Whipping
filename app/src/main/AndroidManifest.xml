@@ -76,7 +76,7 @@
         <activity android:name=".search.SearchActivity" />
         <activity android:name=".search.Search2Activity" />
         <activity android:name=".locationinfo.BeaconMainActivity" />
-
+        <activity android:name=".scan.camerascan.InnerCameraActivity"/>
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
