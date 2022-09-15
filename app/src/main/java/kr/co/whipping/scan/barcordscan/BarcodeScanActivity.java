@@ -48,15 +48,15 @@ public class BarcodeScanActivity extends AppCompatActivity {
             barcodenum = scanResult.getContents();
             barcodetype = scanResult.getFormatName();
 
-            Button minus = (Button) findViewById(R.id.minus);
-            Button plus = (Button) findViewById(R.id.plus);
-            Button cancel = (Button) findViewById(R.id.cancel);
-            Button add = (Button) findViewById(R.id.add);
-            TextView prodCount = (TextView) findViewById(R.id.count);
+            Button minus = (Button) findViewById(R.id.btn_count_down);
+            Button plus = (Button) findViewById(R.id.btn_count_up);
+            Button cancel = (Button) findViewById(R.id.btn_cancel);
+            Button add = (Button) findViewById(R.id.btn_add);
+            TextView prodCount = (TextView) findViewById(R.id.tv_item_count);
 
-            TextView category = (TextView) findViewById(R.id.category);
-            TextView nameOfprod = (TextView) findViewById(R.id.nameOfProd);
-            TextView price = (TextView) findViewById(R.id.price);
+            TextView category = (TextView) findViewById(R.id.tv_item_type_2);
+            TextView nameOfprod = (TextView) findViewById(R.id.tv_item_name_2);
+            TextView price = (TextView) findViewById(R.id.tv_item_price_2);
 
             //DB에서 상품 정보 가져오는 코드 추가
             //임시로 코드로 가져옴
@@ -102,7 +102,7 @@ public class BarcodeScanActivity extends AppCompatActivity {
 //            etTyp.setText(barcodetype);
 
             ImageView img_barcode;
-            img_barcode = (ImageView)findViewById(R.id.img_barcode) ;
+            img_barcode = (ImageView)findViewById(R.id.image_barcode) ;
 
             MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
             final int WIDTH = 180;

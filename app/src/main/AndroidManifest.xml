@@ -5,46 +5,47 @@
 
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.MICROPHONE" />
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <queries> <package android:name="com.google.android.googlequicksearchbox"/> </queries>
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-    <!--태블릿에서 연결 어플로 바로 보내도록 함-->
+    <queries>
+        <package android:name="com.google.android.googlequicksearchbox" />
+    </queries> <!-- 태블릿에서 연결 어플로 바로 보내도록 함 -->
     <queries>
         <package android:name="com.google.zxing.client.android" />
     </queries>
 
-
-
-
     <application
-        android:usesCleartextTraffic="true"
-        android:screenOrientation="landscape"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:screenOrientation="landscape"
         android:supportsRtl="true"
         android:theme="@style/Theme.Whipping"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".CartBarcodeActivity"
+            android:exported="false" />
         <activity
             android:name=".LocationActivity"
             android:exported="false"
             android:screenOrientation="landscape"
-            android:theme="@style/CleanTheme"/>
+            android:theme="@style/CleanTheme" />
         <activity
             android:name=".CartActivity"
             android:exported="false"
             android:screenOrientation="landscape"
-            android:theme="@style/CleanTheme"/>
+            android:theme="@style/CleanTheme" />
         <activity
             android:name=".HomeActivity"
             android:exported="false"
@@ -61,20 +62,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".scan.ScanActivity"/>
-        <activity android:name=".scan.barcordscan.BarcodeScanActivity"
-            android:configChanges="screenSize|orientation"
-            />
-        <activity android:name=".scan.camerascan.CameraScanActivity"
-            android:configChanges="screenSize|orientation"
-            />
+        <activity android:name=".scan.ScanActivity" />
+        <activity
+            android:name=".scan.barcordscan.BarcodeScanActivity"
+            android:configChanges="screenSize|orientation" />
+        <activity
+            android:name=".scan.camerascan.CameraScanActivity"
+            android:configChanges="screenSize|orientation" />
         <activity
             android:name=".MainActivity"
             android:exported="false"
             android:theme="@style/CleanTheme" />
-        <activity android:name=".search.SearchActivity"/>
+        <activity android:name=".search.SearchActivity" />
         <activity android:name=".search.Search2Activity" />
-        <activity android:name=".locationinfo.BeaconMainActivity"/>
+        <activity android:name=".locationinfo.BeaconMainActivity" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -82,7 +84,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
+                android:resource="@xml/provider_paths" />
         </provider>
     </application>
 
