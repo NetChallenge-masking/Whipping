@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="#F5F5F5">
 
     <TextView
         android:id="@+id/image_details"
@@ -21,30 +22,38 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/cameraBackBtn"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="10dp"
-        android:layout_marginTop="844dp"
-        android:background="@color/green1"
-        android:text="카메라 스캔"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@id/barcordScanGoBtn"
+        android:id="@+id/btn_read_text"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/btn_text_voice"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image_details" />
 
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/cameraBackBtn"
+        android:layout_width="320dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginRight="70dp"
+        android:background="@drawable/btn_barcode_background"
+        android:text="카메라 스캔"
+        android:textSize="40dp"
+        app:layout_constraintEnd_toStartOf="@+id/btn_read_text"
+        app:layout_constraintTop_toBottomOf="@+id/image_details" />
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/barcordScanGoBtn"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="10dp"
-        android:background="@color/green2"
-        android:text="바코드로 상품 담기"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cameraBackBtn" />/>
+        android:layout_width="320dp"
+        android:layout_height="150dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/btn_barcode_background"
+        android:text="상품 담기"
+        android:textSize="40dp"
+        app:layout_constraintStart_toEndOf="@+id/btn_read_text"
+        app:layout_constraintTop_toBottomOf="@+id/image_details" />/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
