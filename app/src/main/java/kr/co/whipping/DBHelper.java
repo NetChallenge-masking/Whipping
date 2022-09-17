@@ -2,6 +2,7 @@ package kr.co.whipping;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
@@ -21,6 +22,7 @@ public class DBHelper extends SQLiteOpenHelper
         this.context = context;
     }
 
+    //테이블 생성
     @Override
     public void onCreate(SQLiteDatabase db)
     {
@@ -63,8 +65,8 @@ public class DBHelper extends SQLiteOpenHelper
         onCreate(db);
     }
 
-    public void addBasket(String device, String barcodeId, String barcodeType, String amount)
-    {
+    //장바구니 추가
+    public void addBasket(String device, String barcodeId, String barcodeType, String amount) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
@@ -83,25 +85,22 @@ public class DBHelper extends SQLiteOpenHelper
         }
     }
 
-    void addItem(String barcodeId, String barcodeType, String itemName, String price, String category)
-    {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
+    //장바구니 읽기
+    public Cursor readAllBasket() {
+        String query = "SELECT * FROM basket";
+        SQLiteDatabase db = this.getReadableDatabase();
 
-        cv.put("barcode_id", barcodeId);
-        cv.put("barcode_type", barcodeType);
-        cv.put("item_name", itemName);
-        cv.put("price", price);
-        cv.put("category", category);
-        long result = db.insert("item", null, cv);
-        if (result == -1)
-        {
-            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
+        Cursor cursor = null;
+        if(db != null) {
+            cursor = db.rawQuery(query, null);
         }
-        else
-        {
-            Toast.makeText(context, "데이터 추가 성공", Toast.LENGTH_SHORT).show();
-        }
+        return cursor;
     }
 
+    //장바구니 삭제
+    public void deleteBasket(int basketId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.execSQL("DELETE FROM basket WHERE basket_id = '" + basketId + "';");
+    }
 }
