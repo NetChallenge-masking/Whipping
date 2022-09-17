@@ -126,7 +126,7 @@
         android:layout_width="100dp"
         android:layout_height="80dp"
         android:text="3"
-        android:gravity="center"
+        android:gravity= "center"
         android:textSize="50dp"
         android:textColor="@color/black"
         android:layout_marginLeft="30dp"
