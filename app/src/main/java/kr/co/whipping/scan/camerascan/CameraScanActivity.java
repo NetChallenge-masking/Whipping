@@ -72,7 +72,7 @@ public class CameraScanActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camerascan);
 
-        startCamera();
+        //startCamera();
 
         //음성 안내 삭제
 //        tts = new TextToSpeech(this,this);
