@@ -35,7 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="음성 검색 시작"
-        android:textColorHint="FF7373"
+        android:textColorHint="#FF7373"
         android:textSize="40sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
