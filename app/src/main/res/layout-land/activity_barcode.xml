@@ -39,6 +39,7 @@
 
     <TextView
         android:id="@+id/tv_item_type"
+        android:fontFamily="@font/esamanru_light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
@@ -51,6 +52,7 @@
 
     <TextView
         android:id="@+id/tv_item_type_2"
+        android:fontFamily="@font/esamanru_medium"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginTop="240dp"
@@ -64,6 +66,7 @@
 
     <TextView
         android:id="@+id/tv_item_name"
+        android:fontFamily="@font/esamanru_light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
@@ -76,6 +79,7 @@
 
     <TextView
         android:id="@+id/tv_item_name_2"
+        android:fontFamily="@font/esamanru_medium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -88,6 +92,7 @@
 
     <TextView
         android:id="@+id/tv_item_price"
+        android:fontFamily="@font/esamanru_light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
@@ -100,6 +105,7 @@
 
     <TextView
         android:id="@+id/tv_item_price_2"
+        android:fontFamily="@font/esamanru_medium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -112,6 +118,7 @@
 
     <TextView
         android:id="@+id/tv_item_price_3"
+        android:fontFamily="@font/esamanru_medium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -123,6 +130,7 @@
 
     <TextView
         android:id="@+id/tv_item_count"
+        android:fontFamily="@font/esamanru_medium"
         android:layout_width="100dp"
         android:layout_height="80dp"
         android:text="3"
@@ -156,6 +164,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_cancel"
+        android:fontFamily="@font/esamanru_bold"
         android:layout_width="250dp"
         android:layout_height="100dp"
         android:layout_marginRight="50dp"
@@ -168,6 +177,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_add"
+        android:fontFamily="@font/esamanru_bold"
         android:layout_width="250dp"
         android:layout_height="100dp"
         android:layout_marginTop="20dp"

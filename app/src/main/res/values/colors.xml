@@ -10,6 +10,6 @@
     <color name="green1">#9EEDB4</color>
     <color name="green2">#3CC763</color>
     <color name="searchcolor">#FF7373</color>
-    <color name="scanColor">#429B5B</color>
+    <color name="scanColor">#3CC763</color>
     <color name="fontColor">#4E4E4E</color>
 </resources>
