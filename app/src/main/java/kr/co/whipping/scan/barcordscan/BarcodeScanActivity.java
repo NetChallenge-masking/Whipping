@@ -16,6 +16,8 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+import kr.co.whipping.CartActivity;
+import kr.co.whipping.DBHelper;
 import kr.co.whipping.R;
 
 public class BarcodeScanActivity extends AppCompatActivity {
@@ -31,11 +33,13 @@ public class BarcodeScanActivity extends AppCompatActivity {
 
 //        IntentIntegrator integrator = new IntentIntegrator(this);
 //        integrator.initiateScan();
+
     }
 //    public void onClick(View V) {
 //        IntentIntegrator integrator = new IntentIntegrator(this);
 //        integrator.initiateScan();
 //    }
+
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
@@ -92,6 +96,13 @@ public class BarcodeScanActivity extends AppCompatActivity {
                 nameOfprod.setText("질레트 마하5스포츠 면도날 8입");
                 price.setText("31,900");
             }
+            else if (barcodenum.equals("8801062633715")){
+                Log.i("초콜릿", "초콜릿 인식");
+//
+                category.setText("간식");
+                nameOfprod.setText("드림카카오 72%");
+                price.setText("3500");
+            }
 
 
 
@@ -145,7 +156,12 @@ public class BarcodeScanActivity extends AppCompatActivity {
             add.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v){
-                    //
+                    DBHelper dbHelper = new DBHelper(BarcodeScanActivity.this);
+
+                    dbHelper.addBasket("1", barcodenum, barcodetype, prodCount.getText().toString());
+
+                    Intent intent = new Intent(getApplicationContext(), CartActivity.class);
+                    startActivity(intent);
                 }
             });
         }

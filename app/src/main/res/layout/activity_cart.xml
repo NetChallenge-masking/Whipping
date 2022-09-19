@@ -32,6 +32,7 @@
         app:layout_constraintTop_toBottomOf="@+id/appCompatButton" />
 
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/basket_delete_btn"
         android:layout_width="450dp"
         android:layout_height="230dp"
         android:background="@drawable/btn_delete"
@@ -58,6 +59,7 @@
             android:layout_height="match_parent">
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/RecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_constraintBottom_toBottomOf="parent"
