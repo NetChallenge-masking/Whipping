@@ -9,33 +9,23 @@ import androidx.camera.core.ImageCapture;
 import androidx.camera.core.ImageCaptureException;
 import androidx.camera.core.ImageProxy;
 import androidx.camera.core.Preview;
-import androidx.camera.core.VideoCapture;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
 import androidx.lifecycle.LifecycleOwner;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
-import android.content.Context;
-import android.content.pm.PackageManager;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.util.Size;
-import android.view.Surface;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -53,12 +43,9 @@ import com.google.api.services.vision.v1.model.Image;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.nio.ByteBuffer;
+
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
@@ -69,25 +56,25 @@ import kr.co.whipping.R;
 public class InnerCameraActivity extends AppCompatActivity implements ImageAnalysis.Analyzer, View.OnClickListener {
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
     private static final String CLOUD_VISION_API_KEY = "AIzaSyDaNsgeV__6hcIrCllAdU1XAgj4OV29id4";
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = InnerCameraActivity.class.getSimpleName();
     PreviewView previewView;
     private ImageCapture imageCapture;
     private Button bCapture;
-    private TextView mImageDetails;
+    private ProgressBar progressBar;
     private static final int MAX_DIMENSION = 1200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_innercamera);
-        Log.d("왜안돼","버튼클릭");
+
         previewView = findViewById(R.id.previewView);
         bCapture = findViewById(R.id.bCapture);
-        mImageDetails=findViewById(R.id.ImageDetails);
-        Log.d("왜안돼","버튼클릭");
+        progressBar=findViewById(R.id.progressBar);
+
         bCapture.setOnClickListener(this);
-        Log.d("왜안돼","버튼클릭후");
-        Log.d("왜안돼","카메라실행");
+        progressBar.setVisibility(View.INVISIBLE);
+
         cameraProviderFuture = ProcessCameraProvider.getInstance(this);
         cameraProviderFuture.addListener(() -> {
             try {
@@ -97,7 +84,6 @@ public class InnerCameraActivity extends AppCompatActivity implements ImageAnaly
                 e.printStackTrace();
             }
         }, getExecutor());
-        Log.d("왜안돼","카메라실행후");
     }
 
     Executor getExecutor() {
@@ -106,7 +92,6 @@ public class InnerCameraActivity extends AppCompatActivity implements ImageAnaly
 
     @SuppressLint("RestrictedApi")
     private void startCameraX(ProcessCameraProvider cameraProvider) {
-        Log.d("왜안돼","startCameraX");
         cameraProvider.unbindAll();
         CameraSelector cameraSelector = new CameraSelector.Builder()
                 .requireLensFacing(CameraSelector.LENS_FACING_BACK)
@@ -142,9 +127,9 @@ public class InnerCameraActivity extends AppCompatActivity implements ImageAnaly
 
     }
     private void callCloudVision(final Bitmap bitmap) throws IOException {
-        // Switch text to loading
-        mImageDetails.setText(R.string.loading_message);
-
+        // loading
+        bCapture.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
         // Do the real work in an async task, because we need to use the network anyway
         new AsyncTask<Object, Void, String>() {
             @SuppressLint("StaticFieldLeak")
@@ -178,10 +163,10 @@ public class InnerCameraActivity extends AppCompatActivity implements ImageAnaly
 
                         // add the features we want
                         annotateImageRequest.setFeatures(new ArrayList<Feature>() {{
-                            Feature labelDetection = new Feature();
-                            labelDetection.setType("TEXT_DETECTION");
-                            labelDetection.setMaxResults(10);
-                            add(labelDetection);
+                            Feature textDetection = new Feature();
+                            textDetection.setType("TEXT_DETECTION");
+                            textDetection.setMaxResults(10);
+                            add(textDetection);
                         }});
 
                         // Add the list of one thing to the request
@@ -209,7 +194,11 @@ public class InnerCameraActivity extends AppCompatActivity implements ImageAnaly
             }
 
             protected void onPostExecute(String result) {
-                mImageDetails.setText(result);
+                Intent intent = new Intent(getApplicationContext(),CameraScanActivity.class);
+                intent.putExtra("textDetectionResult",result);
+                startActivity(intent);
+                finish();
+                //mImageDetails.setText(result);
             }
         }.execute();
     }
@@ -217,11 +206,9 @@ public class InnerCameraActivity extends AppCompatActivity implements ImageAnaly
 
 
     private String convertResponseToString(BatchAnnotateImagesResponse response) {
-        //long spentMS = System.currentTimeMillis() - startTimeMS;
-        //String message = "Recognition results:\n";
+
         String message ="";
         StringBuilder builder = new StringBuilder(message);
-        //builder.append(String.format("(Total spent %.2f secs, including %.2f secs for upload)\n\n", spentMS / 1000f, uploadDurationSec));
 
         List<EntityAnnotation> labels = response.getResponses().get(0).getTextAnnotations();
         Log.i("JackTest", "total labels:" + labels.size());
@@ -242,18 +229,6 @@ public class InnerCameraActivity extends AppCompatActivity implements ImageAnaly
         }
 
         return builder.toString();
-    }
-
-    private class ImageData {
-        private int mWidth, mHeight, mStride;
-        byte[] mBytes;
-
-        ImageData(byte[] bytes, int nWidth, int nHeight, int nStride) {
-            mBytes = bytes;
-            mWidth = nWidth;
-            mHeight = nHeight;
-            mStride = nStride;
-        }
     }
     @SuppressLint("RestrictedApi")
     @Override
@@ -286,7 +261,7 @@ public class InnerCameraActivity extends AppCompatActivity implements ImageAnaly
                 new ImageCapture.OnImageSavedCallback() {
                     @Override
                     public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
-                        uploadImage(outputFileResults.getSavedUri());
+                        uploadImage(outputFileResults.getSavedUri()); //텍스트인식 API에 이미지 업로드
                         Toast.makeText(InnerCameraActivity.this, "Photo has been saved successfully.", Toast.LENGTH_SHORT).show();
                     }
 
@@ -308,7 +283,7 @@ public class InnerCameraActivity extends AppCompatActivity implements ImageAnaly
                                 MediaStore.Images.Media.getBitmap(getContentResolver(), uri),
                                 MAX_DIMENSION);
 
-                callCloudVision(bitmap);
+                callCloudVision(bitmap); //텍스트인식 API 호출
                 //mMainImage.setImageBitmap(bitmap);
 
             } catch (IOException e) {

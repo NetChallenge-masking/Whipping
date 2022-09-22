@@ -3,11 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".MainActivity"
     tools:ignore="MissingDefaultResource">
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="700dp"
+        android:layout_marginBottom="50dp"
+        android:progressTint="#65DF6A"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout"
+        tools:visibility="visible" />
+
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
@@ -23,30 +39,27 @@
             android:layout_height="0dp"
             android:layout_weight="90" />
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:orientation="horizontal"
+            android:layout_gravity="center"
             android:layout_weight="10"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:gravity="center"
+            android:orientation="horizontal">
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/bCapture"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:text="take picture" />
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
 
-        </RelativeLayout>
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/btn_barcode_background"
+                android:text="촬영"
+                tools:visibility="invisible" />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/ImageDetails"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="텍스트인식" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -72,25 +72,32 @@ public class CameraScanActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camerascan);
 
-        //startCamera();
-
         //음성 안내 삭제
 //        tts = new TextToSpeech(this,this);
         mImageDetails = findViewById(R.id.image_details);
         camerabackBtn = findViewById(R.id.cameraBackBtn);
         barcordGoBtn = findViewById(R.id.barcordScanGoBtn);
 
-        camerabackBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startCamera();
-            }
-        });
+        Intent intent = getIntent(); //텍스트 인식 데이터 수신
+        String textDetectionResult = intent.getExtras().getString("textDetectionResult");
+        //바코드 스캔으로 바로가기 버튼
+        mImageDetails.setText(textDetectionResult);
+
         barcordGoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), BarcodeScanActivity.class);
                 startActivity(intent);
+                finish();
+            }
+        });
+        //카메라 스캔으로 바로가기 버튼
+        camerabackBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), InnerCameraActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
@@ -140,206 +147,6 @@ public class CameraScanActivity extends AppCompatActivity {
 //        }
 //    }
 
-//    public void startGalleryChooser() {
-//        if (PermissionUtils.requestPermission(this, GALLERY_PERMISSIONS_REQUEST, Manifest.permission.READ_EXTERNAL_STORAGE)) {
-//            Intent intent = new Intent();
-//            intent.setType("image/*");
-//            intent.setAction(Intent.ACTION_GET_CONTENT);
-//            startActivityForResult(Intent.createChooser(intent, "Select a photo"),
-//                    GALLERY_IMAGE_REQUEST);
-//        }
-//    }
-    public void startCamera() {
-        if (PermissionUtils.requestPermission(
-                this,
-                CAMERA_PERMISSIONS_REQUEST,
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.CAMERA)) {
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            Uri photoUri = FileProvider.getUriForFile(this, getApplicationContext().getPackageName() + ".provider", getCameraFile());
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            startActivityForResult(intent, CAMERA_IMAGE_REQUEST);
-        }
-    }
-    public File getCameraFile() {
-        File dir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        return new File(dir, FILE_NAME);
-    }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        //갤러리 사진 업로드
-        if (requestCode == GALLERY_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
-            uploadImage(data.getData());
-            //카메라 사진 업로드
-        } else if (requestCode == CAMERA_IMAGE_REQUEST && resultCode == RESULT_OK) {
-            Uri photoUri = FileProvider.getUriForFile(this, getApplicationContext().getPackageName() + ".provider", getCameraFile());
-            uploadImage(photoUri);
-        }
-    }
-    //권한 요청 결과 가져오기
-    @Override
-    public void onRequestPermissionsResult(
-            int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case CAMERA_PERMISSIONS_REQUEST:
-                if (PermissionUtils.permissionGranted(requestCode, CAMERA_PERMISSIONS_REQUEST, grantResults)) {
-                    startCamera(); //카메라 열기
-                }
-                break;
-//            case GALLERY_PERMISSIONS_REQUEST:
-//                if (PermissionUtils.permissionGranted(requestCode, GALLERY_PERMISSIONS_REQUEST, grantResults)) {
-//                    startGalleryChooser(); //갤러리 열기
-//                }
-//                break;
-        }
-    }
-    //이미지 업로드 기능
-    public void uploadImage(Uri uri) {
-        if (uri != null) {
-            try {
-                // scale the image to save on bandwidth =이미지 크기 조정
-                Bitmap bitmap =
-                        scaleBitmapDown(
-                                MediaStore.Images.Media.getBitmap(getContentResolver(), uri),
-                                MAX_DIMENSION);
-
-                callCloudVision(bitmap);
-                //mMainImage.setImageBitmap(bitmap);
-
-            } catch (IOException e) {
-                Log.d(TAG, "Image picking failed because " + e.getMessage());
-                Toast.makeText(this, R.string.image_picker_error, Toast.LENGTH_LONG).show();
-            }
-        } else {
-            Log.d(TAG, "Image picker gave us a null image.");
-            Toast.makeText(this, R.string.image_picker_error, Toast.LENGTH_LONG).show();
-        }
-    }
 
 
-
-    private void callCloudVision(final Bitmap bitmap) throws IOException {
-        // Switch text to loading
-        mImageDetails.setText(R.string.loading_message);
-
-        // Do the real work in an async task, because we need to use the network anyway
-        new AsyncTask<Object, Void, String>() {
-            @SuppressLint("StaticFieldLeak")
-            @Override
-            protected String doInBackground(Object... params) {
-                try {
-                    HttpTransport httpTransport = AndroidHttp.newCompatibleTransport();
-                    GsonFactory jsonFactory = GsonFactory.getDefaultInstance();
-
-                    Vision.Builder builder = new Vision.Builder(httpTransport, jsonFactory, null);
-                    builder.setVisionRequestInitializer(new
-                            VisionRequestInitializer(CLOUD_VISION_API_KEY));
-                    Vision vision = builder.build();
-
-                    BatchAnnotateImagesRequest batchAnnotateImagesRequest =
-                            new BatchAnnotateImagesRequest();
-                    batchAnnotateImagesRequest.setRequests(new ArrayList<AnnotateImageRequest>() {{
-                        AnnotateImageRequest annotateImageRequest = new AnnotateImageRequest();
-
-                        // Add the image
-                        Image base64EncodedImage = new Image();
-                        // Convert the bitmap to a JPEG
-                        // Just in case it's a format that Android understands but Cloud Vision
-                        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, byteArrayOutputStream);
-                        byte[] imageBytes = byteArrayOutputStream.toByteArray();
-
-                        // Base64 encode the JPEG
-                        base64EncodedImage.encodeContent(imageBytes);
-                        annotateImageRequest.setImage(base64EncodedImage);
-
-                        // add the features we want
-                        annotateImageRequest.setFeatures(new ArrayList<Feature>() {{
-                            Feature labelDetection = new Feature();
-                            labelDetection.setType("TEXT_DETECTION");
-                            labelDetection.setMaxResults(10);
-                            add(labelDetection);
-                        }});
-
-                        // Add the list of one thing to the request
-                        add(annotateImageRequest);
-                    }});
-
-                    Vision.Images.Annotate annotateRequest =
-                            vision.images().annotate(batchAnnotateImagesRequest);
-                    // Due to a bug: requests to Vision API containing large images fail when GZipped.
-                    annotateRequest.setDisableGZipContent(true);
-                    Log.d(TAG, "created Cloud Vision request object, sending request");
-
-                    long sendMS = System.currentTimeMillis();
-                    BatchAnnotateImagesResponse response = annotateRequest.execute();
-                    uploadDurationSec = (System.currentTimeMillis() - sendMS) / 1000f;
-                    return convertResponseToString(response);
-
-                } catch (GoogleJsonResponseException e) {
-                    Log.d(TAG, "failed to make API request because " + e.getContent());
-                } catch (IOException e) {
-                    Log.d(TAG, "failed to make API request because of other IOException " +
-                            e.getMessage());
-                }
-                return "Cloud Vision API request failed. Check logs for details.";
-            }
-
-            protected void onPostExecute(String result) {
-                mImageDetails.setText(result);
-            }
-        }.execute();
-    }
-
-    private Bitmap scaleBitmapDown(Bitmap bitmap, int maxDimension) {
-
-        int originalWidth = bitmap.getWidth();
-        int originalHeight = bitmap.getHeight();
-        int resizedWidth = maxDimension;
-        int resizedHeight = maxDimension;
-
-        if (originalHeight > originalWidth) {
-            resizedHeight = maxDimension;
-            resizedWidth = (int) (resizedHeight * (float) originalWidth / (float) originalHeight);
-        } else if (originalWidth > originalHeight) {
-            resizedWidth = maxDimension;
-            resizedHeight = (int) (resizedWidth * (float) originalHeight / (float) originalWidth);
-        } else if (originalHeight == originalWidth) {
-            resizedHeight = maxDimension;
-            resizedWidth = maxDimension;
-        }
-        return Bitmap.createScaledBitmap(bitmap, resizedWidth, resizedHeight, false);
-    }
-
-    private String convertResponseToString(BatchAnnotateImagesResponse response) {
-        long spentMS = System.currentTimeMillis() - startTimeMS;
-        //String message = "Recognition results:\n";
-        String message ="";
-        StringBuilder builder = new StringBuilder(message);
-        //builder.append(String.format("(Total spent %.2f secs, including %.2f secs for upload)\n\n", spentMS / 1000f, uploadDurationSec));
-
-        List<EntityAnnotation> labels = response.getResponses().get(0).getTextAnnotations();
-        Log.i("JackTest", "total labels:" + labels.size());
-        if (labels != null) {
-            for (int i = 0; i < labels.size(); i++ ) {
-                EntityAnnotation label = labels.get(i);
-//                if (i == 0) {
-//                    builder.append("Locale: ");
-//                    builder.append(label.getLocale());
-//                }
-                builder.append(label.getDescription());
-                builder.append("\n");
-                //TODO: Draw rectangles later
-                break;
-            }
-        } else {
-            builder.append("nothing");
-        }
-
-        return builder.toString();
-    }
 }
