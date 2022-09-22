@@ -1,6 +1,8 @@
 package kr.co.whipping.scan.barcordscan;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,8 +10,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
@@ -19,7 +24,8 @@ import com.journeyapps.barcodescanner.BarcodeEncoder;
 import kr.co.whipping.R;
 
 public class BarcodeScanActivity extends AppCompatActivity {
-
+    private static final String[] CAMERA_PERMISSION = new String[]{Manifest.permission.CAMERA};
+    private static final int CAMERA_REQUEST_CODE = 10;
     int count = 1;
 
     @Override
@@ -27,7 +33,14 @@ public class BarcodeScanActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_barcode);
 
-        new IntentIntegrator(this).initiateScan();
+
+        if (hasCameraPermission()) {
+            startScan();
+        } else {
+            requestPermission();
+        }
+
+//       new IntentIntegrator(this).initiateScan();
 
 //        IntentIntegrator integrator = new IntentIntegrator(this);
 //        integrator.initiateScan();
@@ -36,6 +49,44 @@ public class BarcodeScanActivity extends AppCompatActivity {
 //        IntentIntegrator integrator = new IntentIntegrator(this);
 //        integrator.initiateScan();
 //    }
+private void startScan(){
+    Intent intent = new Intent(this, CameraActivity.class);
+    startActivity(intent);
+}
+
+    private boolean hasCameraPermission() {
+        return ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.CAMERA
+        ) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestPermission() {
+        ActivityCompat.requestPermissions(
+                this,
+                CAMERA_PERMISSION,
+                CAMERA_REQUEST_CODE
+        );
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case CAMERA_REQUEST_CODE:
+                if (grantResults.length > 0 &&
+                        grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    startScan();
+                }else{
+                    Toast.makeText(this, "Please grant camera permission" , Toast.LENGTH_SHORT).show();
+                }
+        }
+    }
+
+
+
+
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
