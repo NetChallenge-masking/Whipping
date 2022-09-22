@@ -19,7 +19,7 @@ package kr.co.whipping.scan.barcordscan;
  *
  * @author Sean Owen
  */
-
+ 
 public final class IntentResult {
 
     private final String contents;
