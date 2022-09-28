@@ -158,7 +158,7 @@ public class BarcodeScanActivity extends AppCompatActivity {
                 public void onClick(View v){
                     DBHelper dbHelper = new DBHelper(BarcodeScanActivity.this);
 
-                    dbHelper.addBasket("1", barcodenum, barcodetype, prodCount.getText().toString());
+                    dbHelper.addBasket("1", barcodenum, barcodetype, nameOfprod.getText().toString(), prodCount.getText().toString());
 
                     Intent intent = new Intent(getApplicationContext(), CartActivity.class);
                     startActivity(intent);
