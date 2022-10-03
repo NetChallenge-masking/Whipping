@@ -34,28 +34,27 @@ public class BarcodeScanActivity extends AppCompatActivity {
 //        IntentIntegrator integrator = new IntentIntegrator(this);
 //        integrator.initiateScan();
 
-    }
+   }
+
 //    public void onClick(View V) {
 //        IntentIntegrator integrator = new IntentIntegrator(this);
 //        integrator.initiateScan();
 //    }
 
 
-    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        super.onActivityResult(requestCode, resultCode, intent);
-        IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-        if (scanResult != null) {
-            String barcodenum;
-            String barcodetype;
-
-
-            barcodenum = scanResult.getContents();
-            barcodetype = scanResult.getFormatName();
+//    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+//        super.onActivityResult(requestCode, resultCode, intent);
+//        IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+//        if (scanResult != null) {
+//
+//            String barcodenum = scanResult.getContents();
+//            String barcodetype = scanResult.getFormatName();
 
             Button minus = (Button) findViewById(R.id.btn_count_down);
             Button plus = (Button) findViewById(R.id.btn_count_up);
             Button cancel = (Button) findViewById(R.id.btn_cancel);
             Button add = (Button) findViewById(R.id.btn_add);
+            Button back = (Button) findViewById(R.id.btn_back_scan_barcode);
             TextView prodCount = (TextView) findViewById(R.id.tv_item_count);
 
             TextView category = (TextView) findViewById(R.id.tv_item_type_2);
@@ -64,45 +63,45 @@ public class BarcodeScanActivity extends AppCompatActivity {
 
             //DB에서 상품 정보 가져오는 코드 추가
             //임시로 코드로 가져옴
-            if (barcodenum.equals("4902430232159")){
-                category.setText("샴푸");
-                nameOfprod.setText("헤드&숄더 두피 토탈 솔루션 가려운 두피케어");
-                price.setText("15,900");
-                }
-            else if (barcodenum.equals("8801046361252")){
-                category.setText("트리트먼트");
-                nameOfprod.setText("케라시스 데미지 클리닉 오리지널 컨디셔너 린스 1,000ml ");
-                price.setText("7,900");
-            }
-            else if (barcodenum.equals("8801008700372")){
-                category.setText("가그린");
-                nameOfprod.setText("리스테린 그린티 마일드 750ml");
-                price.setText("6,930");
-            }
-            else if (barcodenum.equals("8809685832560")){
-                category.setText("트리트먼트");
-                nameOfprod.setText("살롱10 트리트먼트 250ml (손상모발)");
-                price.setText("12,900");
-            }
-            else if (barcodenum.equals("8809539444581")){
-                category.setText("트리트먼트");
-                nameOfprod.setText("미장센 트리트먼트 1000ml (스무디 실키)");
-                price.setText("7,490");
-            }
-            else if (barcodenum.equals("4902430896689")){
-                Log.i("면도기", "면도기 인식");
-//
-                category.setText("면도기");
-                nameOfprod.setText("질레트 마하5스포츠 면도날 8입");
-                price.setText("31,900");
-            }
-            else if (barcodenum.equals("8801062633715")){
-                Log.i("초콜릿", "초콜릿 인식");
-//
-                category.setText("간식");
-                nameOfprod.setText("드림카카오 72%");
-                price.setText("3500");
-            }
+//            if (barcodenum.equals("4902430232159")){
+//                category.setText("샴푸");
+//                nameOfprod.setText("헤드&숄더 두피 토탈 솔루션 가려운 두피케어");
+//                price.setText("15,900");
+//                }
+//            else if (barcodenum.equals("8801046361252")){
+//                category.setText("트리트먼트");
+//                nameOfprod.setText("케라시스 데미지 클리닉 오리지널 컨디셔너 린스 1,000ml ");
+//                price.setText("7,900");
+//            }
+//            else if (barcodenum.equals("8801008700372")){
+//                category.setText("가그린");
+//                nameOfprod.setText("리스테린 그린티 마일드 750ml");
+//                price.setText("6,930");
+//            }
+//            else if (barcodenum.equals("8809685832560")){
+//                category.setText("트리트먼트");
+//                nameOfprod.setText("살롱10 트리트먼트 250ml (손상모발)");
+//                price.setText("12,900");
+//            }
+//            else if (barcodenum.equals("8809539444581")){
+//                category.setText("트리트먼트");
+//                nameOfprod.setText("미장센 트리트먼트 1000ml (스무디 실키)");
+//                price.setText("7,490");
+//            }
+//            else if (barcodenum.equals("4902430896689")){
+//                Log.i("면도기", "면도기 인식");
+////
+//                category.setText("면도기");
+//                nameOfprod.setText("질레트 마하5스포츠 면도날 8입");
+//                price.setText("31,900");
+//            }
+//            else if (barcodenum.equals("8801062633715")){
+//                Log.i("초콜릿", "초콜릿 인식");
+////
+//                category.setText("간식");
+//                nameOfprod.setText("드림카카오 72%");
+//                price.setText("3500");
+//            }
 
 
 
@@ -112,21 +111,21 @@ public class BarcodeScanActivity extends AppCompatActivity {
 //            etBarcode.setText(barcodenum);
 //            etTyp.setText(barcodetype);
 
-            ImageView img_barcode;
-            img_barcode = (ImageView)findViewById(R.id.image_barcode) ;
-
-            MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
-            final int WIDTH = 180;
-            final int HEIGHT = 90;
-
-            try {
-                BitMatrix bitMatrix = multiFormatWriter.encode(barcodenum, BarcodeFormat.valueOf(barcodetype), WIDTH, HEIGHT);
-                BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
-                Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
-                img_barcode.setImageBitmap(bitmap);
-            } catch (Exception e) {
-            }
-
+//            ImageView img_barcode;
+//            img_barcode = (ImageView)findViewById(R.id.image_barcode) ;
+//
+//            MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
+//            final int WIDTH = 180;
+//            final int HEIGHT = 90;
+//
+//            try {
+//                BitMatrix bitMatrix = multiFormatWriter.encode(barcodenum, BarcodeFormat.valueOf(barcodetype), WIDTH, HEIGHT);
+//                BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+//                Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+//                img_barcode.setImageBitmap(bitmap);
+//            } catch (Exception e) {
+//            }
+//
 
             //플러스, 마이너스
             plus.setOnClickListener(new View.OnClickListener(){
@@ -152,6 +151,14 @@ public class BarcodeScanActivity extends AppCompatActivity {
                 }
             });
 
+          back.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  onBackPressed();
+              }
+          });
+
+
             //담기
             add.setOnClickListener(new View.OnClickListener(){
                 @Override
@@ -166,4 +173,3 @@ public class BarcodeScanActivity extends AppCompatActivity {
             });
         }
     }
-}
