@@ -31,6 +31,7 @@ public class DBHelper extends SQLiteOpenHelper
                 + "device" + " INTEGER, "
                 + "barcode_id" + " VARCAHR(30), "
                 + "barcode_type" + " VARCAHR(30), "
+                + "item_name" + " VARCAHR(30), "
                 + "amount" + " INTEGER, "
                 + "CONSTRAINT barcode_id FOREIGN KEY (barcode_id) REFERENCES item(barcode_id), "
                 + "CONSTRAINT barcode_type FOREIGN KEY (barcode_type) REFERENCES item(barcode_type)); ";
@@ -66,13 +67,14 @@ public class DBHelper extends SQLiteOpenHelper
     }
 
     //장바구니 추가
-    public void addBasket(String device, String barcodeId, String barcodeType, String amount) {
+    public void addBasket(String device, String barcodeId, String barcodeType, String itemName, String amount) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
         cv.put("device", device);
         cv.put("barcode_id", barcodeId);
         cv.put("barcode_type", barcodeType);
+        cv.put("item_name", itemName);
         cv.put("amount", amount);
         long result = db.insert("basket", null, cv);
         if (result == -1)
@@ -102,5 +104,19 @@ public class DBHelper extends SQLiteOpenHelper
         SQLiteDatabase db = this.getWritableDatabase();
 
         db.execSQL("DELETE FROM basket WHERE basket_id = '" + basketId + "';");
+    }
+
+    //수량 추가
+    public void addAmount(int basketId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.execSQL("UPDATE basket SET amount = amount + 1 WHERE basket_id = '" + basketId + "';");
+    }
+
+    //수량 삭제
+    public void minusAmount(int basketId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.execSQL("UPDATE basket SET amount = amount - 1 WHERE basket_id = '" + basketId + "';");
     }
 }

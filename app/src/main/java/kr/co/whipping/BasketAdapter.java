@@ -1,6 +1,7 @@
 package kr.co.whipping;
 
 import android.content.Context;
+import android.speech.tts.TextToSpeech;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,24 +11,33 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+import java.util.Locale;
 
 public class BasketAdapter extends RecyclerView.Adapter<BasketHolder> {
 
-    private int checkedPosition = -1;
+    public int checkedPosition = -1;
     private List<Basket> basketList;
+
 
     public interface OnItemClickEventListener {
         void onItemClick(int position);
     }
 
-    private OnItemClickEventListener itemClickListener = new OnItemClickEventListener() {
-        @Override
-        public void onItemClick(int position) {
-            notifyItemChanged(checkedPosition, null);
-            checkedPosition = position;
-            notifyItemChanged(position, null);
-        }
-    };
+    private OnItemClickEventListener itemClickListener = null;
+
+//    private OnItemClickEventListener itemClickListener = new OnItemClickEventListener() {
+//        @Override
+//        public void onItemClick(View view, int position) {
+//            notifyItemChanged(checkedPosition, null);
+//            checkedPosition = position;
+//            notifyItemChanged(position, null);
+//        }
+//    };
+
+
+    public void setItemClickListener(OnItemClickEventListener listener) {
+        itemClickListener = listener;
+    }
 
     //생성자에서 데이터 리스트 객체를 전달받음.
     BasketAdapter(List<Basket> a_list) {
@@ -63,7 +73,9 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketHolder> {
         holder.basket_id_tv.setText(String.valueOf(item.getBasketId()));
         holder.barcode_id_tv.setText(String.valueOf(item.getBarcodeId()));
         holder.barcode_type_tv.setText(String.valueOf(item.getBarcdoeType()));
-        holder.amount.setText(String.valueOf(item.getAmount()));
+        holder.item_name_tv.setText(String.valueOf(item.getItemName()));
+        holder.amount_tv.setText(String.valueOf(item.getAmount()));
+
     }
 
     public Basket getSelected() {
@@ -97,7 +109,7 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketHolder> {
 
 class BasketHolder extends RecyclerView.ViewHolder {
 
-    TextView basket_id_tv, barcode_id_tv, barcode_type_tv, amount;
+    TextView basket_id_tv, barcode_id_tv, barcode_type_tv, item_name_tv, amount_tv;
 
     public BasketHolder(View view, final BasketAdapter.OnItemClickEventListener itemClickListener) {
         super(view);
@@ -105,7 +117,8 @@ class BasketHolder extends RecyclerView.ViewHolder {
         basket_id_tv = itemView.findViewById(R.id.basket_id_tv);
         barcode_id_tv = itemView.findViewById(R.id.barcode_id_tv);
         barcode_type_tv = itemView.findViewById(R.id.barcode_type_tv);
-        amount = itemView.findViewById(R.id.amount);
+        item_name_tv = itemView.findViewById(R.id.item_name_tv);
+        amount_tv = itemView.findViewById(R.id.amount_tv);
 
         // Click event
         view.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +126,9 @@ class BasketHolder extends RecyclerView.ViewHolder {
             public void onClick(View a_view) {
                 final int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
-                    itemClickListener.onItemClick(position);
+//                    itemClickListener.onItemClick(a_view, position);
+                    if(itemClickListener != null)
+                        itemClickListener.onItemClick(position);
                 }
             }
         });
