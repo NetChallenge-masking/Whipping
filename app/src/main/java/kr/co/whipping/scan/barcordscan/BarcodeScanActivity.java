@@ -34,7 +34,7 @@ public class BarcodeScanActivity extends AppCompatActivity {
 //        IntentIntegrator integrator = new IntentIntegrator(this);
 //        integrator.initiateScan();
 
-   }
+    }
 
 //    public void onClick(View V) {
 //        IntentIntegrator integrator = new IntentIntegrator(this);
@@ -42,13 +42,13 @@ public class BarcodeScanActivity extends AppCompatActivity {
 //    }
 
 
-//    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-//        super.onActivityResult(requestCode, resultCode, intent);
-//        IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-//        if (scanResult != null) {
-//
-//            String barcodenum = scanResult.getContents();
-//            String barcodetype = scanResult.getFormatName();
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        if (scanResult != null) {
+
+            String barcodenum = scanResult.getContents();
+            String barcodetype = scanResult.getFormatName();
 
             Button minus = (Button) findViewById(R.id.btn_count_down);
             Button plus = (Button) findViewById(R.id.btn_count_up);
@@ -104,8 +104,6 @@ public class BarcodeScanActivity extends AppCompatActivity {
 //            }
 
 
-
-
 //            TextView etBarcode = (TextView) findViewById(R.id.etBarcode);
 //            TextView etTyp = (TextView) findViewById(R.id.etTyp);
 //            etBarcode.setText(barcodenum);
@@ -128,41 +126,41 @@ public class BarcodeScanActivity extends AppCompatActivity {
 //
 
             //플러스, 마이너스
-            plus.setOnClickListener(new View.OnClickListener(){
+            plus.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v){
+                public void onClick(View v) {
                     count++;
-                    prodCount.setText((count+""));
+                    prodCount.setText((count + ""));
                 }
             });
-            minus.setOnClickListener(new View.OnClickListener(){
+            minus.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v){
+                public void onClick(View v) {
                     count--;
-                    prodCount.setText((count+""));
+                    prodCount.setText((count + ""));
                 }
             });
 
             //취소
-            cancel.setOnClickListener(new View.OnClickListener(){
+            cancel.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v){
+                public void onClick(View v) {
                     onBackPressed();
                 }
             });
 
-          back.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View v) {
-                  onBackPressed();
-              }
-          });
+            back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
+                }
+            });
 
 
             //담기
-            add.setOnClickListener(new View.OnClickListener(){
+            add.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v){
+                public void onClick(View v) {
                     DBHelper dbHelper = new DBHelper(BarcodeScanActivity.this);
 
                     dbHelper.addBasket("1", barcodenum, barcodetype, nameOfprod.getText().toString(), prodCount.getText().toString());
@@ -173,3 +171,4 @@ public class BarcodeScanActivity extends AppCompatActivity {
             });
         }
     }
+}
