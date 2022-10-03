@@ -1,6 +1,7 @@
 package kr.co.whipping;
 
 import android.content.Context;
+import android.speech.tts.TextToSpeech;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +11,11 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+import java.util.Locale;
 
 public class BasketAdapter extends RecyclerView.Adapter<BasketHolder> {
 
-    private int checkedPosition = -1;
+    public int checkedPosition = -1;
     private List<Basket> basketList;
 
 
@@ -21,14 +23,17 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketHolder> {
         void onItemClick(int position);
     }
 
-    private OnItemClickEventListener itemClickListener = new OnItemClickEventListener() {
-        @Override
-        public void onItemClick(int position) {
-            notifyItemChanged(checkedPosition, null);
-            checkedPosition = position;
-            notifyItemChanged(position, null);
-        }
-    };
+    private OnItemClickEventListener itemClickListener = null;
+
+//    private OnItemClickEventListener itemClickListener = new OnItemClickEventListener() {
+//        @Override
+//        public void onItemClick(View view, int position) {
+//            notifyItemChanged(checkedPosition, null);
+//            checkedPosition = position;
+//            notifyItemChanged(position, null);
+//        }
+//    };
+
 
     public void setItemClickListener(OnItemClickEventListener listener) {
         itemClickListener = listener;
@@ -70,6 +75,7 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketHolder> {
         holder.barcode_type_tv.setText(String.valueOf(item.getBarcdoeType()));
         holder.item_name_tv.setText(String.valueOf(item.getItemName()));
         holder.amount_tv.setText(String.valueOf(item.getAmount()));
+
     }
 
     public Basket getSelected() {
@@ -120,7 +126,9 @@ class BasketHolder extends RecyclerView.ViewHolder {
             public void onClick(View a_view) {
                 final int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
-                    itemClickListener.onItemClick(position);
+//                    itemClickListener.onItemClick(a_view, position);
+                    if(itemClickListener != null)
+                        itemClickListener.onItemClick(position);
                 }
             }
         });

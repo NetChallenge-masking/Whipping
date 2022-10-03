@@ -3,6 +3,7 @@ package kr.co.whipping;
 import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.SpeechRecognizer;
@@ -71,25 +72,30 @@ public class CartActivity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
         }
 
-        // tts 객체 초기화
+         //tts 객체 초기화
         tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
                 if (status != TextToSpeech.ERROR) {
-                    tts.setLanguage(Locale.ENGLISH); // English 로 음성변환 언어 지정
+                    tts.setLanguage(Locale.KOREAN);
                 }
             }
         });
 
         //tts
-        adapter.setItemClickListener(new BasketAdapter.OnItemClickEventListener() {
+        adapter.setItemClickListener (new BasketAdapter.OnItemClickEventListener () {
             @Override
             public void onItemClick(int position) {
-                String text = "앙팡 아기치즈";
 
+                adapter.checkedPosition = position;
+                System.out.println("선택 값: " + adapter.checkedPosition);
+
+                String text = basketList.get(position).getItemName() + " " + basketList.get(position).getAmount() + "개";
                 tts.setPitch(1.0f); // 음성 높낮이
                 tts.setSpeechRate(1.0f); // 음성 빠르기
                 tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+
+                adapter.notifyDataSetChanged();
             }
         });
 
@@ -103,6 +109,11 @@ public class CartActivity extends AppCompatActivity {
                     Toast.makeText(CartActivity.this, "선택된 아이템이 없습니다.", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
+                String text = "상품 삭제";
+                tts.setPitch(1.0f); // 음성 높낮이
+                tts.setSpeechRate(1.0f); // 음성 빠르기
+                tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
 
                 //선택한 item 삭제
                 basketList.remove(recyclerItem);
@@ -129,6 +140,11 @@ public class CartActivity extends AppCompatActivity {
                     Toast.makeText(CartActivity.this, "선택된 아이템이 없습니다.", Toast.LENGTH_SHORT).show();
                     return;
                 };
+
+                String text = "수량 추가";
+                tts.setPitch(1.0f); // 음성 높낮이
+                tts.setSpeechRate(1.0f); // 음성 빠르기
+                tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
 
                 Basket basket = new Basket(
                         recyclerItem.getBasketId(),  //basket_id
@@ -164,11 +180,16 @@ public class CartActivity extends AppCompatActivity {
                     return;
                 };
 
+                String text = "수량 감소";
+                tts.setPitch(1.0f); // 음성 높낮이
+                tts.setSpeechRate(1.0f); // 음성 빠르기
+                tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+
                 Basket basket = new Basket(
                         recyclerItem.getBasketId(),  //basket_id
                         recyclerItem.getBarcodeId(),  //barcode_id
                         recyclerItem.getBarcdoeType(),  //barcode_type
-                        recyclerItem.getItemName(),
+                        recyclerItem.getItemName(),  //item_name
                         recyclerItem.getAmount() - 1  //amount
                 );
 
