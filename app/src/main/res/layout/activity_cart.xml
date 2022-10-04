@@ -72,5 +72,28 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/total_price"
+        android:layout_width="350dp"
+        android:layout_height="180dp"
+        android:layout_marginStart="520dp"
+        android:layout_marginTop="84dp"
+        android:background="@drawable/btn_add"
+        android:text="총액"
+        android:textSize="90dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/amount_minus_btn" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/barcode_zip_btn"
+        android:layout_width="350dp"
+        android:layout_height="180dp"
+        android:layout_marginStart="888dp"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/btn_add"
+        android:text="바코드"
+        android:textSize="90dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/amount_minus_btn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

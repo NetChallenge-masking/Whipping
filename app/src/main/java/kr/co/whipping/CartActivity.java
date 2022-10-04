@@ -1,5 +1,6 @@
 package kr.co.whipping;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.database.sqlite.SQLiteDatabase;
@@ -59,20 +60,21 @@ public class CartActivity extends AppCompatActivity {
         dbHelper = new DBHelper(CartActivity.this);
 
         Cursor cursor = dbHelper.readAllBasket();
-        while(cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
             Basket basket = new Basket(
                     cursor.getInt(0),  //basket_id
                     cursor.getString(2),  //barcode_id
                     cursor.getString(3),  //barcode_type
-                    cursor.getString(4),
-                    cursor.getInt(5)  //amount
+                    cursor.getString(4),  //item_name
+                    cursor.getInt(5),  //amount
+                    cursor.getString(6)  //price
             );
             basketList.add(basket);
 
             adapter.notifyDataSetChanged();
         }
 
-         //tts 객체 초기화
+        //tts 객체 초기화
         tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
@@ -83,7 +85,7 @@ public class CartActivity extends AppCompatActivity {
         });
 
         //tts
-        adapter.setItemClickListener (new BasketAdapter.OnItemClickEventListener () {
+        adapter.setItemClickListener(new BasketAdapter.OnItemClickEventListener() {
             @Override
             public void onItemClick(int position) {
 
@@ -139,7 +141,8 @@ public class CartActivity extends AppCompatActivity {
                 if (recyclerItem == null) {
                     Toast.makeText(CartActivity.this, "선택된 아이템이 없습니다.", Toast.LENGTH_SHORT).show();
                     return;
-                };
+                }
+                ;
 
                 String text = "수량 추가";
                 tts.setPitch(1.0f); // 음성 높낮이
@@ -151,7 +154,8 @@ public class CartActivity extends AppCompatActivity {
                         recyclerItem.getBarcodeId(),  //barcode_id
                         recyclerItem.getBarcdoeType(),  //barcode_type
                         recyclerItem.getItemName(),
-                        recyclerItem.getAmount() + 1  //amount
+                        recyclerItem.getAmount() + 1,  //amount
+                        recyclerItem.getPrice()
                 );
 
                 // 선택한 item 수량 추가
@@ -178,7 +182,8 @@ public class CartActivity extends AppCompatActivity {
                 if (recyclerItem == null) {
                     Toast.makeText(CartActivity.this, "선택된 아이템이 없습니다.", Toast.LENGTH_SHORT).show();
                     return;
-                };
+                }
+                ;
 
                 String text = "수량 감소";
                 tts.setPitch(1.0f); // 음성 높낮이
@@ -190,7 +195,8 @@ public class CartActivity extends AppCompatActivity {
                         recyclerItem.getBarcodeId(),  //barcode_id
                         recyclerItem.getBarcdoeType(),  //barcode_type
                         recyclerItem.getItemName(),  //item_name
-                        recyclerItem.getAmount() - 1  //amount
+                        recyclerItem.getAmount() - 1,  //amount
+                        recyclerItem.getPrice()
                 );
 
                 // 선택한 item 수량 감소
@@ -205,6 +211,35 @@ public class CartActivity extends AppCompatActivity {
 
                 //db에서 상품 수량 삭제
                 dbHelper.minusAmount(recyclerItem.getBasketId());
+            }
+        });
+
+        //장바구니 상품 총 가격
+        Button total_price = findViewById(R.id.total_price);
+        total_price.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Cursor cursor = dbHelper.readAllBasket();
+                int price = 0;
+                while (cursor.moveToNext()) {
+                    price += cursor.getInt(6);
+                }
+
+                String text = "총액은 " + Integer.toString(price) + "원 입니다.";
+
+                tts.setPitch(1.0f); // 음성 높낮이
+                tts.setSpeechRate(1.0f); // 음성 빠르기
+                tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+            }
+        });
+
+        //바코드 이미지 화면으로 넘어가기
+        Button barcode_zip_btn = findViewById(R.id.barcode_zip_btn);
+        barcode_zip_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), CartBarcodeActivity.class);
+                startActivity(intent);
             }
         });
     }
