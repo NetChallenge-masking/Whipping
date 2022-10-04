@@ -6,9 +6,9 @@ public class Basket {
     private String barcdoeType;
     private String itemName;
     private int amount;
-    private String price;
+    private int price;
 
-    public Basket(int basketId, String barcodeId, String barcdoeType, String itemName, int amount, String price) {
+    public Basket(int basketId, String barcodeId, String barcdoeType, String itemName, int amount, int price) {
         this.basketId = basketId;
         this.barcodeId = barcodeId;
         this.barcdoeType = barcdoeType;
@@ -37,7 +37,7 @@ public class Basket {
         return amount;
     }
 
-    public String getPrice() {
+    public int getPrice() {
         return price;
     }
 }
