@@ -6,13 +6,15 @@ public class Basket {
     private String barcdoeType;
     private String itemName;
     private int amount;
+    private String price;
 
-    public Basket(int basketId, String barcodeId, String barcdoeType, String itemName, int amount) {
+    public Basket(int basketId, String barcodeId, String barcdoeType, String itemName, int amount, String price) {
         this.basketId = basketId;
         this.barcodeId = barcodeId;
         this.barcdoeType = barcdoeType;
         this.itemName = itemName;
         this.amount = amount;
+        this.price = price;
     }
 
     public int getBasketId() {
@@ -33,5 +35,9 @@ public class Basket {
 
     public int getAmount() {
         return amount;
+    }
+
+    public String getPrice() {
+        return price;
     }
 }

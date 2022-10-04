@@ -75,7 +75,7 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketHolder> {
         holder.barcode_type_tv.setText(String.valueOf(item.getBarcdoeType()));
         holder.item_name_tv.setText(String.valueOf(item.getItemName()));
         holder.amount_tv.setText(String.valueOf(item.getAmount()));
-
+        holder.price_tv.setText(String.valueOf(item.getPrice()));
     }
 
     public Basket getSelected() {
@@ -109,7 +109,7 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketHolder> {
 
 class BasketHolder extends RecyclerView.ViewHolder {
 
-    TextView basket_id_tv, barcode_id_tv, barcode_type_tv, item_name_tv, amount_tv;
+    TextView basket_id_tv, barcode_id_tv, barcode_type_tv, item_name_tv, amount_tv, price_tv;
 
     public BasketHolder(View view, final BasketAdapter.OnItemClickEventListener itemClickListener) {
         super(view);
@@ -119,6 +119,7 @@ class BasketHolder extends RecyclerView.ViewHolder {
         barcode_type_tv = itemView.findViewById(R.id.barcode_type_tv);
         item_name_tv = itemView.findViewById(R.id.item_name_tv);
         amount_tv = itemView.findViewById(R.id.amount_tv);
+        price_tv = itemView.findViewById(R.id.price_tv);
 
         // Click event
         view.setOnClickListener(new View.OnClickListener() {
