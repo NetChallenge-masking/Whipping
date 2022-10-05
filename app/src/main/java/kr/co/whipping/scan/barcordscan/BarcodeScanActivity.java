@@ -56,14 +56,17 @@ import kr.co.whipping.R;
 public class BarcodeScanActivity extends AppCompatActivity {
     private static final String[] CAMERA_PERMISSION = new String[]{Manifest.permission.CAMERA};
     private static final int CAMERA_REQUEST_CODE = 10;
-    private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
-    public static BarcodeReader dbr;
-    public static ExecutorService exec;
-    public static Camera camera;
-    String barcodenum;
-    String barcodetype = "EAN-13";
 
+    Button minus = (Button) findViewById(R.id.btn_count_down);
+    Button plus = (Button) findViewById(R.id.btn_count_up);
+    Button cancel = (Button) findViewById(R.id.btn_cancel);
+    Button add = (Button) findViewById(R.id.btn_add);
+    Button back = (Button) findViewById(R.id.btn_back_scan_barcode);
+    TextView prodCount = (TextView) findViewById(R.id.tv_item_count);
 
+    TextView category = (TextView) findViewById(R.id.tv_item_type_2);
+    TextView nameOfprod = (TextView) findViewById(R.id.tv_item_name_2);
+    TextView price = (TextView) findViewById(R.id.tv_item_price_2);
     int count = 1;
 
     @Override
@@ -77,48 +80,21 @@ public class BarcodeScanActivity extends AppCompatActivity {
             requestPermission();
         }
 
-        exec = Executors.newSingleThreadExecutor();
-        cameraProviderFuture = ProcessCameraProvider.getInstance(this);
-        cameraProviderFuture.addListener(new Runnable() {
-            @RequiresApi(api = Build.VERSION_CODES.R)
-            @Override
-            public void run() {
-                try {
-                    ProcessCameraProvider cameraProvider = cameraProviderFuture.get();
-                    bindPreviewAndImageAnalysis(cameraProvider);
-                } catch (ExecutionException | InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, ContextCompat.getMainExecutor(this));
+        Intent intent = getIntent();
+ //     String text = intent.getStringExtra("barcodenum");
+        onActivityResult(intent.getStringExtra("barcodenum"),"EAN-13", intent);
     }
-//       new IntentIntegrator(this).initiateScan();
-
-//        IntentIntegrator integrator = new IntentIntegrator(this);
-//        integrator.initiateScan();
 
 
-//    public void onClick(View V) {
-//        IntentIntegrator integrator = new IntentIntegrator(this);
-//        integrator.initiateScan();
-//    }
+
 
 
     private void startScan() {
-        BarcodeReader.initLicense("DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTE2NDk4Mjk3OTI2MzUiLCJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSIsInNlc3Npb25QYXNzd29yZCI6IndTcGR6Vm05WDJrcEQ5YUoifQ==", new DBRLicenseVerificationListener() {
-            @Override
-            public void DBRLicenseVerificationCallback(boolean isSuccessful, Exception e) {
-                if (!isSuccessful) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        try {
-            dbr = new BarcodeReader();
-        } catch (BarcodeReaderException e) {
-            e.printStackTrace();
-        }
+        Intent intent = new Intent(this, BarcodeCameraActivity.class);
+        startActivity(intent);
     }
+
+
 
     private boolean hasCameraPermission() {
         return ContextCompat.checkSelfPermission(
@@ -153,128 +129,34 @@ public class BarcodeScanActivity extends AppCompatActivity {
 
 
 
+    public void onActivityResult(String barcodenum, String barcodetype, Intent intent) {
 
+            ImageView img_barcode = (ImageView) findViewById(R.id.image_barcode);
 
-    //cameraActivity에서 받은 result값을 활용하는 코드 작성!
-    @RequiresApi(api = Build.VERSION_CODES.R)
-    @SuppressLint("UnsafeExperimentalUsageError")
-    public void bindPreviewAndImageAnalysis(@NonNull ProcessCameraProvider cameraProvider) {
-        int orientation = getApplicationContext().getResources().getConfiguration().orientation;
-        Size resolution;
-        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-            resolution = new Size(720, 1280);
-        }else{
-            resolution = new Size(1280, 720);
-        }
+            MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
+            final int WIDTH = 180;
+            final int HEIGHT = 90;
 
-        Preview.Builder previewBuilder = new Preview.Builder();
-        previewBuilder.setTargetResolution(resolution);
-        Preview preview = previewBuilder.build();
-
-        ImageAnalysis.Builder imageAnalysisBuilder = new ImageAnalysis.Builder();
-
-        imageAnalysisBuilder.setTargetResolution(resolution)
-                .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST);
-
-        ImageAnalysis imageAnalysis = imageAnalysisBuilder.build();
-
-        imageAnalysis.setAnalyzer(exec, new ImageAnalysis.Analyzer() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void analyze(@NonNull ImageProxy image) {
-                int rotationDegrees = image.getImageInfo().getRotationDegrees();
-
-                TextResult[] results = null;
-                ByteBuffer buffer = image.getPlanes()[0].getBuffer();
-                int nRowStride = image.getPlanes()[0].getRowStride();
-                int nPixelStride = image.getPlanes()[0].getPixelStride();
-                int length = buffer.remaining();
-                byte[] bytes = new byte[length];
-                buffer.get(bytes);
-                BarcodeScanActivity.ImageData imageData = new BarcodeScanActivity.ImageData(bytes, image.getWidth(), image.getHeight(), nRowStride * nPixelStride);
-                try {
-                    results = dbr.decodeBuffer(imageData.mBytes, imageData.mWidth, imageData.mHeight, imageData.mStride, EnumImagePixelFormat.IPF_NV21, "");
-                } catch (BarcodeReaderException e) {
-                    e.printStackTrace();
-                }
-                StringBuilder sb = new StringBuilder();
-                sb.append("Found ").append(results.length).append(" barcode(s):\n");
-                for (int i = 0; i < results.length; i++) {
-                    sb.append(results[i].barcodeText);
-                    sb.append("\n");
-                }
-                Log.d("DBR", sb.toString());
-                barcodenum = sb.toString();
-                image.close();
+            try {
+                BitMatrix bitMatrix = multiFormatWriter.encode(barcodenum, BarcodeFormat.valueOf(barcodetype), WIDTH, HEIGHT);
+                BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+                Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+                img_barcode.setImageBitmap(bitmap);
+            } catch (Exception e) {
             }
 
 
+            if (barcodenum.equals("4902430232159")) {
+                category.setText("샴푸");
+                nameOfprod.setText("헤드&숄더 두피 토탈 솔루션 가려운 두피케어");
+                price.setText("15,900");
+            }
 
-        });
-        ImageView img_barcode = (ImageView) findViewById(R.id.image_barcode);
-
-        MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
-        final int WIDTH = 180;
-        final int HEIGHT = 90;
-
-        try {
-            BitMatrix bitMatrix = multiFormatWriter.encode(barcodenum, BarcodeFormat.valueOf(barcodetype), WIDTH, HEIGHT);
-            BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
-            Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
-            img_barcode.setImageBitmap(bitmap);
-        } catch (Exception e) {
-        }
-
-
-        if (barcodenum.equals("4902430232159")){
-            category.setText("샴푸");
-            nameOfprod.setText("헤드&숄더 두피 토탈 솔루션 가려운 두피케어");
-            price.setText("15,900");
-        }
-
-        CameraSelector cameraSelector = new CameraSelector.Builder()
-                .requireLensFacing(CameraSelector.LENS_FACING_BACK).build();
-        preview.setSurfaceProvider(previewView.getSurfaceProvider());
-
-        UseCaseGroup useCaseGroup = new UseCaseGroup.Builder()
-                .addUseCase(preview)
-                .addUseCase(imageAnalysis)
-                .build();
-        camera = cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector, useCaseGroup);
-    }
-
-    public class ImageData {
-        private int mWidth, mHeight, mStride;
-        byte[] mBytes;
-
-        ImageData(byte[] bytes, int nWidth, int nHeight, int nStride) {
-            mBytes = bytes;
-            mWidth = nWidth;
-            mHeight = nHeight;
-            mStride = nStride;
-        }
     }
 
 
 
-//    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-//        super.onActivityResult(requestCode, resultCode, intent);
-//        IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-//        if (scanResult != null) {
-//
-//            String barcodenum = scanResult.getContents();
-//            String barcodetype = scanResult.getFormatName();
 
-            Button minus = (Button) findViewById(R.id.btn_count_down);
-            Button plus = (Button) findViewById(R.id.btn_count_up);
-            Button cancel = (Button) findViewById(R.id.btn_cancel);
-            Button add = (Button) findViewById(R.id.btn_add);
-            Button back = (Button) findViewById(R.id.btn_back_scan_barcode);
-            TextView prodCount = (TextView) findViewById(R.id.tv_item_count);
-
-            TextView category = (TextView) findViewById(R.id.tv_item_type_2);
-            TextView nameOfprod = (TextView) findViewById(R.id.tv_item_name_2);
-            TextView price = (TextView) findViewById(R.id.tv_item_price_2);
 
             //DB에서 상품 정보 가져오는 코드 추가
             //임시로 코드로 가져옴
