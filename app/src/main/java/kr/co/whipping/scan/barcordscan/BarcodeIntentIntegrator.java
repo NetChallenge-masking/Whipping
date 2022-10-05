@@ -36,20 +36,20 @@ import java.util.concurrent.Executors;
 
 import kr.co.whipping.R;
 
-public class CameraActivity extends AppCompatActivity {
-    private PreviewView previewView;
-    private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
-    private TextView resultView;
-    private ExecutorService exec;
-    private Camera camera;
-    private BarcodeReader dbr;
+public class BarcodeIntentIntegrator extends AppCompatActivity {
+    public static PreviewView previewView;
+    public static ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
+    public static TextView resultView;
+    public static ExecutorService exec;
+    public static Camera camera;
+    public static BarcodeReader dbr;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
         previewView = findViewById(R.id.previewView);
         resultView = findViewById(R.id.resultView);
-        initDBR();
+        initdBR();
         exec = Executors.newSingleThreadExecutor();
         cameraProviderFuture = ProcessCameraProvider.getInstance(this);
         cameraProviderFuture.addListener(new Runnable() {
@@ -68,7 +68,7 @@ public class CameraActivity extends AppCompatActivity {
     }
 
 
-    private void initDBR(){
+    private void initdBR(){
         BarcodeReader.initLicense("DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTE2NDk4Mjk3OTI2MzUiLCJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSIsInNlc3Npb25QYXNzd29yZCI6IndTcGR6Vm05WDJrcEQ5YUoifQ==", new DBRLicenseVerificationListener() {
             @Override
             public void DBRLicenseVerificationCallback(boolean isSuccessful, Exception e) {
@@ -84,9 +84,13 @@ public class CameraActivity extends AppCompatActivity {
         }
     }
 
+
+
+
+
     @RequiresApi(api = Build.VERSION_CODES.R)
     @SuppressLint("UnsafeExperimentalUsageError")
-    private void bindPreviewAndImageAnalysis(@NonNull ProcessCameraProvider cameraProvider) {
+    public void bindPreviewAndImageAnalysis(@NonNull ProcessCameraProvider cameraProvider) {
         int orientation = getApplicationContext().getResources().getConfiguration().orientation;
         Size resolution;
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -136,9 +140,9 @@ public class CameraActivity extends AppCompatActivity {
             }
         });
 
-        CameraSelector cameraSelector = new CameraSelector.Builder()
-                .requireLensFacing(CameraSelector.LENS_FACING_BACK).build();
-        preview.setSurfaceProvider(previewView.getSurfaceProvider());
+ //       CameraSelector cameraSelector = new CameraSelector.Builder()
+  //              .requireLensFacing(CameraSelector.LENS_FACING_BACK).build();
+ //       preview.setSurfaceProvider(previewView.getSurfaceProvider());
 
         UseCaseGroup useCaseGroup = new UseCaseGroup.Builder()
                 .addUseCase(preview)
@@ -147,7 +151,7 @@ public class CameraActivity extends AppCompatActivity {
         camera = cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector, useCaseGroup);
     }
 
-    private class ImageData {
+    public class ImageData {
         private int mWidth, mHeight, mStride;
         byte[] mBytes;
 
