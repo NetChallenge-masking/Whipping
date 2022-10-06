@@ -48,7 +48,7 @@ public class BarcodeCameraActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_barcode);
+        setContentView(R.layout.activity_camera);
         previewView = findViewById(R.id.previewView);
         resultView = findViewById(R.id.resultView);
         initDBR();
