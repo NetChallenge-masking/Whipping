@@ -67,7 +67,7 @@ public class CartActivity extends AppCompatActivity {
                     cursor.getString(3),  //barcode_type
                     cursor.getString(4),  //item_name
                     cursor.getInt(5),  //amount
-                    cursor.getString(6)  //price
+                    cursor.getInt(6)  //price
             );
             basketList.add(basket);
 
@@ -222,7 +222,7 @@ public class CartActivity extends AppCompatActivity {
                 Cursor cursor = dbHelper.readAllBasket();
                 int price = 0;
                 while (cursor.moveToNext()) {
-                    price += cursor.getInt(6);
+                    price += cursor.getInt(6) * cursor.getInt(5);
                 }
 
                 String text = "총액은 " + Integer.toString(price) + "원 입니다.";
