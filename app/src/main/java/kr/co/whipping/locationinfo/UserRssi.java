@@ -20,4 +20,5 @@ public class UserRssi implements Comparator<MinewBeacon> {
             return -1;
         }
     }
+
 }

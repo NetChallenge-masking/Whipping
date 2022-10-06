@@ -1,5 +1,7 @@
 package kr.co.whipping.locationinfo;
 
+import static java.lang.Math.pow;
+
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
@@ -92,7 +94,9 @@ public class BeaconMainActivity extends AppCompatActivity {
      * check Bluetooth state
      */
     private void checkBluetooth() {
+
         BluetoothState bluetoothState = mMinewBeaconManager.checkBluetoothState();
+        Log.d("블루투스권한체크",bluetoothState.toString());
         switch (bluetoothState) {
             case BluetoothStateNotSupported:
                 Toast.makeText(this, "Not Support BLE", Toast.LENGTH_SHORT).show();
@@ -178,6 +182,7 @@ public class BeaconMainActivity extends AppCompatActivity {
 
 
         mMinewBeaconManager.setDeviceManagerDelegateListener(new MinewBeaconManagerListener() {
+
             /**
              *   if the manager find some new beacon, it will call back this method.
              *
@@ -185,7 +190,7 @@ public class BeaconMainActivity extends AppCompatActivity {
              */
             @Override
             public void onAppearBeacons(List<MinewBeacon> minewBeacons) {
-
+                Log.e("onAppearBeacons()","실행");
             }
 
             /**
@@ -208,35 +213,63 @@ public class BeaconMainActivity extends AppCompatActivity {
              */
             @Override
             public void onRangeBeacons(final List<MinewBeacon> minewBeacons) {
-
+                Log.e("onRangeBeacons()","실행");
                 if (!minewBeacons.isEmpty()) { //근처에 비콘이 없을 경우가 아니라면
-                    String beaconName = minewBeacons.get(0).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Name).getStringValue();
-                    if (beaconName.equals("beacon1")
-                            || (beaconName.equals("beacon2"))) {
+                    Log.e("onRangeBeacons2()","실행");
+                    KalmanFilter kalmanFilter= new KalmanFilter();
+                    //RSSI값으로 부터 거리를 구하기 위해서 제일 가까운 3개의 비콘의 RSSI값 받아오기
+                    double beaconRssi0 = minewBeacons.get(0).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_RSSI).getFloatValue();
+                    double beaconRssi1 = minewBeacons.get(1).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_RSSI).getFloatValue();
+                    double beaconRssi2 = minewBeacons.get(2).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_RSSI).getFloatValue();
+
+                    //제일 가까운 3개의 RSSI값 받아서 필터링 함수 적용
+                    beaconRssi0= kalmanFilter.filtering(beaconRssi0);
+                    beaconRssi1 = kalmanFilter.filtering(beaconRssi1);
+                    beaconRssi2=kalmanFilter.filtering(beaconRssi2);
+
+                    minewBeacons.get(0).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_InRage);
+
+                    //제일 가까운 비콘 3개의 이름 값 받기
+                    String beaconName0 = minewBeacons.get(0).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Name).getStringValue();
+                    String beaconName1 = minewBeacons.get(1).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Name).getStringValue();
+                    String beaconName2 = minewBeacons.get(2).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Name).getStringValue();
+
+                    //RSSI로 비콘으로 부터 거리계산하기
+                    double beaconDistance0 = calculateAccuracy(beaconRssi0);
+                    double beaconDistance1 = calculateAccuracy(beaconRssi1);
+                    double beaconDistance2 = calculateAccuracy(beaconRssi2);
+
+                    Log.d("비콘정보0: ",beaconName0+", 비콘0의 RSSI"+beaconRssi0+", 비콘0으로 부터 거리"+beaconDistance0);
+                    Log.d("비콘정보1: ",beaconName1+", 비콘1의 RSSI"+beaconRssi1+", 비콘1으로 부터 거리"+beaconDistance1);
+                    Log.d("비콘정보2: ",beaconName2+", 비콘2의 RSSI"+beaconRssi2+", 비콘2으로 부터 거리"+beaconDistance2);
+
+
+                    if (beaconName0.equals("beacon1")
+                            || (beaconName0.equals("beacon2"))) {
                         Log.e("beacon1,2인식" ,"화면 문구 : 트리트먼트, 의약제품 , 음성안내문구 : 왼쪽에 트리트먼트 제품이 있습니다, 오른쪽에 의약제품 및 가그린이 있습니다.");
                         //텍스트 안내
                         setBeaconItemInfo("트리트먼트","의약제품 및 가그린");
                     }
-                    else if(beaconName.equals("beacon3")){
+                    else if(beaconName0.equals("beacon3")){
                         Log.e("beacon3,4인식" ,"화면 문구 : 샴푸, 면도기 , 음성안내문구 : 왼쪽에 삼푸 제품이 있습니다, 오른쪽에 면도기제품이 있습니다.");
                         setBeaconItemInfo("샴푸","면도기");
                     }
-                    else if(beaconName.equals("beacon4")){
+                    else if(beaconName0.equals("beacon4")){
                         Log.e("beacon4인식" ,"화면 문구 : 리엔 물들임 트린트먼트150ml(흑갈색),헤드앤숄더 샴푸850ml , 음성안내문구 : 추천,세일 상품안내");
                         setBeaconSaleInfo("추천 상품\n 리엔 물들임 트린트먼트150ml(흑갈색)","1+1 행사상품\n 헤드앤숄더 샴푸850ml");
                     }
-                    else if(beaconName.equals("beacon5")){
+                    else if(beaconName0.equals("beacon5")){
                         Log.e("beacon5인식" ,"화면 문구 : 샴푸, 면도기 , 음성안내문구 : 왼쪽에 헤어 용품이 있습니다, 오른쪽에 구강 용품이 있습니다.");
                         //텍스트 안내
                         setBeaconItemInfo("헤어용품","구강용품");
 
                     }
-                    else if(beaconName.equals("beacon6")){
+                    else if(beaconName0.equals("beacon6")){
                         Log.e("beacon6인식" ,"화면 문구 : 지하1층 , 음성안내문구 : 지하1층 입니다.");
                         setBeaconFacilitiesInfo("지하 1층");
 
                     }
-                    else if(beaconName.equals("beacon7")){
+                    else if(beaconName0.equals("beacon7")){
                         Log.e("beacon7인식" ,"화면 문구 : 리엔 물들임 트린트먼트150ml(흑갈색),헤드앤숄더 샴푸850ml , 음성안내문구 : 추천,세일 상품안내");
                         setBeaconSaleInfo("리엔 물들임 트린트먼트150ml(흑갈색)","헤드앤숄더 샴푸850ml");
 
@@ -264,6 +297,20 @@ public class BeaconMainActivity extends AppCompatActivity {
             }
         });
     }
+
+    //비콘 RSSI를 이용한 거리값 계산 함수
+    //n은 경로 손실 지수로 주변 환경(벽 또는 장애물의 여부 등)에 따라 2~4의 값을 가집니다. 주변에 아무런 장애물도 없다면 경로 손실 지수는 2이며,
+    // 장애물의 여부와 개수에 따라 3 또는 4가 될 수 있습니다. d는 거리이고, α는 TX power로 특정 거리에서 수신기로부터 측정된 기본 RSSI 값입니다.
+    private static double calculateAccuracy(double rssi){
+        if(rssi==1){return -1;}//정확도 알수 없음
+
+        int n=2; //constant N
+        int alpha = -63; //rssi at 1m
+
+        return pow(10.0,((alpha-rssi)/(10*n)));
+    }
+
+
     //매대 안내를 위한 비콘 함수
     private void setBeaconItemInfo(String leftItem1,String rightItem2){
         //텍스트 안내
