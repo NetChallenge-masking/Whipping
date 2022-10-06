@@ -77,6 +77,9 @@
             android:name=".scan.barcordscan.BarcodeIntentIntegrator"
             android:configChanges="screenSize|orientation" />
         <activity
+            android:name=".scan.barcordscan.BarcodeCameraActivity"
+            android:configChanges="screenSize|orientation" />
+        <activity
             android:name=".scan.camerascan.CameraScanActivity"
             android:configChanges="screenSize|orientation" />
         <activity
