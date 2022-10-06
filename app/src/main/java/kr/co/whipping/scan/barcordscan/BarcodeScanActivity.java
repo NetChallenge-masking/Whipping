@@ -1,7 +1,5 @@
 package kr.co.whipping.scan.barcordscan;
 
-import static kr.co.whipping.scan.barcordscan.BarcodeIntentIntegrator.previewView;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -57,16 +55,6 @@ public class BarcodeScanActivity extends AppCompatActivity {
     private static final String[] CAMERA_PERMISSION = new String[]{Manifest.permission.CAMERA};
     private static final int CAMERA_REQUEST_CODE = 10;
 
-    Button minus = (Button) findViewById(R.id.btn_count_down);
-    Button plus = (Button) findViewById(R.id.btn_count_up);
-    Button cancel = (Button) findViewById(R.id.btn_cancel);
-    Button add = (Button) findViewById(R.id.btn_add);
-    Button back = (Button) findViewById(R.id.btn_back_scan_barcode);
-    TextView prodCount = (TextView) findViewById(R.id.tv_item_count);
-
-    TextView category = (TextView) findViewById(R.id.tv_item_type_2);
-    TextView nameOfprod = (TextView) findViewById(R.id.tv_item_name_2);
-    TextView price = (TextView) findViewById(R.id.tv_item_price_2);
     int count = 1;
 
     @Override
@@ -86,14 +74,10 @@ public class BarcodeScanActivity extends AppCompatActivity {
     }
 
 
-
-
-
     private void startScan() {
         Intent intent = new Intent(this, BarcodeCameraActivity.class);
         startActivity(intent);
     }
-
 
 
     private boolean hasCameraPermission() {
@@ -111,6 +95,7 @@ public class BarcodeScanActivity extends AppCompatActivity {
         );
     }
 
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions,
                                            int[] grantResults) {
@@ -127,9 +112,18 @@ public class BarcodeScanActivity extends AppCompatActivity {
     }
 
 
-
-
     public void onActivityResult(String barcodenum, String barcodetype, Intent intent) {
+
+            Button minus = (Button) findViewById(R.id.btn_count_down);
+            Button plus = (Button) findViewById(R.id.btn_count_up);
+            Button cancel = (Button) findViewById(R.id.btn_cancel);
+            Button add = (Button) findViewById(R.id.btn_add);
+            Button back = (Button) findViewById(R.id.btn_back_scan_barcode);
+            TextView prodCount = (TextView) findViewById(R.id.tv_item_count);
+
+            TextView category = (TextView) findViewById(R.id.tv_item_type_2);
+            TextView nameOfprod = (TextView) findViewById(R.id.tv_item_name_2);
+            TextView price = (TextView) findViewById(R.id.tv_item_price_2);
 
             ImageView img_barcode = (ImageView) findViewById(R.id.image_barcode);
 
@@ -153,9 +147,6 @@ public class BarcodeScanActivity extends AppCompatActivity {
             }
 
     }
-
-
-
 
 
             //DB에서 상품 정보 가져오는 코드 추가
@@ -241,38 +232,38 @@ public class BarcodeScanActivity extends AppCompatActivity {
 
 
 
-    public void setOnButton(int requestCode, int resultCode, Intent intent){
-        super.onActivityResult(requestCode, resultCode, intent);
-
-            plus.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v){
-                    count++;
-                    prodCount.setText((count+""));
-                }
-            });
-            minus.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v){
-                    count--;
-                    prodCount.setText((count+""));
-                }
-            });
-
-            //취소
-            cancel.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v){
-                    onBackPressed();
-                }
-            });
-
-          back.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View v) {
-                  onBackPressed();
-              }
-          });
+//    public void setOnButton(int requestCode, int resultCode, Intent intent){
+//        super.onActivityResult(requestCode, resultCode, intent);
+//
+//            plus.setOnClickListener(new View.OnClickListener(){
+//                @Override
+//                public void onClick(View v){
+//                    count++;
+//                    prodCount.setText((count+""));
+//                }
+//            });
+//            minus.setOnClickListener(new View.OnClickListener(){
+//                @Override
+//                public void onClick(View v){
+//                    count--;
+//                    prodCount.setText((count+""));
+//                }
+//            });
+//
+//            //취소
+//            cancel.setOnClickListener(new View.OnClickListener(){
+//                @Override
+//                public void onClick(View v){
+//                    onBackPressed();
+//                }
+//            });
+//
+//          back.setOnClickListener(new View.OnClickListener() {
+//              @Override
+//              public void onClick(View v) {
+//                  onBackPressed();
+//              }
+//          });
 
             //담기
 //            add.setOnClickListener(new View.OnClickListener(){
@@ -286,5 +277,4 @@ public class BarcodeScanActivity extends AppCompatActivity {
 //                    startActivity(intent);
 //                }
 //            });
-        }
-    }
+}
