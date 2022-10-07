@@ -17,7 +17,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.minew.beacon.BeaconValueIndex;
 import com.minew.beacon.BluetoothState;
@@ -29,19 +28,21 @@ import java.util.Collections;
 import java.util.List;
 
 import kr.co.whipping.R;
+import kr.co.whipping.locationinfo.UserRssi;
 import kr.co.whipping.scan.barcordscan.BarcodeScanActivity;
 import kr.co.whipping.scan.camerascan.CameraScanActivity;
 
 public class BeaconMainActivity extends AppCompatActivity {
+
     private static final int REQUEST_ACCESS_FINE_LOCATION = 1000;
     private MinewBeaconManager mMinewBeaconManager;
+    private static final int REQUEST_ENABLE_BT = 2;
+    private boolean isScanning;
+
     private TextView beaconInfo1TextView;
     private TextView beaconInfo2TextView;
     private Button itemInfoBtn;
     private Button barcodeInfoBtn;
-
-    private static final int REQUEST_ENABLE_BT = 2;
-    private boolean isScanning;
 
 
     UserRssi comp = new UserRssi();
@@ -95,8 +96,28 @@ public class BeaconMainActivity extends AppCompatActivity {
      */
     private void checkBluetooth() {
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            requestPermissions(
+                    new String[]{
+                            Manifest.permission.BLUETOOTH,
+                            Manifest.permission.BLUETOOTH_SCAN,
+                            Manifest.permission.BLUETOOTH_ADVERTISE,
+                            Manifest.permission.BLUETOOTH_CONNECT
+
+
+                    },
+                    1);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(
+                    new String[]{
+                            Manifest.permission.BLUETOOTH
+
+                    },
+                    1);
+        }
+
+
         BluetoothState bluetoothState = mMinewBeaconManager.checkBluetoothState();
-        Log.d("블루투스권한체크",bluetoothState.toString());
         switch (bluetoothState) {
             case BluetoothStateNotSupported:
                 Toast.makeText(this, "Not Support BLE", Toast.LENGTH_SHORT).show();
@@ -112,31 +133,27 @@ public class BeaconMainActivity extends AppCompatActivity {
 
 
     private void initView() {
-
         mStart_scan = (TextView) findViewById(R.id.start_scan);
-        beaconInfo1TextView =(TextView) findViewById(R.id.beaconInfo1TextView);
-        beaconInfo2TextView =(TextView) findViewById(R.id.beaconInfo2TextView);
+        beaconInfo1TextView = (TextView) findViewById(R.id.beaconInfo1TextView);
+        beaconInfo2TextView = (TextView) findViewById(R.id.beaconInfo2TextView);
         itemInfoBtn = (Button) findViewById(R.id.itemInfoTextView);
         barcodeInfoBtn = (Button) findViewById(R.id.barcodeInfoBtn);
-
-        itemInfoBtn.setOnClickListener(new View.OnClickListener(){
+        itemInfoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), CameraScanActivity.class);
                 startActivity(intent);
             }
         });
-        barcodeInfoBtn.setOnClickListener(new View.OnClickListener(){
+        barcodeInfoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), BarcodeScanActivity.class);
                 startActivity(intent);
             }
         });
-
     }
+
     //비콘 매니저 실행
     private void initManager() {
         mMinewBeaconManager = MinewBeaconManager.getInstance(this);
@@ -213,9 +230,7 @@ public class BeaconMainActivity extends AppCompatActivity {
              */
             @Override
             public void onRangeBeacons(final List<MinewBeacon> minewBeacons) {
-                Log.e("onRangeBeacons()","실행");
                 if (!minewBeacons.isEmpty()) { //근처에 비콘이 없을 경우가 아니라면
-                    Log.e("onRangeBeacons2()","실행");
                     KalmanFilter kalmanFilter= new KalmanFilter();
                     //RSSI값으로 부터 거리를 구하기 위해서 제일 가까운 3개의 비콘의 RSSI값 받아오기
                     double beaconRssi0 = minewBeacons.get(0).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_RSSI).getFloatValue();
@@ -226,8 +241,6 @@ public class BeaconMainActivity extends AppCompatActivity {
                     beaconRssi0= kalmanFilter.filtering(beaconRssi0);
                     beaconRssi1 = kalmanFilter.filtering(beaconRssi1);
                     beaconRssi2=kalmanFilter.filtering(beaconRssi2);
-
-                    minewBeacons.get(0).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_InRage);
 
                     //제일 가까운 비콘 3개의 이름 값 받기
                     String beaconName0 = minewBeacons.get(0).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Name).getStringValue();
@@ -341,7 +354,8 @@ public class BeaconMainActivity extends AppCompatActivity {
 
 
 
-    //액티비티 종료되면 비콘스캔 종료
+
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -350,10 +364,12 @@ public class BeaconMainActivity extends AppCompatActivity {
             mMinewBeaconManager.stopScan();
         }
     }
-    //사용자에게 블루투스 권한받지 않았을 경우
+
     private void showBLEDialog() {
         Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+        if ((ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED)
+        && (ActivityCompat.checkSelfPermission(this,Manifest.permission.BLUETOOTH_SCAN)!=PackageManager.PERMISSION_GRANTED))
+         {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -365,7 +381,7 @@ public class BeaconMainActivity extends AppCompatActivity {
         }
         startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
     }
-    //블루투스 권한을 받지 않았으면 처리하는 코드
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
