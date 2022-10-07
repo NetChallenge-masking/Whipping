@@ -31,6 +31,10 @@
         <entry key="app/src/main/res/layout/activity_innercamera.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_location.xml" value="0.14791666666666667" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_navigation.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_navigation2.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_navigation3.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_navigation4.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_scan.xml" value="0.14791666666666667" />
         <entry key="app/src/main/res/layout/activity_search.xml" value="0.14270833333333333" />
         <entry key="app/src/main/res/layout/activity_search2.xml" value="0.1" />
