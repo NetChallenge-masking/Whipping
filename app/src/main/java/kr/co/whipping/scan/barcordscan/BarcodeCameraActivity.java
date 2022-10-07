@@ -27,6 +27,7 @@ import com.dynamsoft.dbr.BarcodeReader;
 import com.dynamsoft.dbr.BarcodeReaderException;
 import com.dynamsoft.dbr.DBRLicenseVerificationListener;
 import com.dynamsoft.dbr.EnumImagePixelFormat;
+import com.dynamsoft.dbr.ImageData;
 import com.dynamsoft.dbr.TextResult;
 import com.google.common.util.concurrent.ListenableFuture;
 
@@ -70,12 +71,27 @@ public class BarcodeCameraActivity extends AppCompatActivity {
 
     }
 
+
+    private class ImageData{
+        private int mWidth,mHeight,mStride;
+        byte[] mBytes;
+        ImageData(byte[] bytes ,int nWidth,int nHeight,int nStride){
+            mBytes = bytes;
+            mWidth = nWidth;
+            mHeight = nHeight;
+            mStride = nStride;
+        }
+    }
+
+
+
     private void initDBR(){
-        BarcodeReader.initLicense("DLS2eyJoYW5kc2hha2VDb2RlIjoiMTAxMzczNTE4LVRYbE5iMkpwYkdWUWNtOXFYMlJpY2ciLCJvcmdhbml6YXRpb25JRCI6IjEwMTM3MzUxOCIsImNoZWNrQ29kZSI6LTUyNTk4NjYwOX0=", new DBRLicenseVerificationListener() {
+        BarcodeReader.initLicense("DLS2eyJoYW5kc2hha2VDb2RlIjoiMTAxMzE4NjE0LVRYbE5iMkpwYkdWUWNtOXFYMlJpY2ciLCJvcmdhbml6YXRpb25JRCI6IjEwMTMxODYxNCIsImNoZWNrQ29kZSI6LTE1MjE0ODM1MzN9", new DBRLicenseVerificationListener() {
             @Override
             public void DBRLicenseVerificationCallback(boolean isSuccessful, Exception e) {
                 if (!isSuccessful) {
                     e.printStackTrace();
+                    Log.d("dd", "라이센스 확인");
                 }
             }
         });
@@ -125,27 +141,36 @@ public class BarcodeCameraActivity extends AppCompatActivity {
                 int length= buffer.remaining();
                 byte[] bytes= new byte[length];
                 buffer.get(bytes);
-                ImageData imageData= new ImageData(bytes,image.getWidth(), image.getHeight(),nRowStride *nPixelStride);
+                BarcodeCameraActivity.ImageData imageData= new BarcodeCameraActivity.ImageData(bytes,image.getWidth(), image.getHeight(),nRowStride *nPixelStride);
                 try {
                     results = dbr.decodeBuffer(imageData.mBytes,imageData.mWidth,imageData.mHeight, imageData.mStride, EnumImagePixelFormat.IPF_NV21);
                 } catch (BarcodeReaderException e) {
                     e.printStackTrace();
                 }
+
                 StringBuilder sb = new StringBuilder();
-  //              sb.append("Found ").append(results.length).append(" barcode(s):\n");
+ //               sb.append("Found ").append(results.length).append(" barcode(s):\n");
                 for (int i = 0; i < results.length; i++) {
-                    //#############################################//
-                    Intent intent = new Intent(BarcodeCameraActivity.this, BarcodeScanActivity.class);
-                    intent.putExtra("barcodenum", results[i].barcodeText);
-                    startActivity(intent);
-//                    sb.append(results[i].barcodeText);
+                    sb.append(results[i].barcodeText);
 //                    sb.append("\n");
                 }
                 Log.d("DBR", sb.toString());
-                runOnUiThread(()->{resultView.setText(sb.toString());});
+                String barcode = sb.toString();
+                Log.d("DBR", barcode);
+                resultView.setText(sb.toString());
+
+
                 image.close();
-
-
+                if(barcode.length()>5) {
+                    Log.d("result","result found");
+                    Intent intent = new Intent(BarcodeCameraActivity.this, BarcodeScanActivity.class);
+                    intent.putExtra("barcodenum", barcode);
+                    Log.d("before activity start ","!!");
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
+//
+//                image.close();
             }
         });
 
@@ -160,15 +185,5 @@ public class BarcodeCameraActivity extends AppCompatActivity {
         camera=cameraProvider.bindToLifecycle((LifecycleOwner)this, cameraSelector, useCaseGroup);
     }
 
-    private class ImageData{
-        private int mWidth,mHeight,mStride;
-        byte[] mBytes;
-        ImageData(byte[] bytes ,int nWidth,int nHeight,int nStride){
-            mBytes = bytes;
-            mWidth = nWidth;
-            mHeight = nHeight;
-            mStride = nStride;
-        }
-    }
 }
 

@@ -74,15 +74,9 @@
             android:name=".scan.barcordscan.BarcodeScanActivity"
             android:configChanges="screenSize|orientation" />
         <activity
-<<<<<<< HEAD
-            android:name=".scan.barcordscan.BarcodeIntentIntegrator"
-            android:configChanges="screenSize|orientation" />
-        <activity
             android:name=".scan.barcordscan.BarcodeCameraActivity"
             android:configChanges="screenSize|orientation" />
         <activity
-=======
->>>>>>> efaf0b8ae313a1765c4596551b004d34a45a0fad
             android:name=".scan.camerascan.CameraScanActivity"
             android:configChanges="screenSize|orientation" />
         <activity
@@ -93,7 +87,6 @@
         <activity android:name=".search.Search2Activity" />
         <activity android:name=".locationinfo.BeaconMainActivity" />
         <activity android:name=".scan.camerascan.InnerCameraActivity" />
-        <activity android:name=".scan.barcordscan.BarcodeCameraActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
