@@ -8,10 +8,6 @@ public class KalmanFilter {
     int errorCovariance=0;
     double errorCovarianceRSSI;
 
-//    KalmanFilter(double processNoise , int mesurementNoise ){
-//        this.processNoise=processNoise;
-//        this.measurementNoise=mesurementNoise;
-//    }
 
     public double filtering(double rssi){
         double priorRSSI;

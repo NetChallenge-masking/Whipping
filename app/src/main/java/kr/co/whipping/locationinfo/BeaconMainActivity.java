@@ -24,11 +24,9 @@ import com.minew.beacon.MinewBeacon;
 import com.minew.beacon.MinewBeaconManager;
 import com.minew.beacon.MinewBeaconManagerListener;
 
-import java.util.Collections;
 import java.util.List;
 
 import kr.co.whipping.R;
-import kr.co.whipping.locationinfo.UserRssi;
 import kr.co.whipping.scan.barcordscan.BarcodeScanActivity;
 import kr.co.whipping.scan.camerascan.CameraScanActivity;
 
@@ -47,8 +45,6 @@ public class BeaconMainActivity extends AppCompatActivity {
 
     UserRssi comp = new UserRssi();
     private TextView mStart_scan;
-    private boolean mIsRefreshing;
-    private int state;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
