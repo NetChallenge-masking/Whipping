@@ -136,8 +136,7 @@ public class BarcodeScanActivity extends AppCompatActivity {
         TextView category = (TextView) findViewById(R.id.tv_item_type_2);
         TextView nameOfprod = (TextView) findViewById(R.id.tv_item_name_2);
         TextView price = (TextView) findViewById(R.id.tv_item_price_2);
-        ImageView img_barcode = (ImageView) findViewById(R.id.image_barcode);
-
+        ImageView image_barcode_scan = (ImageView)findViewById(R.id.image_barcode_scan);
         if (resultCode == RESULT_OK) {
             Log.d("dd", "값 전달 확인");
             barcodenums = intent.getStringExtra("barcodenum");
@@ -146,15 +145,19 @@ public class BarcodeScanActivity extends AppCompatActivity {
 //            Toast.makeText(this, "RESULT_OK : " + barcodenums, Toast.LENGTH_SHORT).show();
 
 
+  //          image_barcode_scan.setImageResource(R.drawable.btn_minus);
+
+
             MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
             final int WIDTH = 400;
             final int HEIGHT = 300;
 
-            try {
+          try {
                 BitMatrix bitMatrix = multiFormatWriter.encode(barcodenums, BarcodeFormat.EAN_13, WIDTH, HEIGHT);
                 BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
                 Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
-                img_barcode.setImageBitmap(bitmap);
+              image_barcode_scan.setImageBitmap(bitmap);
+              image_barcode_scan.invalidate();
                 Log.d("dd", "바코드 이미지 생성 확인");
                 //InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 //manager.hideSoftInputFromWindow(barcodenums.getApplicationWindow, 0);
