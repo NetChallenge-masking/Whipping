@@ -31,6 +31,7 @@
         android:id="@+id/image_barcode"
         android:layout_width="400dp"
         android:layout_height="300dp"
+        app:srcCompat="@android:drawable/editbox_dropdown_light_frame"
         app:layout_constraintBottom_toBottomOf="@+id/image_barcode_scan"
         app:layout_constraintEnd_toEndOf="@+id/image_barcode_scan"
         app:layout_constraintStart_toStartOf="@+id/image_barcode_scan"

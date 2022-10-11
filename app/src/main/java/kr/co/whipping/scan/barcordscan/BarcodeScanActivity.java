@@ -2,16 +2,19 @@ package kr.co.whipping.scan.barcordscan;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Size;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.JavascriptInterface;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -41,6 +44,7 @@ import com.dynamsoft.dbr.TextResult;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.oned.EAN13Writer;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
@@ -61,7 +65,7 @@ public class BarcodeScanActivity extends AppCompatActivity {
 
 
     int count = 1;
-
+    String barcodenums;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,10 +140,29 @@ public class BarcodeScanActivity extends AppCompatActivity {
 
         if (resultCode == RESULT_OK) {
             Log.d("dd", "값 전달 확인");
-            String barcodenums = intent.getStringExtra("barcodenum");
+            barcodenums = intent.getStringExtra("barcodenum");
             Log.d("dd", "값 setting 확인");
             Log.d("dd", barcodenums);
-            Toast.makeText(this, "RESULT_OK : " + barcodenums, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "RESULT_OK : " + barcodenums, Toast.LENGTH_SHORT).show();
+
+
+            MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
+            final int WIDTH = 400;
+            final int HEIGHT = 300;
+
+            try {
+                BitMatrix bitMatrix = multiFormatWriter.encode(barcodenums, BarcodeFormat.EAN_13, WIDTH, HEIGHT);
+                BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+                Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+                img_barcode.setImageBitmap(bitmap);
+                Log.d("dd", "바코드 이미지 생성 확인");
+                //InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                //manager.hideSoftInputFromWindow(barcodenums.getApplicationWindow, 0);
+            } catch (WriterException e) {
+                e.printStackTrace();
+                Log.d("dd", "바코드 이미지 생성 실패");
+            }
+
 
             if (barcodenums.equals("4902430232159")) {
                 Log.d("dd", "샴푸 인식 확인");
@@ -147,29 +170,28 @@ public class BarcodeScanActivity extends AppCompatActivity {
                 nameOfprod.setText("헤드&숄더 두피 토탈 솔루션 가려운 두피케어");
                 price.setText("15,900");
 
-                MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
-                final int WIDTH = 180;
-                final int HEIGHT = 90;
 
-                try {
-                    BitMatrix bitMatrix = multiFormatWriter.encode(barcodenums, BarcodeFormat.valueOf("EAN-13"), WIDTH, HEIGHT);
-                    BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
-                    Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
-                    img_barcode.setImageBitmap(bitmap);
-                } catch (Exception e) {
-                }
+//                MultiFormatWriter gen = new MultiFormatWriter();
+//                String data = barcodenums;
+//                try {
+//                    final int WIDTH = 400;
+//                    final int HEIGHT = 300;
+//                    BitMatrix bytemap = gen.encode(data, BarcodeFormat.EAN_13, WIDTH, HEIGHT);
+//                    Bitmap bitmap = Bitmap.createBitmap(WIDTH, HEIGHT, Bitmap.Config.ARGB_8888);
+//                    for (int i = 0 ; i < WIDTH ; ++i)
+//                        for (int j = 0 ; j < HEIGHT ; ++j) {
+//                            bitmap.setPixel(i, j, bytemap.get(i,j) ? Color.BLACK : Color.WHITE);
+//                        }
+//                    ImageView img_barcode = (ImageView) findViewById(R.id.image_barcode);
+//                    img_barcode.setImageBitmap(bitmap);
+////                    img_barcode.invalidate();
+//                    System.out.println("done!");}
+//                catch (Exception e) {
+//                    e.printStackTrace();}
+
 
 
             }
-
-
-//        Log.d("dd", barcodenums);
-//        if (barcodenums.equals("4902430232159")) {
-//            Log.d("dd", "샴푸 인식 확인");
-//            category.setText("샴푸");
-//            nameOfprod.setText("헤드&숄더 두피 토탈 솔루션 가려운 두피케어");
-//            price.setText("15,900");
-//        }
 
 
             plus.setOnClickListener(new View.OnClickListener() {

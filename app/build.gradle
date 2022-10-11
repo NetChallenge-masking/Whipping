@@ -47,8 +47,8 @@ dependencies {
     implementation "com.airbnb.android:lottie:$lottieVersion"
 
     //바코드 사용
-    implementation('com.journeyapps:zxing-android-embedded:3.6.0') { transitive = false }
-    implementation 'com.google.zxing:core:3.4.1'
+    implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
+    implementation 'com.google.zxing:core:2.0'
 
     implementation 'com.google.android.gms:play-services-vision:18.0.0'
     implementation 'com.google.api-client:google-api-client-android:1.23.0' exclude module: 'okhttp'
