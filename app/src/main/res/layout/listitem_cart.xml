@@ -5,26 +5,28 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
+    <androidx.constraintlayout.utils.widget.ImageFilterView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/btn_cart_item"/>
+
     <TextView
         android:id="@+id/basket_id_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:layout_marginStart="10dp" />
+        android:textSize="20dp"/>
 
     <TextView
         android:id="@+id/barcode_id_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:layout_marginStart="10dp"/>
+        android:textSize="20dp"/>
 
     <TextView
         android:id="@+id/barcode_type_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:layout_marginStart="10dp"/>
+        android:textSize="20dp"/>
 
     <TextView
         android:id="@+id/item_name_tv"
@@ -37,14 +39,12 @@
         android:id="@+id/amount_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:layout_marginStart="10dp"/>
+        android:textSize="20dp"/>
 
     <TextView
         android:id="@+id/price_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:layout_marginStart="10dp"/>
+        android:textSize="20dp"/>
 
 </LinearLayout>
