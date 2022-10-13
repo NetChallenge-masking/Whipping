@@ -61,14 +61,14 @@ public class BasketAdapter extends RecyclerView.Adapter<BasketHolder> {
     public void onBindViewHolder(BasketHolder holder, int position) {
         final Basket item = basketList.get(position);
 
-        final int color;
-        if (holder.getAdapterPosition() == checkedPosition) {
-            color = ContextCompat.getColor(holder.itemView.getContext(), R.color.green1);
-        } else {
-            color = ContextCompat.getColor(holder.itemView.getContext(), android.R.color.transparent);
-
-        }
-        holder.itemView.setBackgroundColor(color);
+//        final int color;
+//        if (holder.getAdapterPosition() == checkedPosition) {
+//            color = ContextCompat.getColor(holder.itemView.getContext(), R.color.green1);
+//        } else {
+//            color = ContextCompat.getColor(holder.itemView.getContext(), android.R.color.transparent);
+//
+//        }
+//        holder.itemView.setBackgroundColor(color);
 
         holder.basket_id_tv.setText(String.valueOf(item.getBasketId()));
         holder.barcode_id_tv.setText(String.valueOf(item.getBarcodeId()));
