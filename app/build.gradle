@@ -76,9 +76,14 @@ dependencies {
     // If you want to additionally use the CameraX Extensions library
     implementation "androidx.camera:camera-extensions:${camerax_version}"
 
+<<<<<<< HEAD
     //카메라, 바코드
     implementation 'com.dynamsoft:dynamsoftbarcodereader:9.2.10@aar'
     // Remove the following line if you want to use Android Camera sdk or your own sdk to control camera.
     implementation 'com.dynamsoft:dynamsoftcameraenhancer:2.3.2@aar'
+=======
+    //비콘 삼변측량
+    implementation 'com.lemmingapex.trilateration:trilateration:1.0.2'
+>>>>>>> 1c3b0b2ede76f785f4dbb0befca21f96ad1adc94
 
 }
