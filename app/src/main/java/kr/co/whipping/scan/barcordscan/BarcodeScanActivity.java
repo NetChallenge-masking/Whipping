@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
@@ -55,17 +56,20 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import kr.co.whipping.Basket;
 import kr.co.whipping.CartActivity;
 import kr.co.whipping.DBHelper;
 import kr.co.whipping.R;
+import kr.co.whipping.scan.ScanActivity;
+import kr.co.whipping.scan.camerascan.InnerCameraActivity;
 
 public class BarcodeScanActivity extends AppCompatActivity {
     private static final String[] CAMERA_PERMISSION = new String[]{Manifest.permission.CAMERA};
     private static final int CAMERA_REQUEST_CODE = 10;
-
-
+    DBHelper dbHelper;
     int count = 1;
     String barcodenums;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +85,6 @@ public class BarcodeScanActivity extends AppCompatActivity {
             Log.d("dd", "카메라실행전");
             startScan();
             return;
-
         } else {
             requestPermission();
         }
@@ -107,7 +110,6 @@ public class BarcodeScanActivity extends AppCompatActivity {
         );
     }
 
-
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions,
                                            int[] grantResults) {
@@ -120,6 +122,14 @@ public class BarcodeScanActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(this, "Please grant camera permission", Toast.LENGTH_SHORT).show();
                 }
+        }
+    }
+
+    public void onBackPressed(){
+        {
+            Intent intent = new Intent(getApplicationContext(), ScanActivity.class);
+            startActivity(intent);
+            finish();
         }
     }
 
@@ -136,129 +146,89 @@ public class BarcodeScanActivity extends AppCompatActivity {
         TextView category = (TextView) findViewById(R.id.tv_item_type_2);
         TextView nameOfprod = (TextView) findViewById(R.id.tv_item_name_2);
         TextView price = (TextView) findViewById(R.id.tv_item_price_2);
-        ImageView image_barcode_scan = (ImageView)findViewById(R.id.image_barcode_scan);
-        if (resultCode == RESULT_OK) {
-            Log.d("dd", "값 전달 확인");
-            barcodenums = intent.getStringExtra("barcodenum");
-            Log.d("dd", "값 setting 확인");
-            Log.d("dd", barcodenums);
-//            Toast.makeText(this, "RESULT_OK : " + barcodenums, Toast.LENGTH_SHORT).show();
+        ImageView image_barcode_scan = (ImageView) findViewById(R.id.image_barcode_scan);
 
 
-            //          image_barcode_scan.setImageResource(R.drawable.btn_minus);
-
-
-            MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
-            final int WIDTH = 400;
-            final int HEIGHT = 300;
-
-            try {
-                BitMatrix bitMatrix = multiFormatWriter.encode(barcodenums, BarcodeFormat.EAN_13, WIDTH, HEIGHT);
-                BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
-                Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
-                image_barcode_scan.setImageBitmap(bitmap);
-                image_barcode_scan.invalidate();
-                Log.d("dd", "바코드 이미지 생성 확인");
-                //InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                //manager.hideSoftInputFromWindow(barcodenums.getApplicationWindow, 0);
-            } catch (WriterException e) {
-                e.printStackTrace();
-                Log.d("dd", "바코드 이미지 생성 실패");
-            }
-
-
-            if (barcodenums.equals("4902430232159")) {
-                Log.d("dd", "샴푸 인식 확인");
-                category.setText("샴푸");
-                nameOfprod.setText("헤드&숄더 두피 토탈 솔루션 가려운 두피케어");
-                price.setText("15,900");
-
-
-//                MultiFormatWriter gen = new MultiFormatWriter();
-//                String data = barcodenums;
-//                try {
-//                    final int WIDTH = 400;
-//                    final int HEIGHT = 300;
-//                    BitMatrix bytemap = gen.encode(data, BarcodeFormat.EAN_13, WIDTH, HEIGHT);
-//                    Bitmap bitmap = Bitmap.createBitmap(WIDTH, HEIGHT, Bitmap.Config.ARGB_8888);
-//                    for (int i = 0 ; i < WIDTH ; ++i)
-//                        for (int j = 0 ; j < HEIGHT ; ++j) {
-//                            bitmap.setPixel(i, j, bytemap.get(i,j) ? Color.BLACK : Color.WHITE);
-//                        }
-//                    ImageView img_barcode = (ImageView) findViewById(R.id.image_barcode);
-//                    img_barcode.setImageBitmap(bitmap);
-////                    img_barcode.invalidate();
-//                    System.out.println("done!");}
-//                catch (Exception e) {
-//                    e.printStackTrace();}
-
-
-
-            }
-
-
-            plus.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    count++;
-                    prodCount.setText((count + ""));
-                }
-            });
-            minus.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    count--;
-                    prodCount.setText((count + ""));
-                }
-            });
-
-            //취소
-            cancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onBackPressed();
-                }
-            });
-
-            back.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onBackPressed();
-                }
-            });
-
-            //담기
-//        add.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                DBHelper dbHelper = new DBHelper(BarcodeScanActivity.this);
-//
-//                dbHelper.addBasket("1", barcodenum, barcodetype, prodCount.getText().toString());
-//
-
-            //이미지
-//                ImageView img_barcode = (ImageView) findViewById(R.id.image_barcode);
-
-//                MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
-//                final int WIDTH = 180;
-//                final int HEIGHT = 90;
-//
-//                try {
-//                    BitMatrix bitMatrix = multiFormatWriter.encode(barcodenum, BarcodeFormat.valueOf(barcodetype), WIDTH, HEIGHT);
-//                    BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
-//                    Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
-//                    img_barcode.setImageBitmap(bitmap);
-//                } catch (Exception e) {
-//                }
-
-
-//
-//            TextView etBarcode = (TextView) findViewById(R.id.etBarcode);
-//            TextView etTyp = (TextView) findViewById(R.id.etTyp);
-//            etBarcode.setText(barcodenum);
-//            etTyp.setText(barcodetype);
-
+        if (barcodenums.equals("4902430232159")) {
+            Log.d("dd", "샴푸 인식 확인");
+            category.setText("샴푸");
+            nameOfprod.setText("헤드&숄더 두피 토탈 솔루션 가려운 두피케어");
+            price.setText("15,900");
         }
+
+//        dbHelper = new DBHelper(BarcodeScanActivity.this);
+//        Cursor cursor = dbHelper.readAllBasket();
+//        while (cursor.moveToNext()) {
+//            barcodenums = cursor.getString(2);  //barcode_id
+//            cursor.getString(3);  //barcode_type
+//            nameOfprod.setText(cursor.getString(4));  //item_name
+//            cursor.getInt(6);  //price
+//        }
+
+
+            if (resultCode == RESULT_OK) {
+                Log.d("dd", "값 전달 확인");
+                barcodenums = intent.getStringExtra("barcodenum");
+                Log.d("dd", "값 setting 확인");
+                Log.d("dd", barcodenums);
+
+                MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
+                final int WIDTH = 400;
+                final int HEIGHT = 300;
+
+                try {
+                    BitMatrix bitMatrix = multiFormatWriter.encode(barcodenums, BarcodeFormat.EAN_13, WIDTH, HEIGHT);
+                    BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+                    Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+                    image_barcode_scan.setImageBitmap(bitmap);
+                    image_barcode_scan.invalidate();
+                    Log.d("dd", "바코드 이미지 생성 확인");
+                } catch (WriterException e) {
+                    e.printStackTrace();
+                    Log.d("dd", "바코드 이미지 생성 실패");
+                }
+
+                plus.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        count++;
+                        prodCount.setText((count + ""));
+                    }
+                });
+                minus.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        count--;
+                        prodCount.setText((count + ""));
+                    }
+                });
+
+                //취소
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onBackPressed();
+                    }
+                });
+
+                back.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onBackPressed();
+                    }
+                });
+
+                add.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        DBHelper dbHelper = new DBHelper(BarcodeScanActivity.this);
+
+                        dbHelper.addBasket("1", barcodenums, "EAN-13", nameOfprod.getText().toString(), prodCount.getText().toString(), price.getText().toString());
+                    }
+                });
+            }
+        }
+
 
 
         //DB에서 상품 정보 가져오는 코드 추가
@@ -300,27 +270,21 @@ public class BarcodeScanActivity extends AppCompatActivity {
 //            }
 
 
-//            TextView etBarcode = (TextView) findViewById(R.id.etBarcode);
-//            TextView etTyp = (TextView) findViewById(R.id.etTyp);
-//            etBarcode.setText(barcodenum);
-//            etTyp.setText(barcodetype);
-
-    }
-    class ScanHandler {
-        public void onScanned(String result) {
-        }
-    }
-
-    public class JSInterface {
-        private ScanHandler mHandler;
-
-        JSInterface(ScanHandler handler) {
-            mHandler = handler;
+        class ScanHandler {
+            public void onScanned(String result) {
+            }
         }
 
-        @JavascriptInterface
-        public void returnResult(String result) {
-            mHandler.onScanned(result);
-        }
+        public class JSInterface {
+            private ScanHandler mHandler;
+
+            JSInterface(ScanHandler handler) {
+                mHandler = handler;
+            }
+
+            @JavascriptInterface
+            public void returnResult(String result) {
+                mHandler.onScanned(result);
+            }
     }
 }
