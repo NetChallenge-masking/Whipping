@@ -17,25 +17,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <ImageView
         android:id="@+id/image_barcode_scan"
-        android:layout_width="450dp"
-        android:layout_height="330dp"
+        android:layout_width="400dp"
+        android:layout_height="300dp"
         android:layout_marginLeft= "30dp"
         android:layout_marginTop="50dp"
         android:background="@drawable/image_scan_item"
         app:layout_constraintStart_toEndOf="@+id/btn_back_scan_barcode"
         app:layout_constraintTop_toBottomOf="@+id/btn_back_scan_barcode" />
 
-    <ImageView
-        android:id="@+id/image_barcode"
-        android:layout_width="400dp"
-        android:layout_height="300dp"
-        app:layout_constraintBottom_toBottomOf="@+id/image_barcode_scan"
-        app:layout_constraintEnd_toEndOf="@+id/image_barcode_scan"
-        app:layout_constraintStart_toStartOf="@+id/image_barcode_scan"
-        app:layout_constraintTop_toTopOf="@+id/image_barcode_scan"
-        />
 
     <TextView
         android:id="@+id/tv_item_type"
@@ -133,7 +124,7 @@
         android:fontFamily="@font/esamanru_medium"
         android:layout_width="100dp"
         android:layout_height="80dp"
-        android:text="3"
+        android:text="1"
         android:gravity= "center"
         android:textSize="50dp"
         android:textColor="@color/black"

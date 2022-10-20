@@ -6,11 +6,8 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import kr.co.whipping.R;
 import kr.co.whipping.databinding.ActivityScanBinding;
 import kr.co.whipping.scan.barcordscan.BarcodeScanActivity;
-import kr.co.whipping.scan.barcordscan.IntentIntegrator;
-import kr.co.whipping.scan.camerascan.CameraScanActivity;
 import kr.co.whipping.scan.camerascan.InnerCameraActivity;
 
 public class ScanActivity extends AppCompatActivity {

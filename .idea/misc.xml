@@ -3,8 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/MASKING/app/src/main/res/layout-land/activity_barcode.xml" value="0.176" />
+        <entry key="..\:/MASKING/app/src/main/res/layout-land/activity_barcode.xml" value="0.1" />
         <entry key="..\:/MASKING/app/src/main/res/layout/activity_beacon_mainactivity.xml" value="0.25364583333333335" />
+        <entry key="..\:/MASKING/app/src/main/res/layout/activity_camera.xml" value="0.1" />
         <entry key="..\:/MASKING/app/src/main/res/layout/activity_camerascan.xml" value="0.25364583333333335" />
         <entry key="..\:/MASKING/app/src/main/res/layout/activity_cart.xml" value="0.25364583333333335" />
         <entry key="..\:/MASKING/app/src/main/res/layout/activity_scan.xml" value="0.25364583333333335" />
@@ -42,7 +43,7 @@
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_cart2.xml" value="0.14791666666666667" />
         <entry key="app/src/main/res/layout/list_item.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/listitem_cart.xml" value="0.15442708333333333" />
+        <entry key="app/src/main/res/layout/listitem_cart.xml" value="0.1" />
       </map>
     </option>
   </component>
