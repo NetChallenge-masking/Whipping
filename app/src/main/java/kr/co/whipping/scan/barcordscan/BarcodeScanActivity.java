@@ -68,16 +68,14 @@ public class BarcodeScanActivity extends AppCompatActivity {
     private static final int CAMERA_REQUEST_CODE = 10;
     DBHelper dbHelper;
     int count = 1;
-    String barcodenums;
+    String barcodenums="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_barcode);
 
-
         permission();
-
     }
 
     public void permission() {
@@ -149,12 +147,6 @@ public class BarcodeScanActivity extends AppCompatActivity {
         ImageView image_barcode_scan = (ImageView) findViewById(R.id.image_barcode_scan);
 
 
-        if (barcodenums.equals("4902430232159")) {
-            Log.d("dd", "샴푸 인식 확인");
-            category.setText("샴푸");
-            nameOfprod.setText("헤드&숄더 두피 토탈 솔루션 가려운 두피케어");
-            price.setText("15,900");
-        }
 
 //        dbHelper = new DBHelper(BarcodeScanActivity.this);
 //        Cursor cursor = dbHelper.readAllBasket();
@@ -187,6 +179,15 @@ public class BarcodeScanActivity extends AppCompatActivity {
                     e.printStackTrace();
                     Log.d("dd", "바코드 이미지 생성 실패");
                 }
+
+
+                if (barcodenums.equals("4902430232159")) {
+                    Log.d("dd", "샴푸 인식 확인");
+                    category.setText("샴푸");
+                    nameOfprod.setText("헤드&숄더 두피 토탈 솔루션 가려운 두피케어");
+                    price.setText("15,900");
+                }
+
 
                 plus.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -229,8 +230,6 @@ public class BarcodeScanActivity extends AppCompatActivity {
             }
         }
 
-
-
         //DB에서 상품 정보 가져오는 코드 추가
         //임시로 코드로 가져옴
 
@@ -268,7 +267,6 @@ public class BarcodeScanActivity extends AppCompatActivity {
 //                nameOfprod.setText("드림카카오 72%");
 //                price.setText("3500");
 //            }
-
 
         class ScanHandler {
             public void onScanned(String result) {

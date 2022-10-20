@@ -65,11 +65,7 @@ public class BarcodeCameraActivity extends AppCompatActivity {
                 }
             }
         }, ContextCompat.getMainExecutor(this));
-
-
     }
-
-
     private class ImageData{
         private int mWidth,mHeight,mStride;
         byte[] mBytes;
@@ -80,9 +76,6 @@ public class BarcodeCameraActivity extends AppCompatActivity {
             mStride = nStride;
         }
     }
-
-
-
     private void initDBR(){
         BarcodeReader.initLicense("DLS2eyJoYW5kc2hha2VDb2RlIjoiMTAxMzE4NjE0LVRYbE5iMkpwYkdWUWNtOXFYMlJpY2ciLCJvcmdhbml6YXRpb25JRCI6IjEwMTMxODYxNCIsImNoZWNrQ29kZSI6LTE1MjE0ODM1MzN9", new DBRLicenseVerificationListener() {
             @Override
@@ -117,11 +110,6 @@ public class BarcodeCameraActivity extends AppCompatActivity {
         Preview preview = previewBuilder.build();
 
         ImageAnalysis.Builder imageAnalysisBuilder=new ImageAnalysis.Builder();
-
-        //invert
-        //Camera2Interop.Extender ext = new Camera2Interop.Extender<>(imageAnalysisBuilder);
-        //ext.setCaptureRequestOption(CaptureRequest.CONTROL_EFFECT_MODE,CaptureRequest.CONTROL_EFFECT_MODE_NEGATIVE);
-
         imageAnalysisBuilder.setTargetResolution(resolution)
                 .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST);
 
@@ -147,16 +135,13 @@ public class BarcodeCameraActivity extends AppCompatActivity {
                 }
 
                 StringBuilder sb = new StringBuilder();
-                //               sb.append("Found ").append(results.length).append(" barcode(s):\n");
                 for (int i = 0; i < results.length; i++) {
                     sb.append(results[i].barcodeText);
-//                    sb.append("\n");
                 }
                 Log.d("DBR", sb.toString());
                 String barcode = sb.toString();
                 Log.d("DBR", barcode);
                 resultView.setText(sb.toString());
-
 
                 image.close();
                 if(barcode.length()>5) {
@@ -167,8 +152,6 @@ public class BarcodeCameraActivity extends AppCompatActivity {
                     setResult(RESULT_OK, intent);
                     finish();
                 }
-//
-//                image.close();
             }
         });
 
