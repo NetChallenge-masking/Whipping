@@ -24,7 +24,9 @@ import com.minew.beacon.MinewBeacon;
 import com.minew.beacon.MinewBeaconManager;
 import com.minew.beacon.MinewBeaconManagerListener;
 
+import java.util.Deque;
 import java.util.List;
+import java.util.Queue;
 
 import kr.co.whipping.R;
 import kr.co.whipping.scan.barcordscan.BarcodeScanActivity;
@@ -41,6 +43,8 @@ public class BeaconMainActivity extends AppCompatActivity {
     private TextView beaconInfo2TextView;
     private Button itemInfoBtn;
     private Button barcodeInfoBtn;
+
+    private Deque<String> disappearBeaconsNameQue;
 
 
     UserRssi comp = new UserRssi();
@@ -213,10 +217,16 @@ public class BeaconMainActivity extends AppCompatActivity {
              */
             @Override
             public void onDisappearBeacons(List<MinewBeacon> minewBeacons) {
-                /*for (MinewBeacon minewBeacon : minewBeacons) {
+                for (MinewBeacon minewBeacon : minewBeacons) {
                     String deviceName = minewBeacon.getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Name).getStringValue();
-                    Toast.makeText(getApplicationContext(), deviceName + "  out range", Toast.LENGTH_SHORT).show();
-                }*/
+                    if(disappearBeaconsNameQue.size()<=1){
+                        disappearBeaconsNameQue.addLast(deviceName);
+                    }else{
+                        disappearBeaconsNameQue.removeFirst();
+                        disappearBeaconsNameQue.addLast(deviceName);
+                    }
+
+                }
             }
 
             /**
@@ -252,13 +262,41 @@ public class BeaconMainActivity extends AppCompatActivity {
                     Log.d("비콘정보1: ",beaconName1+", 비콘1의 RSSI"+beaconRssi1+", 비콘1으로 부터 거리"+beaconDistance1);
                     Log.d("비콘정보2: ",beaconName2+", 비콘2의 RSSI"+beaconRssi2+", 비콘2으로 부터 거리"+beaconDistance2);
 
+                    String disappearBeaconsName =disappearBeaconsNameQue.getLast(); //제일 최근에 변경된 비콘
 
-                    if (beaconName0.equals("beacon1")
-                            || (beaconName0.equals("beacon2"))) {
-                        Log.e("beacon1,2인식" ,"화면 문구 : 트리트먼트, 의약제품 , 음성안내문구 : 왼쪽에 트리트먼트 제품이 있습니다, 오른쪽에 의약제품 및 가그린이 있습니다.");
-                        //텍스트 안내
-                        setBeaconItemInfo("트리트먼트","의약제품 및 가그린");
+                    if (beaconName0.equals("beacon1") ){
+                        setBeaconItemInfo("헤어용품","구강용품");
                     }
+                    else if(beaconName0.equals("beacon15")){
+                        setBeaconItemInfo("구강용품","헤어용품");
+                    }
+
+                    else if(beaconName0.equals("beacon2") || beaconName0.equals("beacon3")){
+                        if(disappearBeaconsName.equals("beacon1") ) {
+                            //헤어용품, 구강용품을 먼저 인식 했을 경우
+                            setBeaconItemInfo("샴푸","면도기");
+                        }
+                        else{
+                            // 구강용품, 헤어용품을 먼저 인식 했을 경우
+                            setBeaconItemInfo("면도기","샴푸");
+                        }
+                    }
+                    else if(beaconName0.equals("beacon4") || beaconName0.equals("beacon5")){
+                        //헤어용품/구강용품을 먼저 인식했거나 샴푸/면도기를 먼저 인식했을 경우
+                        if(disappearBeaconsName.equals("beacon1")||disappearBeaconsName.equals("beacon2")||disappearBeaconsName.equals("beacon3") )
+                            setBeaconItemInfo("트리트먼트","의약제품 및 가그린 ");
+                        else{
+                            setBeaconItemInfo("의약제품 및 가그린","트리트먼트");
+                        }
+
+                    }
+                    else if(beaconName0.equals("beacon6")||beaconName0.equals("beacon7")){
+
+                    }
+
+
+
+
                     else if(beaconName0.equals("beacon3")){
                         Log.e("beacon3,4인식" ,"화면 문구 : 샴푸, 면도기 , 음성안내문구 : 왼쪽에 삼푸 제품이 있습니다, 오른쪽에 면도기제품이 있습니다.");
                         setBeaconItemInfo("샴푸","면도기");
