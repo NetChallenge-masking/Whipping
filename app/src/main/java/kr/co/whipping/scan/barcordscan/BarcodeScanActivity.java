@@ -148,12 +148,23 @@ public class BarcodeScanActivity extends AppCompatActivity {
         TextView price = (TextView) findViewById(R.id.tv_item_price_2);
         ImageView image_barcode_scan = (ImageView) findViewById(R.id.image_barcode_scan);
 
+        if (resultCode == RESULT_OK) {
+            Log.d("dd", "값 전달 확인");
+            barcodenums = intent.getStringExtra("barcodenum");
+        }
+
 
         if (barcodenums.equals("4902430232159")) {
             Log.d("dd", "샴푸 인식 확인");
             category.setText("샴푸");
             nameOfprod.setText("헤드&숄더 두피 토탈 솔루션 가려운 두피케어");
             price.setText("15,900");
+        }
+        else {
+            Log.d("dd", "8808024028831");
+            category.setText("음료");
+            nameOfprod.setText("레몬 얼그레이 티");
+            price.setText("1600");
         }
 
 //        dbHelper = new DBHelper(BarcodeScanActivity.this);

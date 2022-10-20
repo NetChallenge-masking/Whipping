@@ -14,37 +14,36 @@
         android:id="@+id/basket_id_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20dp"/>
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/barcode_id_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20dp"/>
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/barcode_type_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20dp"/>
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/item_name_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:layout_marginStart="10dp"/>
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/amount_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20dp"/>
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/price_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20dp"/>
+        android:visibility="gone"/>
 
 </LinearLayout>
