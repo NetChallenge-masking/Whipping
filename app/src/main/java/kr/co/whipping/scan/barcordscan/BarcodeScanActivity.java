@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.util.Size;
 import android.util.TypedValue;
@@ -58,6 +59,7 @@ import java.util.concurrent.Executors;
 
 import kr.co.whipping.Basket;
 import kr.co.whipping.CartActivity;
+import kr.co.whipping.CartBarcodeActivity;
 import kr.co.whipping.DBHelper;
 import kr.co.whipping.R;
 import kr.co.whipping.scan.ScanActivity;
@@ -148,25 +150,6 @@ public class BarcodeScanActivity extends AppCompatActivity {
         TextView price = (TextView) findViewById(R.id.tv_item_price_2);
         ImageView image_barcode_scan = (ImageView) findViewById(R.id.image_barcode_scan);
 
-        if (resultCode == RESULT_OK) {
-            Log.d("dd", "값 전달 확인");
-            barcodenums = intent.getStringExtra("barcodenum");
-        }
-
-
-        if (barcodenums.equals("4902430232159")) {
-            Log.d("dd", "샴푸 인식 확인");
-            category.setText("샴푸");
-            nameOfprod.setText("헤드&숄더 두피 토탈 솔루션 가려운 두피케어");
-            price.setText("15,900");
-        }
-        else {
-            Log.d("dd", "8808024028831");
-            category.setText("음료");
-            nameOfprod.setText("레몬 얼그레이 티");
-            price.setText("1600");
-        }
-
 //        dbHelper = new DBHelper(BarcodeScanActivity.this);
 //        Cursor cursor = dbHelper.readAllBasket();
 //        while (cursor.moveToNext()) {
@@ -194,6 +177,26 @@ public class BarcodeScanActivity extends AppCompatActivity {
                     image_barcode_scan.setImageBitmap(bitmap);
                     image_barcode_scan.invalidate();
                     Log.d("dd", "바코드 이미지 생성 확인");
+
+                    if (barcodenums.equals("4902430232159")) {
+                        Log.d("dd", "샴푸 인식 확인");
+                        category.setText("샴푸");
+                        nameOfprod.setText("헤드&숄더 두피 토탈 솔루션 가려운 두피케어");
+                        price.setText("15,900");
+                    }
+                    else {
+                        Log.d("dd", "8808024028831");
+                        category.setText("음료");
+                        nameOfprod.setText("레몬 얼그레이 티");
+                        price.setText("1600");
+                    }
+
+                    /*바코드 이미지 화면으로 넘기기*/
+                    Intent barcodeIntent = new Intent(BarcodeScanActivity.this, CartBarcodeActivity.class);
+                    barcodeIntent.putExtra("barcodeImg", bitmap);
+
+
+
                 } catch (WriterException e) {
                     e.printStackTrace();
                     Log.d("dd", "바코드 이미지 생성 실패");
