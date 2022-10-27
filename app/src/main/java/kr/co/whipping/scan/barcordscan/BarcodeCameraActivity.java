@@ -84,7 +84,7 @@ public class BarcodeCameraActivity extends AppCompatActivity {
 
 
     private void initDBR(){
-        BarcodeReader.initLicense("DLS2eyJoYW5kc2hha2VDb2RlIjoiMTAxMzE4NjE0LVRYbE5iMkpwYkdWUWNtOXFYMlJpY2ciLCJvcmdhbml6YXRpb25JRCI6IjEwMTMxODYxNCIsImNoZWNrQ29kZSI6LTE1MjE0ODM1MzN9", new DBRLicenseVerificationListener() {
+        BarcodeReader.initLicense("DLS2eyJoYW5kc2hha2VDb2RlIjoiMTAxNDE5OTEzLVRYbE5iMkpwYkdWUWNtOXFYMlJpY2ciLCJvcmdhbml6YXRpb25JRCI6IjEwMTQxOTkxMyIsImNoZWNrQ29kZSI6LTIxMzUyODk0ODV9", new DBRLicenseVerificationListener() {
             @Override
             public void DBRLicenseVerificationCallback(boolean isSuccessful, Exception e) {
                 if (!isSuccessful) {
