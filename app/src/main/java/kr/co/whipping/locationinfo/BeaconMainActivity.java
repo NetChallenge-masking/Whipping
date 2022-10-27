@@ -290,31 +290,71 @@ public class BeaconMainActivity extends AppCompatActivity {
                         }
 
                     }
-                    else if(beaconName0.equals("beacon6")||beaconName0.equals("beacon7")){
+
+                    else if(beaconName0.equals("beacon6")||beaconName0.equals("beacon7")) {
+                        //헤어용품, 구강용품을 먼저 인식했거나 트리트먼트/의약제품 및 가그린 먼저 인식했을 경우
+                        if (disappearBeaconsName.equals("beacon1") || disappearBeaconsName.equals("beacon4") || disappearBeaconsName.equals("beacon5"))
+                            setBeaconItemInfo("트리트먼트", "면도기");
+                        else {
+                            setBeaconItemInfo("면도기", "트리트먼트");
+                        }
+                    }
+
+                    else if(beaconName0.equals("beacon8")) {
+                        //헤어용품, 구강용품을 먼저 인식했거나 트린트먼트/면도기 먼저 인식했을 경우
+                        if(disappearBeaconsName.equals("beacon1")||disappearBeaconsName.equals("beacon6")||disappearBeaconsName.equals("beacon7"))
+                            setBeaconItemInfo("생활용품", "스포츠");
+                        else{
+                            setBeaconItemInfo("스포츠", "생활용품");
+                        }
+                        }
 
                     }
 
 
 
 
-                    else if(beaconName0.equals("beacon3")){
-                        Log.e("beacon3,4인식" ,"화면 문구 : 샴푸, 면도기 , 음성안내문구 : 왼쪽에 삼푸 제품이 있습니다, 오른쪽에 면도기제품이 있습니다.");
+                    else if(beaconName0.equals("beacon2")){
+                        Log.e("beacon2,3인식" ,"화면 문구 : 샴푸, 면도기 , 음성안내문구 : 왼쪽에 삼푸 제품이 있습니다, 오른쪽에 면도기제품이 있습니다.");
                         setBeaconItemInfo("샴푸","면도기");
                     }
                     else if(beaconName0.equals("beacon4")){
-                        Log.e("beacon4인식" ,"화면 문구 : 리엔 물들임 트린트먼트150ml(흑갈색),헤드앤숄더 샴푸850ml , 음성안내문구 : 추천,세일 상품안내");
+                        Log.e("beacon4,5인식" ,"화면 문구 : 트리트먼트, 의약제품 및 가그린 , 음성안내문구 : 왼쪽에 트리트먼트 제품이 있습니다, 오른쪽에 의약제품 및 가그린 제품이 있습니다.");
+                        setBeaconItemInfo("","면도기");
+                    }
+
+                    else if(beaconName0.equals("beacon7")){
+                        Log.e("beacon7인식" ,"화면 문구 : 리엔 물들임 트린트먼트150ml(흑갈색),헤드앤숄더 샴푸850ml , 음성안내문구 : 추천,세일 상품안내");
                         setBeaconSaleInfo("추천 상품\n 리엔 물들임 트린트먼트150ml(흑갈색)","1+1 행사상품\n 헤드앤숄더 샴푸850ml");
                     }
                     else if(beaconName0.equals("beacon5")){
                         Log.e("beacon5인식" ,"화면 문구 : 샴푸, 면도기 , 음성안내문구 : 왼쪽에 헤어 용품이 있습니다, 오른쪽에 구강 용품이 있습니다.");
                         //텍스트 안내
                         setBeaconItemInfo("헤어용품","구강용품");
-
                     }
                     else if(beaconName0.equals("beacon6")){
                         Log.e("beacon6인식" ,"화면 문구 : 지하1층 , 음성안내문구 : 지하1층 입니다.");
                         setBeaconFacilitiesInfo("지하 1층");
 
+                    else if(beaconName0.equals("beacon9")){
+                        Log.e("beacon9인식" ,"화면 문구 : 1층 엘레베이터, 음성안내문구 : 1층 엘레베이터 입니다.");
+                        setBeaconFacilitiesInfo("1층 엘레베이터");
+
+                    else if(beaconName0.equals("beacon10")){
+                        Log.e("beacon10인식" ,"화면 문구 : 1층 화장실, 음성안내문구 : 1층 화장실 입니다.");
+                        setBeaconFacilitiesInfo("1층 화장실");
+
+                    else if(beaconName0.equals("beacon11")){
+                        Log.e("beacon11인식" ,"화면 문구 : 1층 매장입구, 음성안내문구 : 1층 매장입구 입니다.");
+                        setBeaconFacilitiesInfo("1층 매장입구");
+
+                    else if(beaconName0.equals("beacon12")){
+                        Log.e("beacon12인식" ,"화면 문구 : 1층 계산대, 음성안내문구 : 1층 계산대 입니다.");
+                        setBeaconFacilitiesInfo("1층 계산대");
+
+                    else if(beaconName0.equals("beacon14")){
+                        Log.e("beacon14인식" ,"화면 문구 : 2층으로 가는 에스컬레이터, 음성안내문구 : 2층으로 가는 에스컬레이터 입니다.");
+                        setBeaconFacilitiesInfo("2층으로 가는 에스컬레이터");
                     }
                     else if(beaconName0.equals("beacon7")){
                         Log.e("beacon7인식" ,"화면 문구 : 리엔 물들임 트린트먼트150ml(흑갈색),헤드앤숄더 샴푸850ml , 음성안내문구 : 추천,세일 상품안내");
