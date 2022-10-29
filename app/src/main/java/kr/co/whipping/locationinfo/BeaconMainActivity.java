@@ -339,8 +339,8 @@ public class BeaconMainActivity extends AppCompatActivity {
                     }
 
                     //8.  행사상품 안내
-                    else if(beaconName0.equals("beacon16")) {
-                        Log.e("beacon7인식" ,"화면 문구 : 리엔 물들임 트린트먼트150ml(흑갈색),헤드앤숄더 샴푸850ml , 음성안내문구 : 추천,세일 상품안내");
+                    else if(beaconName0.equals("beacon1")) {
+                        Log.e("beacon1인식" ,"화면 문구 : 리엔 물들임 트린트먼트150ml(흑갈색),헤드앤숄더 샴푸850ml , 음성안내문구 : 추천,세일 상품안내");
                         setBeaconSaleInfo("추천 상품\n 리엔 물들임 트린트먼트150ml(흑갈색)","1+1 행사상품\n 헤드앤숄더 샴푸850ml");
                     }
 

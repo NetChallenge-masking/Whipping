@@ -5,28 +5,182 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Navigation1Activity"
-    android:background="@drawable/image_navigation_1_1">
+    android:background="@drawable/image_navigation">
 
     <ImageView
-        android:id="@+id/beacon_8"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:id="@+id/beacon_1"
+        android:layout_width="27dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="276dp"
+        android:layout_marginEnd="184dp"
         android:src="@drawable/ic_navigation_current"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginRight="50dp"
-        android:layout_marginTop="30dp"
-        android:visibility="visible"/>
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/beacon_2"
+        android:layout_width="21dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="244dp"
+        android:layout_marginEnd="216dp"
+        android:src="@drawable/ic_navigation_current"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/beacon_3"
+        android:layout_width="21dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="244dp"
+        android:layout_marginEnd="160dp"
+        android:src="@drawable/ic_navigation_current"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/beacon_4"
+        android:layout_width="21dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="212dp"
+        android:layout_marginEnd="216dp"
+        android:src="@drawable/ic_navigation_current"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/beacon_5"
+        android:layout_width="21dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="212dp"
+        android:layout_marginEnd="160dp"
+        android:src="@drawable/ic_navigation_current"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/beacon_6"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginRight="50dp"
-        android:layout_marginBottom="50dp"
+        android:layout_width="21dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="216dp"
+        android:layout_marginBottom="208dp"
         android:src="@drawable/ic_navigation_current"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/beacon_7"
+        android:layout_width="21dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="172dp"
+        android:layout_marginEnd="160dp"
+        android:src="@drawable/ic_navigation_current"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/beacon_8"
+        android:layout_width="27dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="276dp"
+        android:layout_marginEnd="268dp"
+        android:src="@drawable/ic_navigation_current"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/beacon_9"
+        android:layout_width="27dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="372dp"
+        android:layout_marginEnd="688dp"
+        android:src="@drawable/ic_navigation_current"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/beacon_10"
+        android:layout_width="27"
+        android:layout_height="38"
+        android:layout_marginTop="372dp"
+        android:layout_marginEnd="596dp"
+        android:src="@drawable/ic_navigation_current"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/beacon_11"
+        android:layout_width="27dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="328dp"
+        android:layout_marginEnd="564dp"
+        android:src="@drawable/ic_navigation_current"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/beacon_12"
+        android:layout_width="27dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="328dp"
+        android:layout_marginEnd="436dp"
+        android:src="@drawable/ic_navigation_current"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/beacon_13"
+        android:layout_width="27dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="112dp"
+        android:layout_marginEnd="292dp"
+        android:src="@drawable/ic_navigation_current"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/beacon_14"
+        android:layout_width="27dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="292dp"
+        android:src="@drawable/ic_navigation_current"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/beacon_15"
+        android:layout_width="27dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="140dp"
+        android:layout_marginEnd="184dp"
+        android:src="@drawable/ic_navigation_current"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/beacon_16"
+        android:layout_width="21dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="140dp"
+        android:layout_marginEnd="244dp"
+        android:src="@drawable/ic_navigation_current"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
