@@ -44,7 +44,7 @@ public class BeaconMainActivity extends AppCompatActivity {
     private Button itemInfoBtn;
     private Button barcodeInfoBtn;
 
-    private Deque<String> disappearBeaconsNameQue;
+    private Queue<String> disappearBeaconsNameQue;
 
 
     UserRssi comp = new UserRssi();
@@ -219,12 +219,11 @@ public class BeaconMainActivity extends AppCompatActivity {
             public void onDisappearBeacons(List<MinewBeacon> minewBeacons) {
                 for (MinewBeacon minewBeacon : minewBeacons) {
                     String deviceName = minewBeacon.getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Name).getStringValue();
-                    if(disappearBeaconsNameQue.size()<=1){
-                        disappearBeaconsNameQue.addLast(deviceName);
-                    }else{
-                        disappearBeaconsNameQue.removeFirst();
-                        disappearBeaconsNameQue.addLast(deviceName);
+                    Log.d("사라진 비콘이름",deviceName);
+                    if (disappearBeaconsNameQue.size() > 2) {
+                        disappearBeaconsNameQue.remove();
                     }
+                    disappearBeaconsNameQue.add(deviceName);
 
                 }
             }
@@ -239,14 +238,14 @@ public class BeaconMainActivity extends AppCompatActivity {
                 if (!minewBeacons.isEmpty()) { //근처에 비콘이 없을 경우가 아니라면
                     KalmanFilter kalmanFilter= new KalmanFilter();
                     //RSSI값으로 부터 거리를 구하기 위해서 제일 가까운 3개의 비콘의 RSSI값 받아오기
-                    double beaconRssi0 = minewBeacons.get(0).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_RSSI).getFloatValue();
-                    double beaconRssi1 = minewBeacons.get(1).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_RSSI).getFloatValue();
-                    double beaconRssi2 = minewBeacons.get(2).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_RSSI).getFloatValue();
+//                    double beaconRssi0 = minewBeacons.get(0).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_RSSI).getFloatValue();
+//                    double beaconRssi1 = minewBeacons.get(1).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_RSSI).getFloatValue();
+//                    double beaconRssi2 = minewBeacons.get(2).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_RSSI).getFloatValue();
 
-                    //제일 가까운 3개의 RSSI값 받아서 필터링 함수 적용
-                    beaconRssi0= kalmanFilter.filtering(beaconRssi0);
-                    beaconRssi1 = kalmanFilter.filtering(beaconRssi1);
-                    beaconRssi2=kalmanFilter.filtering(beaconRssi2);
+//                    //제일 가까운 3개의 RSSI값 받아서 필터링 함수 적용
+//                    beaconRssi0= kalmanFilter.filtering(beaconRssi0);
+//                    beaconRssi1 = kalmanFilter.filtering(beaconRssi1);
+//                    beaconRssi2=kalmanFilter.filtering(beaconRssi2);
 
                     //제일 가까운 비콘 3개의 이름 값 받기
                     String beaconName0 = minewBeacons.get(0).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Name).getStringValue();
@@ -254,25 +253,60 @@ public class BeaconMainActivity extends AppCompatActivity {
                     String beaconName2 = minewBeacons.get(2).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Name).getStringValue();
 
                     //RSSI로 비콘으로 부터 거리계산하기
-                    double beaconDistance0 = calculateAccuracy(beaconRssi0);
-                    double beaconDistance1 = calculateAccuracy(beaconRssi1);
-                    double beaconDistance2 = calculateAccuracy(beaconRssi2);
+//                    double beaconDistance0 = calculateAccuracy(beaconRssi0);
+//                    double beaconDistance1 = calculateAccuracy(beaconRssi1);
+//                    double beaconDistance2 = calculateAccuracy(beaconRssi2);
+//
+//                    Log.d("비콘정보0: ",beaconName0+", 비콘0의 RSSI"+beaconRssi0+", 비콘0으로 부터 거리"+beaconDistance0);
+//                    Log.d("비콘정보1: ",beaconName1+", 비콘1의 RSSI"+beaconRssi1+", 비콘1으로 부터 거리"+beaconDistance1);
+//                    Log.d("비콘정보2: ",beaconName2+", 비콘2의 RSSI"+beaconRssi2+", 비콘2으로 부터 거리"+beaconDistance2);
 
-                    Log.d("비콘정보0: ",beaconName0+", 비콘0의 RSSI"+beaconRssi0+", 비콘0으로 부터 거리"+beaconDistance0);
-                    Log.d("비콘정보1: ",beaconName1+", 비콘1의 RSSI"+beaconRssi1+", 비콘1으로 부터 거리"+beaconDistance1);
-                    Log.d("비콘정보2: ",beaconName2+", 비콘2의 RSSI"+beaconRssi2+", 비콘2으로 부터 거리"+beaconDistance2);
 
-                    String disappearBeaconsName =disappearBeaconsNameQue.getLast(); //제일 최근에 변경된 비콘
+                    //편의시설 정보 위치
+                    if(beaconName0.equals("beacon9")) {
+                        Log.e("beacon9인식", "화면 문구 : 1층 엘레베이터, 음성안내문구 : 1층 엘레베이터 입니다.");
+                        setBeaconFacilitiesInfo("1층 엘레베이터");
+                    }
 
+                    else if(beaconName0.equals("beacon10")) {
+                        Log.e("beacon10인식", "화면 문구 : 1층 화장실, 음성안내문구 : 1층 화장실 입니다.");
+                        setBeaconFacilitiesInfo("1층 화장실");
+                    }
+
+                    //시나리오 작성
+                    //1. 매장입구
+                    else if(beaconName0.equals("beacon11")) {
+                                Log.e("beacon11인식", "화면 문구 : 1층 매장입구, 음성안내문구 : 1층 매장입구 입니다.");
+                                setBeaconFacilitiesInfo("1층 매장입구");
+                    }
+                    //2. 1층 계산대
+                    else if(beaconName0.equals("beacon12")) {
+                                    Log.e("beacon12인식", "화면 문구 : 1층 계산대, 음성안내문구 : 1층 계산대 입니다.");
+                                    setBeaconFacilitiesInfo("1층 계산대");
+                    }
+                    //3. 생활용품 / 스포츠매대
+                    else if(beaconName0.equals("beacon8")) {
+                        //생활용품, 스포츠 매대를 인색했을 경우
+                        if((!disappearBeaconsNameQue.isEmpty()) &&(disappearBeaconsNameQue.contains("beacon11")||disappearBeaconsNameQue.contains("beacon12")))
+                            //매장입구, 계산대 방향으로 오는 경우
+                            setBeaconItemInfo("생활용품", "스포츠");
+                        else{ //반대편
+                            setBeaconItemInfo("스포츠", "생활용품");
+                        }
+                    }
+                    //4.헤어용품/ 구강용품 매대
                     if (beaconName0.equals("beacon1") ){
-                        setBeaconItemInfo("헤어용품","구강용품");
-                    }
-                    else if(beaconName0.equals("beacon15")){
-                        setBeaconItemInfo("구강용품","헤어용품");
+                        if((!disappearBeaconsNameQue.isEmpty())&&(disappearBeaconsNameQue.contains("beacon12")||disappearBeaconsNameQue.contains("beacon8")))
+                            //생활용품,스포츠 매대 방향으로 오는 경우
+                            setBeaconItemInfo("헤어용품","구강용품");
+                        else {
+                            setBeaconItemInfo("구강용품", "스포츠");
+                        }
                     }
 
+                    //5. 샴푸/면도기 매대
                     else if(beaconName0.equals("beacon2") || beaconName0.equals("beacon3")){
-                        if(disappearBeaconsName.equals("beacon1") ) {
+                        if((!disappearBeaconsNameQue.isEmpty()) &&( disappearBeaconsNameQue.contains("beacon1")) ){
                             //헤어용품, 구강용품을 먼저 인식 했을 경우
                             setBeaconItemInfo("샴푸","면도기");
                         }
@@ -281,88 +315,55 @@ public class BeaconMainActivity extends AppCompatActivity {
                             setBeaconItemInfo("면도기","샴푸");
                         }
                     }
+                    //6. 트린트먼트/의약제품 및 가그린 매대
                     else if(beaconName0.equals("beacon4") || beaconName0.equals("beacon5")){
                         //헤어용품/구강용품을 먼저 인식했거나 샴푸/면도기를 먼저 인식했을 경우
-                        if(disappearBeaconsName.equals("beacon1")||disappearBeaconsName.equals("beacon2")||disappearBeaconsName.equals("beacon3") )
-                            setBeaconItemInfo("트리트먼트","의약제품 및 가그린 ");
-                        else{
-                            setBeaconItemInfo("의약제품 및 가그린","트리트먼트");
+                        if(!disappearBeaconsNameQue.isEmpty()) {
+                            if (disappearBeaconsNameQue.contains("beacon1") || disappearBeaconsNameQue.contains("beacon2")
+                                    || disappearBeaconsNameQue.contains("beacon3"))
+                                setBeaconItemInfo("트리트먼트", "의약제품 및 가그린 ");
+                            else {
+                                setBeaconItemInfo("의약제품 및 가그린", "트리트먼트");
+                            }
                         }
-
                     }
 
+                    //7. 트리트먼트/면도기
                     else if(beaconName0.equals("beacon6")||beaconName0.equals("beacon7")) {
                         //헤어용품, 구강용품을 먼저 인식했거나 트리트먼트/의약제품 및 가그린 먼저 인식했을 경우
-                        if (disappearBeaconsName.equals("beacon1") || disappearBeaconsName.equals("beacon4") || disappearBeaconsName.equals("beacon5"))
+                        if ((!disappearBeaconsNameQue.isEmpty()) &&(disappearBeaconsNameQue.contains("beacon1") || disappearBeaconsNameQue.equals("beacon4") || disappearBeaconsNameQue.equals("beacon5")))
                             setBeaconItemInfo("트리트먼트", "면도기");
                         else {
                             setBeaconItemInfo("면도기", "트리트먼트");
                         }
                     }
 
-                    else if(beaconName0.equals("beacon8")) {
-                        //헤어용품, 구강용품을 먼저 인식했거나 트린트먼트/면도기 먼저 인식했을 경우
-                        if(disappearBeaconsName.equals("beacon1")||disappearBeaconsName.equals("beacon6")||disappearBeaconsName.equals("beacon7"))
-                            setBeaconItemInfo("생활용품", "스포츠");
-                        else{
-                            setBeaconItemInfo("스포츠", "생활용품");
-                        }
-                        }
-
-                    }
-
-
-
-
-                    else if(beaconName0.equals("beacon2")){
-                        Log.e("beacon2,3인식" ,"화면 문구 : 샴푸, 면도기 , 음성안내문구 : 왼쪽에 삼푸 제품이 있습니다, 오른쪽에 면도기제품이 있습니다.");
-                        setBeaconItemInfo("샴푸","면도기");
-                    }
-                    else if(beaconName0.equals("beacon4")){
-                        Log.e("beacon4,5인식" ,"화면 문구 : 트리트먼트, 의약제품 및 가그린 , 음성안내문구 : 왼쪽에 트리트먼트 제품이 있습니다, 오른쪽에 의약제품 및 가그린 제품이 있습니다.");
-                        setBeaconItemInfo("","면도기");
-                    }
-
-                    else if(beaconName0.equals("beacon7")){
+                    //8.  행사상품 안내
+                    else if(beaconName0.equals("beacon16")) {
                         Log.e("beacon7인식" ,"화면 문구 : 리엔 물들임 트린트먼트150ml(흑갈색),헤드앤숄더 샴푸850ml , 음성안내문구 : 추천,세일 상품안내");
                         setBeaconSaleInfo("추천 상품\n 리엔 물들임 트린트먼트150ml(흑갈색)","1+1 행사상품\n 헤드앤숄더 샴푸850ml");
                     }
-                    else if(beaconName0.equals("beacon5")){
-                        Log.e("beacon5인식" ,"화면 문구 : 샴푸, 면도기 , 음성안내문구 : 왼쪽에 헤어 용품이 있습니다, 오른쪽에 구강 용품이 있습니다.");
-                        //텍스트 안내
-                        setBeaconItemInfo("헤어용품","구강용품");
+
+                    //9. 구강용품/헤어용품
+                    else if(beaconName0.equals("beacon15")){
+                        setBeaconItemInfo("구강용품","헤어용품");
                     }
-                    else if(beaconName0.equals("beacon6")){
-                        Log.e("beacon6인식" ,"화면 문구 : 지하1층 , 음성안내문구 : 지하1층 입니다.");
-                        setBeaconFacilitiesInfo("지하 1층");
-
-                    else if(beaconName0.equals("beacon9")){
-                        Log.e("beacon9인식" ,"화면 문구 : 1층 엘레베이터, 음성안내문구 : 1층 엘레베이터 입니다.");
-                        setBeaconFacilitiesInfo("1층 엘레베이터");
-
-                    else if(beaconName0.equals("beacon10")){
-                        Log.e("beacon10인식" ,"화면 문구 : 1층 화장실, 음성안내문구 : 1층 화장실 입니다.");
-                        setBeaconFacilitiesInfo("1층 화장실");
-
-                    else if(beaconName0.equals("beacon11")){
-                        Log.e("beacon11인식" ,"화면 문구 : 1층 매장입구, 음성안내문구 : 1층 매장입구 입니다.");
-                        setBeaconFacilitiesInfo("1층 매장입구");
-
-                    else if(beaconName0.equals("beacon12")){
-                        Log.e("beacon12인식" ,"화면 문구 : 1층 계산대, 음성안내문구 : 1층 계산대 입니다.");
-                        setBeaconFacilitiesInfo("1층 계산대");
 
                     else if(beaconName0.equals("beacon14")){
                         Log.e("beacon14인식" ,"화면 문구 : 2층으로 가는 에스컬레이터, 음성안내문구 : 2층으로 가는 에스컬레이터 입니다.");
                         setBeaconFacilitiesInfo("2층으로 가는 에스컬레이터");
                     }
-                    else if(beaconName0.equals("beacon7")){
-                        Log.e("beacon7인식" ,"화면 문구 : 리엔 물들임 트린트먼트150ml(흑갈색),헤드앤숄더 샴푸850ml , 음성안내문구 : 추천,세일 상품안내");
-                        setBeaconSaleInfo("리엔 물들임 트린트먼트150ml(흑갈색)","헤드앤숄더 샴푸850ml");
-
+                    else if(beaconName0.equals("beacon13")){
+                        if((!disappearBeaconsNameQue.isEmpty()) && (disappearBeaconsNameQue.contains("beacon15")|| disappearBeaconsNameQue.contains("beacon16")))
+                            setBeaconItemInfo("생활용품","가전");
+                        else{
+                            setBeaconItemInfo("가전","생활용품");
+                        }
                     }
+
                 }
             }
+
 
 
             /**
