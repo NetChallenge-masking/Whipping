@@ -2,6 +2,7 @@ package kr.co.whipping;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -15,6 +16,9 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+
 public class CartBarcodeActivity extends AppCompatActivity {
 
     @Override
@@ -22,23 +26,22 @@ public class CartBarcodeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart_barcode);
 
-        String barcodenums = (String) getIntent().getExtras().get("barcodenums");
-        ImageView imageview = (ImageView) findViewById(R.id.iv_barcode_background);
-        MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
+        ImageView imageview = findViewById(R.id.iv_barcode_background);
+        TextView tv_page_all = findViewById(R.id.tv_page_all);
 
-        try {
-            BitMatrix bitMatrix = multiFormatWriter.encode(barcodenums, BarcodeFormat.EAN_13, 400, 300);
-            BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
-            Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+        DBHelper dbHelper = new DBHelper(CartBarcodeActivity.this);
+        Cursor cursor = dbHelper.readBarcodeImg();
+
+        ArrayList<byte[]> imgList = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            byte[] img = cursor.getBlob(0);
+
+            imgList.add(img);
+        }
+
+        for(byte[] b : imgList) {
+            Bitmap bitmap = BitmapFactory.decodeByteArray(b, 0, b.length);
             imageview.setImageBitmap(bitmap);
-            imageview.invalidate();
-            Log.d("dd", "바코드 이미지 생성 확인");
-
-            imageview.setImageBitmap(bitmap);
-
-        } catch (WriterException e) {
-            e.printStackTrace();
-            Log.d("dd", "바코드 이미지 생성 실패");
         }
     }
 }

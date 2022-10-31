@@ -9,6 +9,8 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
+
 public class DBHelper extends SQLiteOpenHelper
 {
     private Context context;
@@ -122,5 +124,17 @@ public class DBHelper extends SQLiteOpenHelper
         SQLiteDatabase db = this.getWritableDatabase();
 
         db.execSQL("UPDATE basket SET amount = amount - 1 WHERE basket_id = '" + basketId + "';");
+    }
+
+    //바코드 이미지 읽기
+    public Cursor readBarcodeImg() {
+        String query = "SELECT barcode_img FROM basket";
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if(db != null) {
+            cursor = db.rawQuery(query, null);
+        }
+        return cursor;
     }
 }

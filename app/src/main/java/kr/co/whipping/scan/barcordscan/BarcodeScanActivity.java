@@ -169,8 +169,8 @@ public class BarcodeScanActivity extends AppCompatActivity {
                 Log.d("dd", barcodenums);
 
                 MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
-                final int WIDTH = 350;
-                final int HEIGHT = 350;
+                final int WIDTH = 400;
+                final int HEIGHT = 300;
 
                 try {
                     BitMatrix bitMatrix = multiFormatWriter.encode(barcodenums, BarcodeFormat.EAN_13, WIDTH, HEIGHT);
