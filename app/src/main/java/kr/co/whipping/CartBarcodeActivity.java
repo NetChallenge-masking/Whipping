@@ -27,7 +27,6 @@ public class CartBarcodeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cart_barcode);
 
         ImageView imageview = findViewById(R.id.iv_barcode_background);
-        TextView tv_page_all = findViewById(R.id.tv_page_all);
 
         DBHelper dbHelper = new DBHelper(CartBarcodeActivity.this);
         Cursor cursor = dbHelper.readBarcodeImg();
