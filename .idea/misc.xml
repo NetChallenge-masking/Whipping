@@ -32,6 +32,7 @@
         <entry key="app/src/main/res/layout/activity_beacon_mainactivity.xml" value="0.15494791666666666" />
         <entry key="app/src/main/res/layout/activity_camerascan.xml" value="0.125" />
         <entry key="app/src/main/res/layout/activity_cart.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_cart_barcode.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.11302083333333333" />
         <entry key="app/src/main/res/layout/activity_innercamera.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_location.xml" value="0.14791666666666667" />
@@ -47,7 +48,7 @@
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_cart2.xml" value="0.14791666666666667" />
         <entry key="app/src/main/res/layout/list_item.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/listitem_cart.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/listitem_cart.xml" value="0.22847222222222222" />
       </map>
     </option>
   </component>

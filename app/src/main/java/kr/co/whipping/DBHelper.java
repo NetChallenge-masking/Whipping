@@ -9,6 +9,8 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
+
 public class DBHelper extends SQLiteOpenHelper
 {
     private Context context;
@@ -34,6 +36,7 @@ public class DBHelper extends SQLiteOpenHelper
                 + "item_name" + " VARCAHR(30), "
                 + "amount" + " INTEGER, "
                 + "price" + " INTEGER, "
+                + "barcode_img" + " BLOB, "
                 + "CONSTRAINT barcode_id FOREIGN KEY (barcode_id) REFERENCES item(barcode_id), "
                 + "CONSTRAINT barcode_type FOREIGN KEY (barcode_type) REFERENCES item(barcode_type)); ";
         db.execSQL(basketQuery);
@@ -68,7 +71,7 @@ public class DBHelper extends SQLiteOpenHelper
     }
 
     //장바구니 추가
-    public void addBasket(String device, String barcodeId, String barcodeType, String itemName, String amount, String price) {
+    public void addBasket(String device, String barcodeId, String barcodeType, String itemName, String amount, String price, byte[] barcode_img) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
@@ -78,6 +81,7 @@ public class DBHelper extends SQLiteOpenHelper
         cv.put("item_name", itemName);
         cv.put("amount", amount);
         cv.put("price", price);
+        cv.put("barcode_img", barcode_img);
         long result = db.insert("basket", null, cv);
         if (result == -1)
         {
@@ -120,5 +124,17 @@ public class DBHelper extends SQLiteOpenHelper
         SQLiteDatabase db = this.getWritableDatabase();
 
         db.execSQL("UPDATE basket SET amount = amount - 1 WHERE basket_id = '" + basketId + "';");
+    }
+
+    //바코드 이미지 읽기
+    public Cursor readBarcodeImg() {
+        String query = "SELECT barcode_img FROM basket";
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if(db != null) {
+            cursor = db.rawQuery(query, null);
+        }
+        return cursor;
     }
 }

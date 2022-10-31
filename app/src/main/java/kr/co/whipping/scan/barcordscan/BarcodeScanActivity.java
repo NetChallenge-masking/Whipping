@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.util.Size;
 import android.util.TypedValue;
@@ -50,6 +51,7 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.oned.EAN13Writer;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
@@ -58,6 +60,7 @@ import java.util.concurrent.Executors;
 
 import kr.co.whipping.Basket;
 import kr.co.whipping.CartActivity;
+import kr.co.whipping.CartBarcodeActivity;
 import kr.co.whipping.DBHelper;
 import kr.co.whipping.R;
 import kr.co.whipping.scan.ScanActivity;
@@ -68,7 +71,9 @@ public class BarcodeScanActivity extends AppCompatActivity {
     private static final int CAMERA_REQUEST_CODE = 10;
     DBHelper dbHelper;
     int count = 1;
-    String barcodenums="";
+    String barcodenums;
+    byte[] byteArray;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,7 +152,6 @@ public class BarcodeScanActivity extends AppCompatActivity {
         ImageView image_barcode_scan = (ImageView) findViewById(R.id.image_barcode_scan);
 
 
-
 //        dbHelper = new DBHelper(BarcodeScanActivity.this);
 //        Cursor cursor = dbHelper.readAllBasket();
 //        while (cursor.moveToNext()) {
@@ -172,9 +176,28 @@ public class BarcodeScanActivity extends AppCompatActivity {
                     BitMatrix bitMatrix = multiFormatWriter.encode(barcodenums, BarcodeFormat.EAN_13, WIDTH, HEIGHT);
                     BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
                     Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+                    /*Byte로 변환*/
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    byteArray = stream.toByteArray();
+
                     image_barcode_scan.setImageBitmap(bitmap);
                     image_barcode_scan.invalidate();
                     Log.d("dd", "바코드 이미지 생성 확인");
+
+                    if (barcodenums.equals("4902430232159")) {
+                        Log.d("dd", "샴푸 인식 확인");
+                        category.setText("샴푸");
+                        nameOfprod.setText("헤드&숄더 두피 토탈 솔루션 가려운 두피케어");
+                        price.setText("15,900");
+                    }
+                    else {
+                        Log.d("dd", "8808024028831");
+                        category.setText("음료");
+                        nameOfprod.setText("레몬 얼그레이 티");
+                        price.setText("1600");
+                    }
+
                 } catch (WriterException e) {
                     e.printStackTrace();
                     Log.d("dd", "바코드 이미지 생성 실패");
@@ -219,12 +242,14 @@ public class BarcodeScanActivity extends AppCompatActivity {
                     }
                 });
 
+                //담기
                 add.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         DBHelper dbHelper = new DBHelper(BarcodeScanActivity.this);
 
-                        dbHelper.addBasket("1", barcodenums, "EAN-13", nameOfprod.getText().toString(), prodCount.getText().toString(), price.getText().toString());
+                        dbHelper.addBasket("1", barcodenums, "EAN-13", nameOfprod.getText().toString(),
+                                prodCount.getText().toString(), price.getText().toString(), byteArray);
                     }
                 });
             }
@@ -285,4 +310,31 @@ public class BarcodeScanActivity extends AppCompatActivity {
                 mHandler.onScanned(result);
             }
     }
+
+//    public static String bitmapToByteArray(Bitmap bitmap) {
+//        String image = "";
+//        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+//        byte[] byteArray = stream.toByteArray();
+//        image = byteArrayToBinaryString(byteArray);
+//        return image;
+//    }
+//
+//    public static String byteArrayToBinaryString(byte[] b) {
+//        StringBuilder sb = new StringBuilder();
+//        for(int i = 0; i < b.length; i++) {
+//            sb.append(byteToBinaryString(b[i]));
+//        }
+//        return sb.toString();
+//    }
+//
+//    public static String byteToBinaryString(byte n) {
+//        StringBuilder sb = new StringBuilder();
+//        for(int bit = 0; bit < 8; bit++) {
+//            if(((n >> bit) & 1) > 0) {
+//                sb.setCharAt(7 - bit, '1');
+//            }
+//        }
+//        return sb.toString();
+//    }
 }
