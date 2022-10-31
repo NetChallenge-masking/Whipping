@@ -33,6 +33,11 @@
     <!-- android 12 add -->
 
     <queries>
+        <intent>
+            <action android:name="android.intent.action.TTS_SERVICE" />
+        </intent>s
+    </queries>
+    <queries>
         <package android:name="com.google.android.googlequicksearchbox" />
     </queries> <!-- 태블릿에서 연결 어플로 바로 보내도록 함 -->
     <queries>

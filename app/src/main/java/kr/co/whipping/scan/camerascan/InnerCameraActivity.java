@@ -55,7 +55,7 @@ import kr.co.whipping.R;
 
 public class InnerCameraActivity extends AppCompatActivity implements ImageAnalysis.Analyzer, View.OnClickListener {
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
-    private static final String CLOUD_VISION_API_KEY = "AIzaSyDaNsgeV__6hcIrCllAdU1XAgj4OV29id4";
+    private static final String CLOUD_VISION_API_KEY = "AIzaSyBD1r95O7J1FX3j_QSmhp60oCEs3z60m-k";
     private static final String TAG = InnerCameraActivity.class.getSimpleName();
     PreviewView previewView;
     private ImageCapture imageCapture;
