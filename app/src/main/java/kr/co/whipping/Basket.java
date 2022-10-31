@@ -1,5 +1,7 @@
 package kr.co.whipping;
 
+import java.sql.Blob;
+
 public class Basket {
     private int basketId;
     private String barcodeId;
@@ -7,14 +9,16 @@ public class Basket {
     private String itemName;
     private int amount;
     private int price;
+    private byte[] img;
 
-    public Basket(int basketId, String barcodeId, String barcdoeType, String itemName, int amount, int price) {
+    public Basket(int basketId, String barcodeId, String barcdoeType, String itemName, int amount, int price, byte[] img) {
         this.basketId = basketId;
         this.barcodeId = barcodeId;
         this.barcdoeType = barcdoeType;
         this.itemName = itemName;
         this.amount = amount;
         this.price = price;
+        this.img = img;
     }
 
     public int getBasketId() {
@@ -39,5 +43,9 @@ public class Basket {
 
     public int getPrice() {
         return price;
+    }
+
+    public byte[] getImg() {
+        return img;
     }
 }

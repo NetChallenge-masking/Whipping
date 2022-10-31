@@ -34,6 +34,7 @@ public class DBHelper extends SQLiteOpenHelper
                 + "item_name" + " VARCAHR(30), "
                 + "amount" + " INTEGER, "
                 + "price" + " INTEGER, "
+                + "barcode_img" + " BLOB, "
                 + "CONSTRAINT barcode_id FOREIGN KEY (barcode_id) REFERENCES item(barcode_id), "
                 + "CONSTRAINT barcode_type FOREIGN KEY (barcode_type) REFERENCES item(barcode_type)); ";
         db.execSQL(basketQuery);
@@ -68,7 +69,7 @@ public class DBHelper extends SQLiteOpenHelper
     }
 
     //장바구니 추가
-    public void addBasket(String device, String barcodeId, String barcodeType, String itemName, String amount, String price) {
+    public void addBasket(String device, String barcodeId, String barcodeType, String itemName, String amount, String price, byte[] barcode_img) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
@@ -78,6 +79,7 @@ public class DBHelper extends SQLiteOpenHelper
         cv.put("item_name", itemName);
         cv.put("amount", amount);
         cv.put("price", price);
+        cv.put("barcode_img", barcode_img);
         long result = db.insert("basket", null, cv);
         if (result == -1)
         {

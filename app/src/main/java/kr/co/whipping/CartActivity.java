@@ -67,7 +67,8 @@ public class CartActivity extends AppCompatActivity {
                     cursor.getString(3),  //barcode_type
                     cursor.getString(4),  //item_name
                     cursor.getInt(5),  //amount
-                    cursor.getInt(6)  //price
+                    cursor.getInt(6),  //price
+                    cursor.getBlob(7)
             );
             basketList.add(basket);
 
@@ -155,7 +156,8 @@ public class CartActivity extends AppCompatActivity {
                         recyclerItem.getBarcdoeType(),  //barcode_type
                         recyclerItem.getItemName(),
                         recyclerItem.getAmount() + 1,  //amount
-                        recyclerItem.getPrice()
+                        recyclerItem.getPrice(),
+                        recyclerItem.getImg()
                 );
 
                 // 선택한 item 수량 추가
@@ -196,7 +198,8 @@ public class CartActivity extends AppCompatActivity {
                         recyclerItem.getBarcdoeType(),  //barcode_type
                         recyclerItem.getItemName(),  //item_name
                         recyclerItem.getAmount() - 1,  //amount
-                        recyclerItem.getPrice()
+                        recyclerItem.getPrice(),
+                        recyclerItem.getImg()
                 );
 
                 // 선택한 item 수량 감소
