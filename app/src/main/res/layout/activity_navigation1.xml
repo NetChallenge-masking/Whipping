@@ -4,19 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Navigation1Activity"
-    android:background="@drawable/image_navigation_1_1">
+    android:background="@drawable/image_navigation_1_1"
+    android:rotationY="72"
+    tools:context=".Navigation1Activity">
 
     <ImageView
         android:id="@+id/beacon_8"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:src="@drawable/ic_navigation_current"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginRight="50dp"
         android:layout_marginTop="30dp"
-        android:visibility="visible"/>
+        android:layout_marginRight="50dp"
+        android:src="@drawable/ic_navigation_current"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/beacon_6"

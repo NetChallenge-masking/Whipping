@@ -4,16 +4,20 @@ import static java.lang.Math.pow;
 
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -24,7 +28,10 @@ import com.minew.beacon.MinewBeacon;
 import com.minew.beacon.MinewBeaconManager;
 import com.minew.beacon.MinewBeaconManagerListener;
 
+import java.security.Permission;
+import java.util.Arrays;
 import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
@@ -35,16 +42,28 @@ import kr.co.whipping.scan.camerascan.CameraScanActivity;
 public class BeaconMainActivity extends AppCompatActivity {
 
     private static final int REQUEST_ACCESS_FINE_LOCATION = 1000;
+    private static final int REQUEST_ALL_PERMISSIONS = 2;
     private MinewBeaconManager mMinewBeaconManager;
-    private static final int REQUEST_ENABLE_BT = 2;
     private boolean isScanning;
 
     private TextView beaconInfo1TextView;
     private TextView beaconInfo2TextView;
     private Button itemInfoBtn;
     private Button barcodeInfoBtn;
+    private ImageView backBtn;
+    //위치권한
+    private static final String[] PERMISSIONS = {
+            Manifest.permission.ACCESS_FINE_LOCATION
+    };
+    //위치권한+블루투스 권한
+    private static final String[] PERMISSIONS_S_ABOVE = {
+            Manifest.permission.BLUETOOTH_SCAN,
+            Manifest.permission.BLUETOOTH_CONNECT,
+            Manifest.permission.ACCESS_FINE_LOCATION
+    };
 
-    private Queue<String> disappearBeaconsNameQue;
+
+    private Queue<String>  disappearBeaconsNameQue= new LinkedList<>(); // disappearBeaconsNameQue;
 
 
     UserRssi comp = new UserRssi();
@@ -57,83 +76,56 @@ public class BeaconMainActivity extends AppCompatActivity {
 
         initView();
         initManager();
-        checkBluetooth();
-        checkLocationPermition();
+        //모든 권한 확인하기
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S){
+            if (!hasPermissions(this, PERMISSIONS_S_ABOVE)) {
+                requestPermissions(PERMISSIONS_S_ABOVE, REQUEST_ALL_PERMISSIONS);
+            }
+            //권한이 없다면 권한 요구하기
+        }else {
+            if (!hasPermissions(this, PERMISSIONS)) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    requestPermissions(PERMISSIONS, REQUEST_ALL_PERMISSIONS);
+                }
+            }
+        }
         initListener();
 
     }
 
-    private void checkLocationPermition() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
-            int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
-
-            if (permissionCheck == PackageManager.PERMISSION_DENIED) {
-
-                // 권한 없음
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        REQUEST_ACCESS_FINE_LOCATION);
-
-
-            } else {
-
-                // ACCESS_FINE_LOCATION 에 대한 권한이 이미 있음.
-
+    private boolean hasPermissions(Context context, String[] permissions){
+        for(String permission : permissions){
+            if(ActivityCompat.checkSelfPermission(context,permission)
+            !=PackageManager.PERMISSION_GRANTED){
+                return false;
             }
+        }
+        return true;
+    }
+    //permission check
+    @RequiresApi(Build.VERSION_CODES.M)
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                              int[] grantResults) {
 
 
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case REQUEST_ALL_PERMISSIONS:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, "Permissions granted!", Toast.LENGTH_SHORT).show();
+                } else {
+                    requestPermissions(permissions, REQUEST_ALL_PERMISSIONS);
+                }
         }
 
-// OS가 Marshmallow 이전일 경우 권한체크를 하지 않는다.
-        else {
 
-        }
     }
 
-    /**
-     * check Bluetooth state
-     */
-    private void checkBluetooth() {
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            requestPermissions(
-                    new String[]{
-                            Manifest.permission.BLUETOOTH,
-                            Manifest.permission.BLUETOOTH_SCAN,
-                            Manifest.permission.BLUETOOTH_ADVERTISE,
-                            Manifest.permission.BLUETOOTH_CONNECT
-
-
-                    },
-                    1);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions(
-                    new String[]{
-                            Manifest.permission.BLUETOOTH
-
-                    },
-                    1);
-        }
-
-
-        BluetoothState bluetoothState = mMinewBeaconManager.checkBluetoothState();
-        switch (bluetoothState) {
-            case BluetoothStateNotSupported:
-                Toast.makeText(this, "Not Support BLE", Toast.LENGTH_SHORT).show();
-                finish();
-                break;
-            case BluetoothStatePowerOff:
-                showBLEDialog();
-                break;
-            case BluetoothStatePowerOn:
-                break;
-        }
-    }
 
 
     private void initView() {
-        mStart_scan = (TextView) findViewById(R.id.start_scan);
+        backBtn=(ImageView)findViewById(R.id.backBtn);
         beaconInfo1TextView = (TextView) findViewById(R.id.beaconInfo1TextView);
         beaconInfo2TextView = (TextView) findViewById(R.id.beaconInfo2TextView);
         itemInfoBtn = (Button) findViewById(R.id.itemInfoTextView);
@@ -152,6 +144,14 @@ public class BeaconMainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+                                   }
+
+        );
     }
 
     //비콘 매니저 실행
@@ -161,11 +161,43 @@ public class BeaconMainActivity extends AppCompatActivity {
 
     //비콘 탐색 시작 버튼
     private void initListener() {
-        mStart_scan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+//        mStart_scan.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                if (mMinewBeaconManager != null) {
+//                    BluetoothState bluetoothState = mMinewBeaconManager.checkBluetoothState();
+//                    switch (bluetoothState) { //블루투스 권한
+//                        case BluetoothStateNotSupported:
+//                            Toast.makeText(BeaconMainActivity.this, "Not Support BLE", Toast.LENGTH_SHORT).show();
+//                            finish();
+//                            break;
+//                        case BluetoothStatePowerOff:
+//                            return;
+//                        case BluetoothStatePowerOn:
+//                            break;
+//                    }
+//                }
+//                if (isScanning) {
+//                    isScanning = false;
+//                    mStart_scan.setText("Start");
+//                    if (mMinewBeaconManager != null) {
+//                        mMinewBeaconManager.stopScan();
+//                    }
+//                } else {
+//                    isScanning = true;
+//                    mStart_scan.setText("Stop");
+//                    try {
+//                        mMinewBeaconManager.startScan(); //스캔시작
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//        });
+        //위치 권한을 키자
 
-                if (mMinewBeaconManager != null) {
+        if (mMinewBeaconManager != null) {
                     BluetoothState bluetoothState = mMinewBeaconManager.checkBluetoothState();
                     switch (bluetoothState) { //블루투스 권한
                         case BluetoothStateNotSupported:
@@ -173,30 +205,25 @@ public class BeaconMainActivity extends AppCompatActivity {
                             finish();
                             break;
                         case BluetoothStatePowerOff:
-                            showBLEDialog();
                             return;
                         case BluetoothStatePowerOn:
                             break;
                     }
-                }
-                if (isScanning) {
+        }
+        if (isScanning) {
                     isScanning = false;
-                    mStart_scan.setText("Start");
                     if (mMinewBeaconManager != null) {
                         mMinewBeaconManager.stopScan();
                     }
                 } else {
                     isScanning = true;
-                    mStart_scan.setText("Stop");
+
                     try {
                         mMinewBeaconManager.startScan(); //스캔시작
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
-            }
-        });
-
 
         mMinewBeaconManager.setDeviceManagerDelegateListener(new MinewBeaconManagerListener() {
 
@@ -207,7 +234,10 @@ public class BeaconMainActivity extends AppCompatActivity {
              */
             @Override
             public void onAppearBeacons(List<MinewBeacon> minewBeacons) {
-                Log.e("onAppearBeacons()","실행");
+                //Log.e("onAppearBeacons()","실행");
+
+
+
             }
 
             /**
@@ -217,15 +247,26 @@ public class BeaconMainActivity extends AppCompatActivity {
              */
             @Override
             public void onDisappearBeacons(List<MinewBeacon> minewBeacons) {
-                for (MinewBeacon minewBeacon : minewBeacons) {
-                    String deviceName = minewBeacon.getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Name).getStringValue();
-                    Log.d("사라진 비콘이름",deviceName);
-                    if (disappearBeaconsNameQue.size() > 2) {
-                        disappearBeaconsNameQue.remove();
-                    }
-                    disappearBeaconsNameQue.add(deviceName);
+                if(!minewBeacons.isEmpty()) {
+                    for (MinewBeacon minewBeacon : minewBeacons) {
+                        String disappearBeaconName = minewBeacon.getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Name).getStringValue();
+                        if (disappearBeaconName.length() >= 6) {
+                            if (disappearBeaconName.substring(0, 6).equals("beacon")) {
+                                Log.e("사라진 비콘이름", disappearBeaconName);
 
+                                if (disappearBeaconsNameQue.size() > 2) {
+                                    disappearBeaconsNameQue.remove();
+                                }
+                                if (!disappearBeaconsNameQue.contains(disappearBeaconName)) {
+                                    disappearBeaconsNameQue.offer(disappearBeaconName); //큐에 사라진 비콘 삽입
+                                    Log.e("큐사이즈", String.valueOf(disappearBeaconsNameQue.size()));
+
+                                }
+                            }
+                        }
+                    }
                 }
+
             }
 
             /**
@@ -236,128 +277,129 @@ public class BeaconMainActivity extends AppCompatActivity {
             @Override
             public void onRangeBeacons(final List<MinewBeacon> minewBeacons) {
                 if (!minewBeacons.isEmpty()) { //근처에 비콘이 없을 경우가 아니라면
-                    KalmanFilter kalmanFilter= new KalmanFilter();
-                    //RSSI값으로 부터 거리를 구하기 위해서 제일 가까운 3개의 비콘의 RSSI값 받아오기
-//                    double beaconRssi0 = minewBeacons.get(0).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_RSSI).getFloatValue();
-//                    double beaconRssi1 = minewBeacons.get(1).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_RSSI).getFloatValue();
-//                    double beaconRssi2 = minewBeacons.get(2).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_RSSI).getFloatValue();
+                    String beaconName = minewBeacons.get(0).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Name).getStringValue();
+                    Log.e("가장가까운 비콘 이름", beaconName);
+                    if (beaconName.length() >= 6) {
+                        if (beaconName.substring(0, 6).equals("beacon")) {
+                            //KalmanFilter kalmanFilter = new KalmanFilter();
+                            //RSSI값으로 부터 거리를 구하기 위해서 제일 가까운 3개의 비콘의 RSSI값 받아오기
+                            //                    double beaconRssi0 = minewBeacons.get(0).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_RSSI).getFloatValue();
+                            //                    double beaconRssi1 = minewBeacons.get(1).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_RSSI).getFloatValue();
+                            //                    double beaconRssi2 = minewBeacons.get(2).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_RSSI).getFloatValue();
 
-//                    //제일 가까운 3개의 RSSI값 받아서 필터링 함수 적용
-//                    beaconRssi0= kalmanFilter.filtering(beaconRssi0);
-//                    beaconRssi1 = kalmanFilter.filtering(beaconRssi1);
-//                    beaconRssi2=kalmanFilter.filtering(beaconRssi2);
+                            //                    //제일 가까운 3개의 RSSI값 받아서 필터링 함수 적용
+                            //                    beaconRssi0= kalmanFilter.filtering(beaconRssi0);
+                            //                    beaconRssi1 = kalmanFilter.filtering(beaconRssi1);
+                            //                    beaconRssi2=kalmanFilter.filtering(beaconRssi2);
 
-                    //제일 가까운 비콘 3개의 이름 값 받기
-                    String beaconName0 = minewBeacons.get(0).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Name).getStringValue();
-                    String beaconName1 = minewBeacons.get(1).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Name).getStringValue();
-                    String beaconName2 = minewBeacons.get(2).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Name).getStringValue();
+                            //제일 가까운 비콘 3개의 이름 값 받기
 
-                    //RSSI로 비콘으로 부터 거리계산하기
-//                    double beaconDistance0 = calculateAccuracy(beaconRssi0);
-//                    double beaconDistance1 = calculateAccuracy(beaconRssi1);
-//                    double beaconDistance2 = calculateAccuracy(beaconRssi2);
-//
-//                    Log.d("비콘정보0: ",beaconName0+", 비콘0의 RSSI"+beaconRssi0+", 비콘0으로 부터 거리"+beaconDistance0);
-//                    Log.d("비콘정보1: ",beaconName1+", 비콘1의 RSSI"+beaconRssi1+", 비콘1으로 부터 거리"+beaconDistance1);
-//                    Log.d("비콘정보2: ",beaconName2+", 비콘2의 RSSI"+beaconRssi2+", 비콘2으로 부터 거리"+beaconDistance2);
+                            //                    String beaconName1 = minewBeacons.get(1).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Name).getStringValue();
+                            //                    String beaconName2 = minewBeacons.get(2).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Name).getStringValue();
+
+                            Log.e("가장가까운 비콘 이름", beaconName);
+
+                            //Log.e("beacon1",minewBeacons.get(1).getBeaconValue(BeaconValueIndex.MinewBeaconValueIndex_Name).getStringValue());
+                            //RSSI로 비콘으로 부터 거리계산하기
+                            //                    double beaconDistance0 = calculateAccuracy(beaconRssi0);
+                            //                    double beaconDistance1 = calculateAccuracy(beaconRssi1);
+                            //                    double beaconDistance2 = calculateAccuracy(beaconRssi2);
+                            //
+
+                            //                    Log.d("비콘정보1: ",beaconName1+", 비콘1의 RSSI"+beaconRssi1+", 비콘1으로 부터 거리"+beaconDistance1);
+                            //                    Log.d("비콘정보2: ",beaconName2+", 비콘2의 RSSI"+beaconRssi2+", 비콘2으로 부터 거리"+beaconDistance2);
 
 
-                    //편의시설 정보 위치
-                    if(beaconName0.equals("beacon9")) {
-                        Log.e("beacon9인식", "화면 문구 : 1층 엘레베이터, 음성안내문구 : 1층 엘레베이터 입니다.");
-                        setBeaconFacilitiesInfo("1층 엘레베이터");
-                    }
-
-                    else if(beaconName0.equals("beacon10")) {
-                        Log.e("beacon10인식", "화면 문구 : 1층 화장실, 음성안내문구 : 1층 화장실 입니다.");
-                        setBeaconFacilitiesInfo("1층 화장실");
-                    }
-
-                    //시나리오 작성
-                    //1. 매장입구
-                    else if(beaconName0.equals("beacon11")) {
-                                Log.e("beacon11인식", "화면 문구 : 1층 매장입구, 음성안내문구 : 1층 매장입구 입니다.");
-                                setBeaconFacilitiesInfo("1층 매장입구");
-                    }
-                    //2. 1층 계산대
-                    else if(beaconName0.equals("beacon12")) {
-                                    Log.e("beacon12인식", "화면 문구 : 1층 계산대, 음성안내문구 : 1층 계산대 입니다.");
-                                    setBeaconFacilitiesInfo("1층 계산대");
-                    }
-                    //3. 생활용품 / 스포츠매대
-                    else if(beaconName0.equals("beacon8")) {
-                        //생활용품, 스포츠 매대를 인색했을 경우
-                        if((!disappearBeaconsNameQue.isEmpty()) &&(disappearBeaconsNameQue.contains("beacon11")||disappearBeaconsNameQue.contains("beacon12")))
-                            //매장입구, 계산대 방향으로 오는 경우
-                            setBeaconItemInfo("생활용품", "스포츠");
-                        else{ //반대편
-                            setBeaconItemInfo("스포츠", "생활용품");
-                        }
-                    }
-                    //4.헤어용품/ 구강용품 매대
-                    if (beaconName0.equals("beacon1") ){
-                        if((!disappearBeaconsNameQue.isEmpty())&&(disappearBeaconsNameQue.contains("beacon12")||disappearBeaconsNameQue.contains("beacon8")))
-                            //생활용품,스포츠 매대 방향으로 오는 경우
-                            setBeaconItemInfo("헤어용품","구강용품");
-                        else {
-                            setBeaconItemInfo("구강용품", "스포츠");
-                        }
-                    }
-
-                    //5. 샴푸/면도기 매대
-                    else if(beaconName0.equals("beacon2") || beaconName0.equals("beacon3")){
-                        if((!disappearBeaconsNameQue.isEmpty()) &&( disappearBeaconsNameQue.contains("beacon1")) ){
-                            //헤어용품, 구강용품을 먼저 인식 했을 경우
-                            setBeaconItemInfo("샴푸","면도기");
-                        }
-                        else{
-                            // 구강용품, 헤어용품을 먼저 인식 했을 경우
-                            setBeaconItemInfo("면도기","샴푸");
-                        }
-                    }
-                    //6. 트린트먼트/의약제품 및 가그린 매대
-                    else if(beaconName0.equals("beacon4") || beaconName0.equals("beacon5")){
-                        //헤어용품/구강용품을 먼저 인식했거나 샴푸/면도기를 먼저 인식했을 경우
-                        if(!disappearBeaconsNameQue.isEmpty()) {
-                            if (disappearBeaconsNameQue.contains("beacon1") || disappearBeaconsNameQue.contains("beacon2")
-                                    || disappearBeaconsNameQue.contains("beacon3"))
-                                setBeaconItemInfo("트리트먼트", "의약제품 및 가그린 ");
-                            else {
-                                setBeaconItemInfo("의약제품 및 가그린", "트리트먼트");
+                            //편의시설 정보 위치
+                            if (beaconName.equals("beacon9")) {
+                                Log.e("beacon9인식", "화면 문구 : 1층 엘레베이터, 음성안내문구 : 1층 엘레베이터 입니다.");
+                                setBeaconFacilitiesInfo("1층 엘레베이터");
+                            } else if (beaconName.equals("beaconA")) {
+                                Log.e("beacon10인식", "화면 문구 : 1층 화장실, 음성안내문구 : 1층 화장실 입니다.");
+                                setBeaconFacilitiesInfo("1층 화장실");
                             }
-                        }
-                    }
 
-                    //7. 트리트먼트/면도기
-                    else if(beaconName0.equals("beacon6")||beaconName0.equals("beacon7")) {
-                        //헤어용품, 구강용품을 먼저 인식했거나 트리트먼트/의약제품 및 가그린 먼저 인식했을 경우
-                        if ((!disappearBeaconsNameQue.isEmpty()) &&(disappearBeaconsNameQue.contains("beacon1") || disappearBeaconsNameQue.equals("beacon4") || disappearBeaconsNameQue.equals("beacon5")))
-                            setBeaconItemInfo("트리트먼트", "면도기");
-                        else {
-                            setBeaconItemInfo("면도기", "트리트먼트");
-                        }
-                    }
+                            //시나리오 작성
+                            //1. 매장입구
+                            else if (beaconName.equals("beaconB")) {
+                                Log.e("beaconB인식", "화면 문구 : 1층 매장입구, 음성안내문구 : 1층 매장입구 입니다.");
+                                setBeaconFacilitiesInfo("1층 매장입구");
+                            }
+                            //2. 1층 계산대
+                            else if (beaconName.equals("beaconC")) {
+                                Log.e("beaconC인식", "화면 문구 : 1층 계산대, 음성안내문구 : 1층 계산대 입니다.");
+                                setBeaconFacilitiesInfo("1층 계산대");
+                            }
+                            //3. 생활용품 / 스포츠매대
+                            else if (beaconName.equals("beacon8")) {
+                                //생활용품, 스포츠 매대를 인색했을 경우
+                                if (disappearBeaconsNameQue.contains("beaconB") || disappearBeaconsNameQue.contains("beaconC"))
+                                    //매장입구, 계산대 방향으로 오는 경우
+                                    setBeaconItemInfo("생활용품", "스포츠");
+                                else { //반대편
+                                    setBeaconItemInfo("스포츠", "생활용품");
+                                }
+                            }
+                            //4.헤어용품/ 구강용품 매대
+                            if (beaconName.equals("beacon1")) {
+                                if ((disappearBeaconsNameQue.contains("beaconC") || disappearBeaconsNameQue.contains("beacon8")))
+                                    //생활용품,스포츠 매대 방향으로 오는 경우
+                                    setBeaconItemInfo("헤어용품", "구강용품");
+                                else {
+                                    setBeaconItemInfo("구강용품", "헤어용품");
+                                }
+                            }
 
-                    //8.  행사상품 안내
-                    else if(beaconName0.equals("beacon16")) {
-                        Log.e("beacon7인식" ,"화면 문구 : 리엔 물들임 트린트먼트150ml(흑갈색),헤드앤숄더 샴푸850ml , 음성안내문구 : 추천,세일 상품안내");
-                        setBeaconSaleInfo("추천 상품\n 리엔 물들임 트린트먼트150ml(흑갈색)","1+1 행사상품\n 헤드앤숄더 샴푸850ml");
-                    }
+                            //5. 샴푸/면도기 매대
+                            else if (beaconName.equals("beacon2") || beaconName.equals("beacon3")) {
+                                if ((disappearBeaconsNameQue.contains("beacon1")) || (disappearBeaconsNameQue.contains("beacon8"))) {
+                                    //헤어용품, 구강용품을 먼저 인식 했을 경우
+                                    setBeaconItemInfo("샴푸", "면도기");
+                                } else {
+                                    // 구강용품, 헤어용품을 먼저 인식 했을 경우
+                                    setBeaconItemInfo("면도기", "샴푸");
+                                }
+                            }
+                            //6. 트린트먼트/의약제품 및 가그린 매대
+                            else if (beaconName.equals("beacon4") || beaconName.equals("beacon5")) {
+                                //헤어용품/구강용품을 먼저 인식했거나 샴푸/면도기를 먼저 인식했을 경우
+                                if (!disappearBeaconsNameQue.isEmpty()) {
+                                    if (disappearBeaconsNameQue.contains("beacon1") || disappearBeaconsNameQue.contains("beacon2")
+                                            || disappearBeaconsNameQue.contains("beacon3"))
+                                        setBeaconItemInfo("트리트먼트", "의약제품 및 가그린 ");
+                                    else {
+                                        setBeaconItemInfo("의약제품 및 가그린", "트리트먼트");
+                                    }
+                                }
+                            }
 
-                    //9. 구강용품/헤어용품
-                    else if(beaconName0.equals("beacon15")){
-                        setBeaconItemInfo("구강용품","헤어용품");
-                    }
+                            //7. 트리트먼트/면도기
+                            else if (beaconName.equals("beacon6") || beaconName.equals("beacon7")) {
+                                //헤어용품, 구강용품을 먼저 인식했거나 트리트먼트/의약제품 및 가그린 먼저 인식했을 경우
+                                if ((disappearBeaconsNameQue.contains("beacon1") || disappearBeaconsNameQue.equals("beacon4") || disappearBeaconsNameQue.equals("beacon5")))
+                                    setBeaconItemInfo("트리트먼트", "면도기");
+                                else {
+                                    setBeaconItemInfo("면도기", "트리트먼트");
+                                }
+                            }
 
-                    else if(beaconName0.equals("beacon14")){
-                        Log.e("beacon14인식" ,"화면 문구 : 2층으로 가는 에스컬레이터, 음성안내문구 : 2층으로 가는 에스컬레이터 입니다.");
-                        setBeaconFacilitiesInfo("2층으로 가는 에스컬레이터");
-                    }
-                    else if(beaconName0.equals("beacon13")){
-                        if((!disappearBeaconsNameQue.isEmpty()) && (disappearBeaconsNameQue.contains("beacon15")|| disappearBeaconsNameQue.contains("beacon16")))
-                            setBeaconItemInfo("생활용품","가전");
-                        else{
-                            setBeaconItemInfo("가전","생활용품");
+                            //8.  행사상품 안내
+                            else if (beaconName.equals("beaconG")) {
+                                setBeaconSaleInfo("추천 상품\n 리엔 물들임 트린트먼트150ml(흑갈색)", "1+1 행사상품\n 헤드앤숄더 샴푸850ml");
+                            }
+
+                            //9. 구강용품/헤어용품
+                            else if (beaconName.equals("beaconF")) {
+                                setBeaconItemInfo("구강용품", "헤어용품");
+                            } else if (beaconName.equals("beaconE")) {
+                                setBeaconFacilitiesInfo("2층으로 가는 에스컬레이터");
+                            } else if (beaconName.equals("beaconD")) {
+                                if (disappearBeaconsNameQue.contains("beacon15") || disappearBeaconsNameQue.contains("beacon16"))
+                                    setBeaconItemInfo("생활용품", "가전");
+                                else {
+                                    setBeaconItemInfo("가전", "생활용품");
+                                }
+                            }
                         }
                     }
 
@@ -440,29 +482,5 @@ public class BeaconMainActivity extends AppCompatActivity {
         }
     }
 
-    private void showBLEDialog() {
-        Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-        if ((ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED)
-        && (ActivityCompat.checkSelfPermission(this,Manifest.permission.BLUETOOTH_SCAN)!=PackageManager.PERMISSION_GRANTED))
-         {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
-    }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case REQUEST_ENABLE_BT:
-                break;
-        }
-    }
 }
