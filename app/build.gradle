@@ -10,6 +10,9 @@ android {
     }
 
     defaultConfig {
+        configurations.all {
+            resolutionStrategy { force 'androidx.core:core-ktx:1.6.0' }
+        }
         applicationId "kr.co.whipping"
         minSdk 21
         targetSdk 32
@@ -50,6 +53,7 @@ dependencies {
     //바코드 사용
     implementation('com.journeyapps:zxing-android-embedded:3.6.0') { transitive = false }
     implementation 'com.google.zxing:core:3.4.1'
+
 
     implementation 'com.google.android.gms:play-services-vision:18.0.0'
     implementation 'com.google.api-client:google-api-client-android:1.23.0' exclude module: 'okhttp'
