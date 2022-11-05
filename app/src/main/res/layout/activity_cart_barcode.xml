@@ -14,77 +14,21 @@
         android:layout_marginLeft="50dp"
         android:layout_marginTop="50dp"
         android:background="@drawable/btn_back_barcode"
-        android:contentDescription="오른쪽으로 넘어가는 버튼입니다."
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_move_left"
-        android:layout_width="60dp"
-        android:layout_height="80dp"
-        android:layout_marginRight="80dp"
-        android:background="@drawable/btn_move_left"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/iv_barcode_background"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/iv_barcode_background"
-        android:layout_width="800dp"
-        android:layout_height="500dp"
-        android:background="@drawable/image_barcode_cart"
-        android:contentDescription="바코드 이미지입니다."
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:layout_width="60dp"
-        android:layout_height="80dp"
-        android:layout_marginLeft="80dp"
-        android:background="@drawable/btn_move_right"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/iv_barcode_background"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_page_current"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginRight="20dp"
-        android:text="2"
-        android:textColor="@color/black"
-        android:textSize="35dp"
-        app:layout_constraintEnd_toStartOf="@+id/tv_slash"
-        app:layout_constraintTop_toBottomOf="@+id/iv_barcode_background" />
-
-    <TextView
-        android:id="@+id/tv_slash"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:text="/"
-        android:textColor="@color/black"
-        android:textSize="35dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_barcode_background" />
-
-    <TextView
-        android:id="@+id/tv_page_all"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="40dp"
-        android:text="10"
-        android:textColor="@color/black"
-        android:textSize="35dp"
-        app:layout_constraintStart_toEndOf="@+id/tv_slash"
-        app:layout_constraintTop_toBottomOf="@+id/iv_barcode_background" />
+        app:layout_constraintVertical_bias="1.0" >
+    </androidx.viewpager2.widget.ViewPager2>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

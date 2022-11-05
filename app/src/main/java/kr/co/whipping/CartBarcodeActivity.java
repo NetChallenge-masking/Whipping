@@ -1,6 +1,7 @@
 package kr.co.whipping;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -26,22 +27,26 @@ public class CartBarcodeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart_barcode);
 
-        ImageView imageview = findViewById(R.id.iv_barcode_background);
-        TextView tv_page_all = findViewById(R.id.tv_page_all);
-
         DBHelper dbHelper = new DBHelper(CartBarcodeActivity.this);
         Cursor cursor = dbHelper.readBarcodeImg();
 
-        ArrayList<byte[]> imgList = new ArrayList<>();
+        /*DB에 저장된 byte 가져오기*/
+        ArrayList<byte[]> byteList = new ArrayList<>();
         while (cursor.moveToNext()) {
             byte[] img = cursor.getBlob(0);
 
-            imgList.add(img);
+            byteList.add(img);
         }
 
-        for(byte[] b : imgList) {
+        /*byte를 bitmap으로 변환하기*/
+        ArrayList<Bitmap> imgList = new ArrayList<>();
+        for(byte[] b : byteList) {
             Bitmap bitmap = BitmapFactory.decodeByteArray(b, 0, b.length);
-            imageview.setImageBitmap(bitmap);
+            imgList.add(bitmap);
         }
+
+        ViewPager2 viewPager = findViewById(R.id.view_pager);
+        BarcodeImgAdapter adapter = new BarcodeImgAdapter(imgList);
+        viewPager.setAdapter(adapter);
     }
 }
