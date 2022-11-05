@@ -2,69 +2,66 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/basketBtn"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeActivity"
-    android:background="#D7EDFF">
+    android:background="#D7EDFF"
+    tools:context=".HomeActivity">
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/searchItemBtn"
         android:layout_width="260dp"
         android:layout_height="230dp"
         android:layout_marginLeft="40dp"
         android:layout_marginTop="30dp"
+        android:contentDescription="상품 검색"
         android:src="@drawable/btn_home_search"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:onClick="goSearch"
-        android:contentDescription="상품 검색"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
+        android:id="@+id/basketItemBtn"
         android:layout_width="260dp"
         android:layout_height="230dp"
         android:layout_marginLeft="40dp"
         android:layout_marginBottom="30dp"
+        android:contentDescription="장바구니"
         android:src="@drawable/btn_home_cart"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:onClick="goCart"
-        android:contentDescription="장바구니"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
+        android:id="@+id/checkItemBtn"
         android:layout_width="260dp"
         android:layout_height="230dp"
-        android:src="@drawable/btn_home_scan"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="30dp"
         android:layout_marginRight="40dp"
-        android:onClick="goScan"
-        android:contentDescription="상품 확인"/>
+        android:contentDescription="상품 확인"
+        android:src="@drawable/btn_home_scan"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
+        android:id="@+id/locationBtn"
         android:layout_width="260dp"
         android:layout_height="230dp"
-        android:src="@drawable/btn_home_location"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginRight="40dp"
         android:layout_marginBottom="30dp"
-        android:onClick="goLocation"
-        android:contentDescription="위치 검색"/>
+        android:contentDescription="위치 검색"
+        android:src="@drawable/btn_home_location"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageView
+        android:id="@+id/finishHomeBtn"
         android:layout_width="250dp"
         android:layout_height="250dp"
+        android:contentDescription="쇼핑 종료"
         android:src="@drawable/btn_home_finish"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:onClick="finishShopping"
-        android:contentDescription="쇼핑 종료"/>
-
-
-
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

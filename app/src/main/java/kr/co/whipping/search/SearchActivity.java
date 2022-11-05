@@ -134,25 +134,7 @@ public class SearchActivity extends AppCompatActivity {
 
             }
         });
-//코틀린 코드
-//        micButton.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent motionEvent) {
-//
-//                //ACTION_UP: A pressed gesture has finished.
-//                if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-//                    speechRecognizer.stopListening();
-//                }
-//
-//                //ACTION_DOWN: A pressed gesture has started.
-//                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-//                    micButton.setBackground(getDrawable(R.drawable.ic_mics));
-//                    speechRecognizer.startListening(speechRecognizerIntent);
-//                }
-//                return false;
-//            }
-//        });
-//자바 코드로 변환
+
         micButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
