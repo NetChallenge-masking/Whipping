@@ -51,7 +51,6 @@ public class HomeActivity extends AppCompatActivity {
         });
 
 
-
         //상품검색
         searchItemBtn.setOnClickListener(new View.OnClickListener() {
 
