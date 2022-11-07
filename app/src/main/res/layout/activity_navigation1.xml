@@ -199,4 +199,13 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
 
+    <ImageView
+        android:id="@+id/wanttogo"
+        android:layout_width="25dp"
+        android:layout_height="47dp"
+        android:layout_margin="20dp"
+        android:src="@drawable/image_wanttogoloc"
+        tools:layout_editor_absoluteX="469dp"
+        tools:layout_editor_absoluteY="165dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
