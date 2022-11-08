@@ -8,18 +8,15 @@ import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -33,6 +30,8 @@ public class SearchActivity extends AppCompatActivity {
     private SpeechRecognizer speechRecognizer;
     private EditText editText;
     private Button micButton;
+    private Button backBtn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,12 +44,19 @@ public class SearchActivity extends AppCompatActivity {
 
         editText = findViewById(R.id.rec_EditTextView);
         micButton = findViewById(R.id.rec_Btn);
+        backBtn = findViewById(R.id.btn_back);
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
+
 
         final Intent speechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
-
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         speechRecognizer.setRecognitionListener(new RecognitionListener() {
             @Override
             public void onReadyForSpeech(Bundle bundle) {
@@ -59,7 +65,7 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onBeginningOfSpeech() {
                 editText.setText("");
-                editText.setHint("Listening...");
+                editText.setHint("음성 인식중...");
             }
 
             @Override
@@ -110,19 +116,20 @@ public class SearchActivity extends AppCompatActivity {
                         message = "알 수 없는 오류임";
                         break;
                 }
-                micButton.setBackground(getDrawable(R.drawable.ic_mic_offs));
+                micButton.setBackground(getDrawable(R.drawable.mic_img));
                 editText.setText(message);
             }
 
             @Override
             public void onResults(Bundle bundle) {
-                micButton.setBackground(getDrawable(R.drawable.ic_mic_offs));
+                micButton.setBackground(getDrawable(R.drawable.mic_green));
                 ArrayList<String> data = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
                 editText.setText(data.get(0));
                 //다음 액티비티로 전송
                 Intent intent =new Intent(getApplicationContext(), Search2Activity.class);
                 intent.putExtra("searchItemName",data.get(0).toString());
                 startActivity(intent);
+                finish();
             }
 
             @Override
@@ -134,11 +141,29 @@ public class SearchActivity extends AppCompatActivity {
 
             }
         });
-
+//코틀린 코드
+//        micButton.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View view, MotionEvent motionEvent) {
+//
+//                //ACTION_UP: A pressed gesture has finished.
+//                if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+//                    speechRecognizer.stopListening();
+//                }
+//
+//                //ACTION_DOWN: A pressed gesture has started.
+//                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+//                    micButton.setBackground(getDrawable(R.drawable.ic_mics));
+//                    speechRecognizer.startListening(speechRecognizerIntent);
+//                }
+//                return false;
+//            }
+//        });
+//자바 코드로 변환
         micButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                micButton.setBackground(getDrawable(R.drawable.ic_mics));
+                micButton.setBackground(getDrawable(R.drawable.mic_green));
                 speechRecognizer.startListening(speechRecognizerIntent);
             }
         });
