@@ -189,7 +189,7 @@ public class BarcodeScanActivity extends AppCompatActivity {
                         Log.d("dd", "샴푸 인식 확인");
                         category.setText("샴푸");
                         nameOfprod.setText("헤드&숄더 두피 토탈 솔루션 가려운 두피케어");
-                        price.setText("15,900");
+                        price.setText("15900");
                     }
                     else {
                         Log.d("dd", "8808024028831");
@@ -208,7 +208,7 @@ public class BarcodeScanActivity extends AppCompatActivity {
                     Log.d("dd", "샴푸 인식 확인");
                     category.setText("샴푸");
                     nameOfprod.setText("헤드&숄더 두피 토탈 솔루션 가려운 두피케어");
-                    price.setText("15,900");
+                    price.setText("15900");
                 }
 
 

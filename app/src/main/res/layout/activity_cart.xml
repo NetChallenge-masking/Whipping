@@ -16,6 +16,7 @@
         android:background="@drawable/btn_add"
         android:text="수량 추가"
         android:textSize="70dp"
+        android:contentDescription = "수량 추가"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,6 +29,7 @@
         android:background="@drawable/btn_minus"
         android:text="수량 감소"
         android:textSize="70dp"
+        android:contentDescription = "수량 감소"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/amount_add_btn" />
 
@@ -40,6 +42,7 @@
         android:layout_marginTop="30dp"
         android:text="상품 삭제"
         android:textSize="70dp"
+        android:contentDescription = "상품 삭제"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/amount_minus_btn" />
 
