@@ -43,12 +43,8 @@ public class DBHelper extends SQLiteOpenHelper
 
         String itemQuery = "CREATE TABLE " + "item"
                 + " (" + "barcode_id" + " VARCAHR(30) PRIMARY KEY, "
-                + "barcode_type" + " VARCAHR(30), "
                 + "item_name" + " VARCAHR(30), "
-                + "price" + " INTEGER, "
-                + "category" + " VARCAHR(30), "
-                + "beacon_id" + " INTEGER,"
-                + "CONSTRAINT beacon_id FOREIGN KEY (beacon_id) REFERENCES beacon(beacon_id)); ";
+                + "item_location" + " VARCAHR(30));";
         db.execSQL(itemQuery);
 
         String beaconQuery = "CREATE TABLE " + "beacon"
@@ -129,6 +125,37 @@ public class DBHelper extends SQLiteOpenHelper
     //바코드 이미지 읽기
     public Cursor readBarcodeImg() {
         String query = "SELECT barcode_img FROM basket";
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if(db != null) {
+            cursor = db.rawQuery(query, null);
+        }
+        return cursor;
+    }
+
+    //상품 넣기
+    public void addItem(String barcodeId, String itemName, String itemLocation) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put("barcode_id", barcodeId);
+        cv.put("item_name", itemName);
+        cv.put("item_location", itemLocation);
+        long result = db.insert("item", null, cv);
+//        if (result == -1)
+//        {
+//            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
+//        }
+//        else
+//        {
+//            Toast.makeText(context, "데이터 추가 성공", Toast.LENGTH_SHORT).show();
+//        }
+    }
+
+    //상품 위치 가져오기
+    public Cursor readItemLocation(String searchItem) {
+        String query = "SELECT item_name, item_location FROM item WHERE item_name LIKE '%" + searchItem + "%';";
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = null;
