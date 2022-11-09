@@ -15,9 +15,9 @@ public class Navigation1Activity extends AppCompatActivity {
         setContentView(R.layout.activity_navigation1);
 
 
-        ImageView ivEvent = findViewById(R.id.wanttogo);
+        ImageView wanttogo = findViewById(R.id.wanttogo);
         Animation anim = AnimationUtils.loadAnimation
                 (getApplicationContext(), R.anim.updown);
-        ivEvent.startAnimation(anim);
+        wanttogo.startAnimation(anim);
     }
 }
