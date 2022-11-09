@@ -143,14 +143,6 @@ public class DBHelper extends SQLiteOpenHelper
         cv.put("item_name", itemName);
         cv.put("item_location", itemLocation);
         long result = db.insert("item", null, cv);
-//        if (result == -1)
-//        {
-//            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
-//        }
-//        else
-//        {
-//            Toast.makeText(context, "데이터 추가 성공", Toast.LENGTH_SHORT).show();
-//        }
     }
 
     //상품 위치 가져오기
