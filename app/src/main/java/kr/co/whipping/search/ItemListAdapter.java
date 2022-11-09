@@ -10,28 +10,26 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import kr.co.whipping.BarcodeImgAdapter;
 import kr.co.whipping.R;
-import kr.co.whipping.search.db.Item;
 
 
 public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.MyViewHolder> {
     private Context context;
     private List<Item> itemList;
 
-    public ItemListAdapter(Context context){this.context=context;}
-    public void setItemList(List<Item> itemList){
-        this.itemList=itemList;
-        notifyDataSetChanged();
+    public ItemListAdapter(ArrayList<Item> itemList){
+        this.itemList = itemList;
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.recycler_row,parent,false);
-
-        return new MyViewHolder(view);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_row,parent,false);
+        return new ItemListAdapter.MyViewHolder(view);
     }
 
     @Override

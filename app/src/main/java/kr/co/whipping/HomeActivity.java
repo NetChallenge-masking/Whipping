@@ -13,6 +13,7 @@ import java.util.Locale;
 
 import kr.co.whipping.locationinfo.BeaconMainActivity;
 import kr.co.whipping.scan.ScanActivity;
+import kr.co.whipping.scan.barcordscan.BarcodeScanActivity;
 import kr.co.whipping.search.SearchActivity;
 
 
@@ -25,6 +26,7 @@ public class HomeActivity extends AppCompatActivity {
 
     TextToSpeech tts;
     int clickCnt;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,9 +55,13 @@ public class HomeActivity extends AppCompatActivity {
 
         //상품검색
         searchItemBtn.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
+
+                DBHelper dbHelper = new DBHelper(HomeActivity.this);
+                dbHelper.addItem("4902430232159", "헤드&숄더 두피 토탈 솔루션 가려운 두피케어 샴푸", "지하 1층 샴푸 매대");
+                dbHelper.addItem("4902430232160", "케라시스 샴푸", "지하 1층 샴푸 매대");
+                dbHelper.addItem("4902430232161", "샴푸", "지하 1층 샴푸 매대");
                 talkBack("상품검색",SearchActivity.class);
             }
         });

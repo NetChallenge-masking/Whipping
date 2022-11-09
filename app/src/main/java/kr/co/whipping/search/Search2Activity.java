@@ -1,6 +1,7 @@
 package kr.co.whipping.search;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,22 +13,31 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+
+import kr.co.whipping.Basket;
+import kr.co.whipping.BasketAdapter;
+import kr.co.whipping.CartActivity;
+import kr.co.whipping.DBHelper;
 import kr.co.whipping.R;
-import kr.co.whipping.search.db.Item;
 
 public class Search2Activity extends AppCompatActivity {
     EditText searchEditTextview;
-    private  ItemListAdapter itemListAdapter;
+    private  ItemListAdapter adapter;
     private String searchText;
     private Button backButton;
     private Button goBackItemSearch;
+    RecyclerView recyclerView;
+    DBHelper dbHelper;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search2);
 
+        ArrayList<Item> itemList = new ArrayList<>();
 
-        searchEditTextview =(EditText) findViewById(R.id.searchEditTextview);
+        searchEditTextview = (EditText) findViewById(R.id.searchEditTextview);
         backButton=findViewById(R.id.btn_itemsearch_back);
         goBackItemSearch = findViewById(R.id.btn_goback_itemsearch);
 
@@ -43,6 +53,7 @@ public class Search2Activity extends AppCompatActivity {
                 finish();
             }
         });
+
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,27 +61,23 @@ public class Search2Activity extends AppCompatActivity {
             }
         });
 
+        recyclerView = findViewById(R.id.recyclerView);
+        adapter = new ItemListAdapter(itemList);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(Search2Activity.this));
 
-        initRecyclerView();
-//        loadSearchItemList();
+        dbHelper = new DBHelper(Search2Activity.this);
+
+        Cursor cursor = dbHelper.readItemLocation(searchEditTextview.getText().toString());
+        while (cursor.moveToNext()) {
+            Item item = new Item(
+                    cursor.getString(0),  //item_name
+                    cursor.getString(1)  //item_location
+            );
+            itemList.add(item);
+
+            adapter.notifyDataSetChanged();
+        }
+
     }
-    private void initRecyclerView(){
-        RecyclerView recyclerView= findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-        recyclerView.addItemDecoration(dividerItemDecoration);
-        itemListAdapter = new ItemListAdapter(this);
-        recyclerView.setAdapter(itemListAdapter);
-
-    }
-//    private void loadSearchItemList(){
-//        AppDatabase db = AppDatabase.getDbInstance(this.getApplicationContext());
-//        List<Item> searchItemList= db.itemDao().searchItems(searchText);
-//        itemListAdapter.setItemList(searchItemList);
-//
-//    }
-
-
-
 }
