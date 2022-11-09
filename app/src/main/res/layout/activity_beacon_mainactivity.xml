@@ -22,16 +22,16 @@
 
         <TextView
             android:id="@+id/beaconInfo1TextView"
-            android:fontFamily="@font/esamanru_light"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="20dp"
             android:layout_weight="1"
             android:background="@drawable/style_beacon_background_name"
+            android:fontFamily="@font/esamanru_light"
             android:gravity="center"
             android:text="매대이름1"
-            android:textSize="60sp"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textSize="60sp" />
 
         <LinearLayout
             android:layout_width="0dp"

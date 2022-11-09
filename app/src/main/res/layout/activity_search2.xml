@@ -21,8 +21,7 @@
             android:id="@+id/btn_itemsearch_back"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginLeft="30dp"
             android:background="@drawable/backbtn"
             android:contentDescription="뒤로가기 버튼 입니다." />
 
@@ -31,19 +30,23 @@
             android:layout_width="900dp"
             android:layout_height="80dp"
             android:layout_marginStart="35dp"
+            android:layout_marginLeft="35dp"
             android:layout_marginTop="20dp"
-            android:layout_marginEnd="28dp"
+            android:layout_marginEnd="35dp"
+            android:layout_marginBottom="35dp"
+            android:background="@drawable/search_edittext_border"
             android:ems="10"
-            android:textSize="50dp"
+            android:fontFamily="@font/esamanru_light"
             android:hint="상품 이름을 입력해주세요."
-            android:inputType="textPersonName" />
+            android:includeFontPadding="true"
+            android:inputType="textPersonName"
+            android:textSize="50dp" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_goback_itemsearch"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="40dp"
+            android:layout_marginEnd="30dp"
             android:background="@drawable/mic_img"
             android:contentDescription="음성인식으로 이동하는 버튼입니다." />
     </LinearLayout>

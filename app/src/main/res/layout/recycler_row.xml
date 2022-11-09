@@ -18,8 +18,9 @@
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
             android:layout_weight="1"
+            android:fontFamily="@font/esamanru_bold"
             android:textColor="#000000"
-            android:textSize="40sp"
+            android:textSize="30sp"
             android:textStyle="bold"
             tools:text="서울우유 1급 A우유" />
 
@@ -29,9 +30,10 @@
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
             android:layout_weight="1"
-            android:textColor="#000000"
+            android:fontFamily="@font/esamanru_medium"
 
-            android:textSize="40sp"
+            android:textColor="#000000"
+            android:textSize="30sp"
             tools:text="4.음료주류" />
 
         <androidx.appcompat.widget.AppCompatButton
@@ -40,9 +42,12 @@
             android:layout_height="70dp"
             android:layout_margin="30dp"
             android:layout_weight="0.2"
-            android:background="@drawable/btn_search_location_img"
+            android:background="@drawable/enterradius"
             android:contentDescription="위치안내버튼입니다."
-            />
+            android:fontFamily="@font/esamanru_medium"
+            android:text="위치 안내"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp" />
     </LinearLayout>
 
     <View
