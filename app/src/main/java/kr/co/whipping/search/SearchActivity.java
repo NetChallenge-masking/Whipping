@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,6 +33,9 @@ public class SearchActivity extends AppCompatActivity {
     private EditText editText;
     private Button micButton;
     private Button backBtn;
+    TextToSpeech tts;
+    int clickCnt;
+
 
 
     @Override
@@ -54,9 +59,11 @@ public class SearchActivity extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                talkBack("뒤로가기");
             }
         });
+
+
         speechRecognizer.setRecognitionListener(new RecognitionListener() {
             @Override
             public void onReadyForSpeech(Bundle bundle) {
@@ -163,13 +170,71 @@ public class SearchActivity extends AppCompatActivity {
         micButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                micButton.setBackground(getDrawable(R.drawable.mic_green));
-                speechRecognizer.startListening(speechRecognizerIntent);
+                talkBack("음성인식",speechRecognizerIntent);
             }
         });
     }
 
+    //음성안내 및 음성인식 데이터 결과 인텐트 넘겨주는 함수
+    public void talkBack(String text,Intent intentsName){
+        //음성안내 구현
+        tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() { //tts구현
+            @Override
+            public void onInit(int i) {
 
+                if (i == TextToSpeech.SUCCESS) { //tts 잘되면
+                    tts.setLanguage(Locale.KOREA);     //한국어로 설정
+                    tts.setSpeechRate(0.8f); //말하기 속도 지정 1.0이 기본값
+                    clickCnt++; //클릭 횟수
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (clickCnt == 1) { //한번 클릭했을 경우 버튼내용 음성안내
+                                tts.speak(text +" 버튼입니다. 활성화하려면 두번 탭하세요.", TextToSpeech.QUEUE_ADD, null);
+                            } else if (clickCnt == 2) { //두번 클릭했을 경우 다음 화면으로 intent
+                                micButton.setBackground(getDrawable(R.drawable.mic_green));
+                                speechRecognizer.startListening(intentsName);
+
+                            }
+                            clickCnt = 0; //클릭횟수 0으로 초기화
+                        }
+
+                    }, 500); //클릭이 0.5초 이내로 한 번 더 클릭 되어있을 경우
+
+                }
+            }
+        });
+    }
+    //인텐트 넘겨주는 않는 뒤로가기 또는 종료 버튼을 위한 접근성 음성안내 함수
+    public void talkBack(String text){
+        //음성안내 구현
+        tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() { //tts구현
+            @Override
+            public void onInit(int i) {
+
+                if (i == TextToSpeech.SUCCESS) { //tts 잘되면
+                    tts.setLanguage(Locale.KOREA);     //한국어로 설정
+                    tts.setSpeechRate(0.8f); //말하기 속도 지정 1.0이 기본값
+                    clickCnt++; //클릭 횟수
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (clickCnt == 1) { //한번 클릭했을 경우 버튼내용 음성안내
+                                tts.speak(text +" 버튼입니다. 활성화하려면 두번 탭하세요.", TextToSpeech.QUEUE_ADD, null);
+                            } else if (clickCnt == 2) { //두번 클릭했을 경우 다음 화면으로 intent
+                                finish();
+                            }
+                            clickCnt = 0; //클릭횟수 0으로 초기화
+                        }
+
+                    }, 500); //클릭이 0.5초 이내로 한 번 더 클릭 되어있을 경우
+
+                }
+            }
+        });
+    }
 
     @Override
     protected void onDestroy() {
