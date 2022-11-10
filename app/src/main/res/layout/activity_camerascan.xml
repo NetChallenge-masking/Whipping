@@ -7,57 +7,99 @@
     tools:context=".MainActivity"
     android:background="#F5F5F5">
 
-    <TextView
-        android:id="@+id/image_details"
-        android:layout_width="400dp"
-        android:layout_height="446dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:fontFamily="@font/esamanru_bold"
-        android:gravity="center"
-        android:text="텍스트 결과"
-        android:textColor="@color/black"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/cameraBackBtn"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_read_text"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="60dp"
-        android:background="@drawable/btn_text_voice"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_details" />
+        <ImageView
+            android:id="@+id/camescan_detail_back_btn"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="20dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/btn_back_barcode" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="9">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/image_details"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:fontFamily="@font/esamanru_bold"
+                            android:gravity="center"
+                            android:text="텍스트 결과"
+                            android:textColor="@color/black"
+                            android:textSize="50sp" />
+                    </LinearLayout>
+                </ScrollView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginBottom="20dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/cameraBackBtn"
+                        android:layout_width="320dp"
+                        android:layout_height="150dp"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginRight="70dp"
+                        android:layout_marginBottom="50dp"
+                        android:background="@drawable/btn_barcode_background"
+                        android:fontFamily="@font/esamanru_medium"
+                        android:text="카메라 스캔"
+                        android:textSize="40dp" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_read_text"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginBottom="50dp"
+                        android:background="@drawable/btn_text_voice" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/barcordScanGoBtn"
+                        android:layout_width="320dp"
+                        android:layout_height="150dp"
+                        android:layout_marginLeft="70dp"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginBottom="50dp"
+                        android:background="@drawable/btn_barcode_background"
+                        android:fontFamily="@font/esamanru_medium"
+                        android:text="상품 담기"
+                        android:textSize="40dp" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout><![CDATA[
 
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/cameraBackBtn"
-        android:layout_width="320dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginRight="70dp"
-        android:background="@drawable/btn_barcode_background"
-        android:fontFamily="@font/esamanru_medium"
-        android:text="카메라 스캔"
-        android:textSize="40dp"
-        app:layout_constraintEnd_toStartOf="@+id/btn_read_text"
-        app:layout_constraintTop_toBottomOf="@+id/image_details" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/barcordScanGoBtn"
-        android:layout_width="320dp"
-        android:layout_height="150dp"
-        android:layout_marginLeft="70dp"
-        android:layout_marginTop="60dp"
-        android:background="@drawable/btn_barcode_background"
-        android:fontFamily="@font/esamanru_medium"
-        android:text="상품 담기"
-        android:textSize="40dp"
-        app:layout_constraintStart_toEndOf="@+id/btn_read_text"
-        app:layout_constraintTop_toBottomOf="@+id/image_details" />/>
 
+    />
+
+
+]]>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,15 +16,19 @@ import androidx.lifecycle.LifecycleOwner;
 
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -47,6 +51,7 @@ import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 
@@ -60,9 +65,13 @@ public class InnerCameraActivity extends AppCompatActivity implements ImageAnaly
     PreviewView previewView;
     private ImageCapture imageCapture;
     private Button bCapture;
+    private ImageView back_btn;
     private ProgressBar progressBar;
     private static final int MAX_DIMENSION = 1200;
+    TextToSpeech tts;
+    int clickCnt;
 
+    Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,10 +80,28 @@ public class InnerCameraActivity extends AppCompatActivity implements ImageAnaly
         previewView = findViewById(R.id.previewView);
         bCapture = findViewById(R.id.bCapture);
         progressBar=findViewById(R.id.progressBar);
+        back_btn=findViewById(R.id.innerCamera_back_btn);
+        tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() { //tts구현
+            @Override
+            public void onInit(int i) {
+
+                if (i == TextToSpeech.SUCCESS) { //tts 잘되면
+                    tts.setLanguage(Locale.KOREA);     //한국어로 설정
+                    tts.setSpeechRate(0.8f); //말하기 속도 지정 1.0이 기본값
+                    tts.speak("상품의 상세정보를 촬영해주세요.", TextToSpeech.QUEUE_ADD, null);
+                }
+            }
+
+        });
 
         bCapture.setOnClickListener(this);
         progressBar.setVisibility(View.INVISIBLE);
-
+        back_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                talkBack("뒤로가기");
+            }
+        });
         cameraProviderFuture = ProcessCameraProvider.getInstance(this);
         cameraProviderFuture.addListener(() -> {
             try {
@@ -85,7 +112,35 @@ public class InnerCameraActivity extends AppCompatActivity implements ImageAnaly
             }
         }, getExecutor());
     }
+    //인텐트 넘겨주는 않는 뒤로가기 또는 종료 버튼을 위한 접근성 음성안내 함수
+    public void talkBack(String text){
+        //음성안내 구현
+        tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() { //tts구현
+            @Override
+            public void onInit(int i) {
 
+                if (i == TextToSpeech.SUCCESS) { //tts 잘되면
+                    tts.setLanguage(Locale.KOREA);     //한국어로 설정
+                    tts.setSpeechRate(0.8f); //말하기 속도 지정 1.0이 기본값
+                    clickCnt++; //클릭 횟수
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (clickCnt == 1) { //한번 클릭했을 경우 버튼내용 음성안내
+                                tts.speak(text +" 버튼입니다. 활성화하려면 두번 탭하세요.", TextToSpeech.QUEUE_ADD, null);
+                            } else if (clickCnt == 2) { //두번 클릭했을 경우 다음 화면으로 intent
+                                finish();
+                            }
+                            clickCnt = 0; //클릭횟수 0으로 초기화
+                        }
+
+                    }, 500); //클릭이 0.5초 이내로 한 번 더 클릭 되어있을 경우
+
+                }
+            }
+        });
+    }
     Executor getExecutor() {
         return ContextCompat.getMainExecutor(this);
     }
@@ -128,7 +183,7 @@ public class InnerCameraActivity extends AppCompatActivity implements ImageAnaly
     }
     private void callCloudVision(final Bitmap bitmap) throws IOException {
         // loading
-        bCapture.setVisibility(View.INVISIBLE);
+        //bCapture.setVisibility(View.INVISIBLE);
         progressBar.setVisibility(View.VISIBLE);
         // Do the real work in an async task, because we need to use the network anyway
         new AsyncTask<Object, Void, String>() {
@@ -262,12 +317,12 @@ public class InnerCameraActivity extends AppCompatActivity implements ImageAnaly
                     @Override
                     public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
                         uploadImage(outputFileResults.getSavedUri()); //텍스트인식 API에 이미지 업로드
-                        Toast.makeText(InnerCameraActivity.this, "Photo has been saved successfully.", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(InnerCameraActivity.this, "Photo has been saved successfully.", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onError(@NonNull ImageCaptureException exception) {
-                        Toast.makeText(InnerCameraActivity.this, "Error saving photo: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(InnerCameraActivity.this, "Error saving photo: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
         );

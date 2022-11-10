@@ -7,56 +7,82 @@
     tools:context=".MainActivity"
     tools:ignore="MissingDefaultResource">
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyle"
+    <LinearLayout
+        android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:layout_marginBottom="50dp"
-        android:progressTint="#65DF6A"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="#429B5B"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/linearLayout"
-        tools:visibility="visible" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="1283dp"
-        android:layout_height="810dp"
-        android:weightSum="100"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.camera.view.PreviewView
-            android:id="@+id/previewView"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="90" />
-
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="10"
-            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_weight="1"
             android:orientation="horizontal">
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/bCapture"
-                android:layout_width="match_parent"
+            <ImageView
+                android:id="@+id/innerCamera_back_btn"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_margin="20dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/btn_back" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="20dp"
+                android:layout_weight="5"
+                android:progressTint="#65DF6A"
+                android:visibility="invisible"
+                tools:visibility="visible" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="810dp"
+            android:layout_weight="9"
+            android:weightSum="100">
+
+            <androidx.camera.view.PreviewView
+                android:id="@+id/previewView"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="85">
+
+            </androidx.camera.view.PreviewView>
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/style_beacon_background_name"
-                android:fontFamily="@font/esamanru_medium"
-                android:text="촬영"
-                android:textSize="40sp" />
+                android:layout_weight="15"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/bCapture"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="10"
+                    android:background="@drawable/style_beaconmain_scan_background"
+                    android:fontFamily="@font/esamanru_medium"
+                    android:text="촬영"
+                    android:textSize="40sp" />
+            </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>
