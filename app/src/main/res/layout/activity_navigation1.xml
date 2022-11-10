@@ -7,6 +7,21 @@
     tools:context=".Navigation1Activity"
     android:background="@drawable/image_navigation">
 
+    <ImageButton
+        android:id="@+id/map_back_btn"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.006"
+        android:contentDescription="뒤로가기"
+        app:srcCompat="@drawable/btn_back_search" />
+
     <ImageView
         android:id="@+id/beacon_1"
         android:layout_width="27dp"
@@ -104,11 +119,23 @@
         tools:visibility="visible" />
 
     <ImageView
+        android:id="@+id/beacon_11"
+        android:layout_width="27dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="672dp"
+        android:layout_marginEnd="1040dp"
+        android:src="@drawable/ic_navigation_current"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+    <ImageView
         android:id="@+id/beacon_9"
         android:layout_width="27dp"
         android:layout_height="38dp"
-        android:layout_marginTop="372dp"
-        android:layout_marginEnd="688dp"
+        android:layout_marginTop="716dp"
+        android:layout_marginEnd="1164dp"
         android:src="@drawable/ic_navigation_current"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
@@ -119,20 +146,8 @@
         android:id="@+id/beacon_10"
         android:layout_width="27dp"
         android:layout_height="38dp"
-        android:layout_marginTop="372dp"
-        android:layout_marginEnd="596dp"
-        android:src="@drawable/ic_navigation_current"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible" />
-
-    <ImageView
-        android:id="@+id/beacon_11"
-        android:layout_width="27dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="328dp"
-        android:layout_marginEnd="564dp"
+        android:layout_marginTop="716dp"
+        android:layout_marginEnd="1072dp"
         android:src="@drawable/ic_navigation_current"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
@@ -143,8 +158,8 @@
         android:id="@+id/beacon_12"
         android:layout_width="27dp"
         android:layout_height="38dp"
-        android:layout_marginTop="328dp"
-        android:layout_marginEnd="436dp"
+        android:layout_marginTop="672dp"
+        android:layout_marginEnd="912dp"
         android:src="@drawable/ic_navigation_current"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
@@ -201,11 +216,16 @@
 
     <ImageView
         android:id="@+id/wanttogo"
-        android:layout_width="25dp"
-        android:layout_height="47dp"
+        android:layout_width="80dp"
+        android:layout_height="100dp"
         android:layout_margin="20dp"
         android:src="@drawable/image_wanttogoloc"
-        tools:layout_editor_absoluteX="469dp"
-        tools:layout_editor_absoluteY="165dp" />
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.67"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.412" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -37,13 +37,13 @@
         <entry key="app/src/main/res/layout/activity_location.xml" value="0.14791666666666667" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_navigation.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_navigation1.xml" value="0.14791666666666667" />
+        <entry key="app/src/main/res/layout/activity_navigation1.xml" value="0.125" />
         <entry key="app/src/main/res/layout/activity_navigation2.xml" value="0.11" />
         <entry key="app/src/main/res/layout/activity_navigation3.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_navigation4.xml" value="0.13991769547325103" />
         <entry key="app/src/main/res/layout/activity_scan.xml" value="0.14791666666666667" />
         <entry key="app/src/main/res/layout/activity_search.xml" value="0.14270833333333333" />
-        <entry key="app/src/main/res/layout/activity_search2.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_search2.xml" value="0.125" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.25" />
         <entry key="app/src/main/res/layout/barcodeimg_item.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_cart2.xml" value="0.14791666666666667" />

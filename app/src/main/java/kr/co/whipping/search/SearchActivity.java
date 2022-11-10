@@ -134,7 +134,9 @@ public class SearchActivity extends AppCompatActivity {
                 editText.setText(data.get(0));
                 //다음 액티비티로 전송
                 Intent intent =new Intent(getApplicationContext(), Search2Activity.class);
+
                 intent.putExtra("searchItemName",data.get(0).toString());
+
                 startActivity(intent);
                 finish();
             }
@@ -170,7 +172,7 @@ public class SearchActivity extends AppCompatActivity {
         micButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                talkBack("음성인식",speechRecognizerIntent);
+                talkBack("음성검색",speechRecognizerIntent);
             }
         });
     }
