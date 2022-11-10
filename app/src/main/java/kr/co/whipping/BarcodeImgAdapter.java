@@ -44,6 +44,5 @@ public class BarcodeImgAdapter extends RecyclerView.Adapter<BarcodeImgAdapter.Vi
             img = itemView.findViewById(R.id.iv_barcode_background);
         }
     }
-
 }
 
