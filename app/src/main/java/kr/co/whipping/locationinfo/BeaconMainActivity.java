@@ -411,22 +411,22 @@ public class BeaconMainActivity extends AppCompatActivity {
                             //편의시설 정보 위치
                             if (beaconName.equals("beacon9")) {
                                 Log.e("beacon9인식", "화면 문구 : 1층 엘레베이터, 음성안내문구 : 1층 엘레베이터 입니다.");
-                                setBeaconFacilitiesInfo("1층 엘레베이터");
+                                setBeaconFacilitiesInfo("2층 엘레베이터");
                             } else if (beaconName.equals("beaconA")) {
                                 Log.e("beacon10인식", "화면 문구 : 1층 화장실, 음성안내문구 : 1층 화장실 입니다.");
-                                setBeaconFacilitiesInfo("1층 화장실");
+                                setBeaconFacilitiesInfo("2층 화장실");
                             }
 
                             //시나리오 작성
                             //1. 매장입구
                             else if (beaconName.equals("beaconB")) {
                                 Log.e("beaconB인식", "화면 문구 : 1층 매장입구, 음성안내문구 : 1층 매장입구 입니다.");
-                                setBeaconFacilitiesInfo("1층 매장입구");
+                                setBeaconFacilitiesInfo("2층 매장입구");
                             }
                             //2. 1층 계산대
                             else if (beaconName.equals("beaconC")) {
                                 Log.e("beaconC인식", "화면 문구 : 1층 계산대, 음성안내문구 : 1층 계산대 입니다.");
-                                setBeaconFacilitiesInfo("1층 계산대");
+                                setBeaconFacilitiesInfo("2층 계산대");
                             }
                             //3. 생활용품 / 스포츠매대
                             else if (beaconName.equals("beacon8")) {
@@ -483,7 +483,7 @@ public class BeaconMainActivity extends AppCompatActivity {
 
                             //8.  행사상품 안내
                             else if (beaconName.equals("beaconG")) {
-                                setBeaconSaleInfo("추천 상품\n 리엔 물들임 트린트먼트150ml(흑갈색)", "1+1 행사상품\n 헤드앤숄더 샴푸850ml");
+                                setBeaconSaleInfo("2+1행사상품 \n 리엔 물들임 새치커버샴푸450ml(자연갈색)", "2+1행사상품 \n 리엔 물들임 트리트먼트 300ml(흑갈색)");
                             }
 
                             //9. 구강용품/헤어용품
@@ -563,8 +563,8 @@ public class BeaconMainActivity extends AppCompatActivity {
         beaconInfo1TextView.setText(saleItem1);
         beaconInfo2TextView.setText(saleItem2);
         //음성안내
-        beaconInfo1TextView.setContentDescription("추천 상품인"+ saleItem1+" 있습니다.");
-        beaconInfo2TextView.setContentDescription("1+1 행사 중인"+ saleItem2+" 있습니다.");
+        beaconInfo1TextView.setContentDescription(saleItem1+" 있습니다.");
+        beaconInfo2TextView.setContentDescription( saleItem2+" 있습니다.");
     }
 
 

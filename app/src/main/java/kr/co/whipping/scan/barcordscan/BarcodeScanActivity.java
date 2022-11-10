@@ -201,37 +201,37 @@ public class BarcodeScanActivity extends AppCompatActivity {
                     image_barcode_scan.invalidate();
                     Log.d("dd", "바코드 이미지 생성 확인");
 
-                    if (barcodenums.equals("4902430232159")) {
+                    if (barcodenums.equals("8801051227208")) {
                         Log.d("dd", "샴푸 인식 확인");
                         category.setText("샴푸");
-                        nameOfprod.setText("헤드&숄더 두피 토탈 솔루션 가려운 두피케어");
+                        nameOfprod.setText("리엔 물들임 새치커버샴푸450ml(자연갈색)");
                         price.setText("15900");
                     }
                     else if (barcodenums.equals("8801046361252")){
                     category.setText("트리트먼트");
                     nameOfprod.setText("케라시스 데미지 클리닉 오리지널 컨디셔너 린스 1,000ml ");
-                    price.setText("7,900");
+                    price.setText("7900");
                     }
                     else if (barcodenums.equals("8801008700372")){
                         category.setText("가그린");
                         nameOfprod.setText("리스테린 그린티 마일드 750ml");
-                        price.setText("6,930");
+                        price.setText("6930");
                     }
                     else if (barcodenums.equals("8809685832560")){
                         category.setText("트리트먼트");
                         nameOfprod.setText("살롱10 트리트먼트 250ml (손상모발)");
-                        price.setText("12,900");
+                        price.setText("12900");
                     }
                     else if (barcodenums.equals("8809539444581")){
                         category.setText("트리트먼트");
                         nameOfprod.setText("미장센 트리트먼트 1000ml (스무디 실키)");
-                        price.setText("7,490");
+                        price.setText("7490");
                     }
                     else if (barcodenums.equals("4902430896689")){
                         Log.i("면도기", "면도기 인식");
                         category.setText("면도기");
                         nameOfprod.setText("질레트 마하5스포츠 면도날 8입");
-                        price.setText("31,900");
+                        price.setText("31900");
                     }
                     else if (barcodenums.equals("8801062633715")){
                         Log.i("초콜릿", "초콜릿 인식");

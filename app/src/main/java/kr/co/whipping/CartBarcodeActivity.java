@@ -3,11 +3,15 @@ package kr.co.whipping;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,7 +33,7 @@ public class CartBarcodeActivity extends AppCompatActivity {
 
         DBHelper dbHelper = new DBHelper(CartBarcodeActivity.this);
         Cursor cursor = dbHelper.readBarcodeImg();
-
+        Button btn_back_barcode = findViewById(R.id.btn_back_barcode);
         /*DB에 저장된 byte 가져오기*/
         ArrayList<byte[]> byteList = new ArrayList<>();
         while (cursor.moveToNext()) {
@@ -48,5 +52,12 @@ public class CartBarcodeActivity extends AppCompatActivity {
         ViewPager2 viewPager = findViewById(R.id.view_pager);
         BarcodeImgAdapter adapter = new BarcodeImgAdapter(imgList);
         viewPager.setAdapter(adapter);
+
+        btn_back_barcode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 }
