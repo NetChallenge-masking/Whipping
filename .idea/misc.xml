@@ -52,6 +52,7 @@
         <entry key="app/src/main/res/layout/list_item.xml" value="0.25" />
         <entry key="app/src/main/res/layout/listitem_cart.xml" value="0.1" />
         <entry key="app/src/main/res/layout/recycler_row.xml" value="0.1" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_Whipping.xml" value="0.22" />
       </map>
     </option>
   </component>
