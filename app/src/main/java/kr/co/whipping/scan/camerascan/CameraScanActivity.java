@@ -118,13 +118,7 @@ public class CameraScanActivity extends AppCompatActivity {
             }
         });
 
-
-
     }
-
-
-
-
 
     @Override
     protected void onDestroy() {

@@ -19,6 +19,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.util.Size;
 import android.widget.TextView;
@@ -31,6 +32,7 @@ import com.dynamsoft.dbr.TextResult;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.nio.ByteBuffer;
+import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -44,6 +46,9 @@ public class BarcodeCameraActivity extends AppCompatActivity {
     private ExecutorService exec;
     private Camera camera;
     private BarcodeReader dbr;
+    TextToSpeech tts;
+    int clickCnt;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +70,22 @@ public class BarcodeCameraActivity extends AppCompatActivity {
                 }
             }
         }, ContextCompat.getMainExecutor(this));
+
+
+
+        tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() { //tts구현
+            @Override
+            public void onInit(int i) {
+
+                if (i == TextToSpeech.SUCCESS) { //tts 잘되면
+                    tts.setLanguage(Locale.KOREA);     //한국어로 설정
+                    tts.setSpeechRate(0.8f); //말하기 속도 지정 1.0이 기본값
+                    tts.speak("구매를 원하는 상품의 바코드를 스캔해주세요.", TextToSpeech.QUEUE_ADD, null);
+                }
+            }
+        });
+
+
     }
     private class ImageData{
         private int mWidth,mHeight,mStride;
