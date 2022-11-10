@@ -1,48 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center|center_vertical"
     android:background="#429B5B">
 
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/itemscanBtn"
-            android:layout_width="252dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_margin="50dp"
-            android:layout_weight="1"
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="110dp"
+            android:layout_height="0dp"
 
-            android:background="@drawable/search2"
 
-            android:textSize="60sp" />
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="10">
 
-        <View
-            android:id="@+id/view"
-            android:layout_width="1dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.05"
-            android:background="#FFFFFF" />
+            <ImageView
+                android:id="@+id/scan_back_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/btn_back" />
+        </LinearLayout>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/barcordscanBtn"
-            android:layout_width="252dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_margin="50dp"
-            android:layout_weight="1"
-            android:background="@drawable/barcode2"
+        <LinearLayout
+            android:id="@+id/ScanBtnContentLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="90"
+            android:orientation="horizontal">
 
-            android:textSize="60sp" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/itemscanBtn"
+                android:layout_width="252dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_margin="50dp"
+                android:layout_weight="1"
+
+                android:background="@drawable/search2"
+                android:contentDescription="상품 정보 확인"
+                android:textSize="60sp" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.05"
+                android:background="#FFFFFF" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/barcordscanBtn"
+                android:layout_width="252dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_margin="50dp"
+                android:layout_weight="1"
+                android:background="@drawable/barcode2"
+                android:contentDescription="바코드로 상품담기"
+                android:textSize="60sp" />
+        </LinearLayout>
+
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

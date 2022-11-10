@@ -12,7 +12,7 @@
         style="?android:attr/progressBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="700dp"
+        android:layout_marginTop="100dp"
         android:layout_marginBottom="50dp"
         android:progressTint="#65DF6A"
         android:visibility="invisible"
@@ -24,9 +24,8 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="vertical"
+        android:layout_width="1283dp"
+        android:layout_height="810dp"
         android:weightSum="100"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,13 +34,13 @@
 
         <androidx.camera.view.PreviewView
             android:id="@+id/previewView"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="90" />
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="10"
             android:gravity="center"
@@ -49,15 +48,15 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/bCapture"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/btn_barcode_background"
+                android:background="@drawable/style_beacon_background_name"
+                android:fontFamily="@font/esamanru_medium"
                 android:text="촬영"
-                tools:visibility="invisible" />
+                android:textSize="40sp" />
         </LinearLayout>
 
     </LinearLayout>

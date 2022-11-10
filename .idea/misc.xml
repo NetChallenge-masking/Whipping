@@ -24,6 +24,8 @@
         <entry key="app/src/main/res/drawable/search_edittext_border.xml" value="0.2375" />
         <entry key="app/src/main/res/drawable/searchradius.xml" value="0.2545" />
         <entry key="app/src/main/res/drawable/shadow.xml" value="0.3545" />
+        <entry key="app/src/main/res/drawable/style_beacon_background_name.xml" value="0.2665" />
+        <entry key="app/src/main/res/drawable/style_beaconmain_scan_background.xml" value="0.2665" />
         <entry key="app/src/main/res/layout-land/activity_barcode.xml" value="0.15102880658436213" />
         <entry key="app/src/main/res/layout-land/activity_innercamera.xml" value="0.1" />
         <entry key="app/src/main/res/layout-land/activity_splash.xml" value="0.22552083333333334" />
@@ -41,7 +43,7 @@
         <entry key="app/src/main/res/layout/activity_navigation2.xml" value="0.11" />
         <entry key="app/src/main/res/layout/activity_navigation3.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_navigation4.xml" value="0.13991769547325103" />
-        <entry key="app/src/main/res/layout/activity_scan.xml" value="0.14791666666666667" />
+        <entry key="app/src/main/res/layout/activity_scan.xml" value="0.125" />
         <entry key="app/src/main/res/layout/activity_search.xml" value="0.14270833333333333" />
         <entry key="app/src/main/res/layout/activity_search2.xml" value="0.125" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.25" />
