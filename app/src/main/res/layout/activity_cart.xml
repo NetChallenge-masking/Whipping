@@ -14,8 +14,10 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="30dp"
         android:background="@drawable/btn_add"
+        android:fontFamily="@font/esamanru_medium"
         android:text="수량 추가"
         android:textSize="70dp"
+        android:contentDescription = "수량 추가"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -26,8 +28,10 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="30dp"
         android:background="@drawable/btn_minus"
+        android:fontFamily="@font/esamanru_medium"
         android:text="수량 감소"
         android:textSize="70dp"
+        android:contentDescription = "수량 감소"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/amount_add_btn" />
 
@@ -35,11 +39,13 @@
         android:id="@+id/basket_delete_btn"
         android:layout_width="350dp"
         android:layout_height="190dp"
-        android:background="@drawable/btn_delete"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="30dp"
+        android:background="@drawable/btn_delete"
+        android:fontFamily="@font/esamanru_medium"
         android:text="상품 삭제"
         android:textSize="70dp"
+        android:contentDescription = "상품 삭제"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/amount_minus_btn" />
 
@@ -83,6 +89,7 @@
         android:layout_marginStart="440dp"
         android:layout_marginTop="70dp"
         android:background="@drawable/btn_add"
+        android:fontFamily="@font/esamanru_medium"
         android:text="총액"
         android:textSize="90dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -95,6 +102,7 @@
         android:layout_marginStart="810dp"
         android:layout_marginTop="70dp"
         android:background="@drawable/btn_add"
+        android:fontFamily="@font/esamanru_medium"
         android:text="바코드"
         android:textSize="90dp"
         app:layout_constraintStart_toStartOf="parent"

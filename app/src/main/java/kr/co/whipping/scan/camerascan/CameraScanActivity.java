@@ -1,15 +1,19 @@
 package kr.co.whipping.scan.camerascan;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
+import android.os.Handler;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Locale;
 import java.util.Objects;
 
 import kr.co.whipping.MainActivity;
@@ -33,13 +37,16 @@ public class CameraScanActivity extends AppCompatActivity {
     private Button camerabackBtn;
     private Button barcordGoBtn;
     private Button readTextBtn;
+    private ImageView backBtn;
     TextToSpeech tts;
+    int clickCnt;
     WhippingTTS whippingTTS;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camerascan);
         readTextBtn=findViewById(R.id.btn_read_text);
-
+        backBtn = findViewById(R.id.camescan_detail_back_btn);
         mImageDetails = findViewById(R.id.image_details);
         camerabackBtn = findViewById(R.id.cameraBackBtn);
         barcordGoBtn = findViewById(R.id.barcordScanGoBtn);
@@ -62,28 +69,54 @@ public class CameraScanActivity extends AppCompatActivity {
         readTextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                whippingTTS=new WhippingTTS(textDetectionResult,tts);
-                whippingTTS.ttsResult();
+                tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() { //tts구현
+                    @Override
+                    public void onInit(int i) {
+
+                        if (i == TextToSpeech.SUCCESS) { //tts 잘되면
+                            tts.setLanguage(Locale.KOREA);     //한국어로 설정
+                            tts.setSpeechRate(0.8f); //말하기 속도 지정 1.0이 기본값
+                            clickCnt++; //클릭 횟수
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (clickCnt == 1) { //한번 클릭했을 경우 버튼내용 음성안내
+                                        tts.speak("다시듣기 버튼입니다. 활성화하려면 두번 탭하세요.", TextToSpeech.QUEUE_ADD, null);
+                                    } else if (clickCnt == 2) { //두번 클릭했을 경우 다음 화면으로 intent
+                                        whippingTTS=new WhippingTTS(textDetectionResult,tts);
+                                        whippingTTS.ttsResult();
+                                    }
+                                    clickCnt = 0; //클릭횟수 0으로 초기화
+                                }
+
+                            }, 500); //클릭이 0.5초 이내로 한 번 더 클릭 되어있을 경우
+
+                        }
+                    }
+                });
             }
         });
         barcordGoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), BarcodeScanActivity.class);
-                startActivity(intent);
-                finish();
+                talkBack("상품담기",BarcodeScanActivity.class);
             }
         });
         //카메라 스캔으로 바로가기 버튼
         camerabackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), InnerCameraActivity.class);
-                startActivity(intent);
-                finish();
+                talkBack("카메라 스캔",InnerCameraActivity.class);
             }
         });
 
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                talkBack("뒤로가기");
+            }
+        });
 
     }
 
@@ -92,6 +125,69 @@ public class CameraScanActivity extends AppCompatActivity {
         super.onDestroy();
         tts.stop();
         tts.shutdown();
+    }
+    //인텐트 넘겨주는 않는 뒤로가기 또는 종료 버튼을 위한 접근성 음성안내 함수
+    public void talkBack(String text){
+        //음성안내 구현
+        tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() { //tts구현
+            @Override
+            public void onInit(int i) {
+
+                if (i == TextToSpeech.SUCCESS) { //tts 잘되면
+                    tts.setLanguage(Locale.KOREA);     //한국어로 설정
+                    tts.setSpeechRate(0.8f); //말하기 속도 지정 1.0이 기본값
+                    clickCnt++; //클릭 횟수
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (clickCnt == 1) { //한번 클릭했을 경우 버튼내용 음성안내
+                                tts.speak(text +" 버튼입니다. 활성화하려면 두번 탭하세요.", TextToSpeech.QUEUE_ADD, null);
+                            } else if (clickCnt == 2) { //두번 클릭했을 경우 다음 화면으로 intent
+                                finish();
+                            }
+                            clickCnt = 0; //클릭횟수 0으로 초기화
+                        }
+
+                    }, 500); //클릭이 0.5초 이내로 한 번 더 클릭 되어있을 경우
+
+                }
+            }
+        });
+    }
+
+    //인텐트 넘겨주는 버튼을 위한 접근성 음성안내 함수
+    public void talkBack(String text,Class intentClassName){
+        //음성안내 구현
+        tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() { //tts구현
+            @Override
+            public void onInit(int i) {
+
+                if (i == TextToSpeech.SUCCESS) { //tts 잘되면
+                    tts.setLanguage(Locale.KOREA);     //한국어로 설정
+                    tts.setSpeechRate(0.8f); //말하기 속도 지정 1.0이 기본값
+                    clickCnt++; //클릭 횟수
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (clickCnt == 1) { //한번 클릭했을 경우 버튼내용 음성안내
+                                tts.speak(text +" 버튼입니다. 활성화하려면 두번 탭하세요.", TextToSpeech.QUEUE_ADD, null);
+                            } else if (clickCnt == 2) { //두번 클릭했을 경우 다음 화면으로 intent
+
+                                Intent intent = new Intent(getApplicationContext(), intentClassName);
+                                startActivity(intent);
+                                finish();
+
+                            }
+                            clickCnt = 0; //클릭횟수 0으로 초기화
+                        }
+
+                    }, 500); //클릭이 0.5초 이내로 한 번 더 클릭 되어있을 경우
+
+                }
+            }
+        });
     }
 }
 

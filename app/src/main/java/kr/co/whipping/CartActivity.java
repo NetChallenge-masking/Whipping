@@ -6,9 +6,11 @@ import android.database.DataSetObserver;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.speech.RecognitionListener;
 import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
@@ -25,6 +27,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import kr.co.whipping.search.SearchActivity;
+
 public class CartActivity extends AppCompatActivity {
 
     DBHelper dbHelper;
@@ -33,22 +37,24 @@ public class CartActivity extends AppCompatActivity {
 
     // tts
     TextToSpeech tts;
-
-    // tts 객체 정리
-    @Override
-    protected void onDestroy() {
-        if (tts != null) {
-            tts.stop();
-            tts.shutdown();
-            tts = null;
-        }
-        super.onDestroy();
-    }
+    int clickCnt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
+
+        //tts구현
+        tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int i) {
+
+                if (i == TextToSpeech.SUCCESS) { //tts 잘되면
+                    tts.setLanguage(Locale.KOREA);     //한국어로 설정
+                    tts.setSpeechRate(0.8f); //말하기 속도 지정 1.0이 기본값
+                }
+            }
+        });
 
         ArrayList<Basket> basketList = new ArrayList<>();
 
@@ -75,16 +81,6 @@ public class CartActivity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
         }
 
-        //tts 객체 초기화
-        tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if (status != TextToSpeech.ERROR) {
-                    tts.setLanguage(Locale.KOREAN);
-                }
-            }
-        });
-
         //tts
         adapter.setItemClickListener(new BasketAdapter.OnItemClickEventListener() {
             @Override
@@ -95,7 +91,7 @@ public class CartActivity extends AppCompatActivity {
 
                 String text = basketList.get(position).getItemName() + " " + basketList.get(position).getAmount() + "개";
                 tts.setPitch(1.0f); // 음성 높낮이
-                tts.setSpeechRate(1.0f); // 음성 빠르기
+                tts.setSpeechRate(0.8f); // 음성 빠르기
                 tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
 
                 adapter.notifyDataSetChanged();
@@ -109,27 +105,46 @@ public class CartActivity extends AppCompatActivity {
             public void onClick(View v) {
                 final Basket recyclerItem = adapter.getSelected();
                 if (recyclerItem == null) {
-                    Toast.makeText(CartActivity.this, "선택된 아이템이 없습니다.", Toast.LENGTH_SHORT).show();
+                    tts.speak("상품 삭제 버튼입니다. 장바구니 상품 항목을 먼저 선택해주세요.", TextToSpeech.QUEUE_FLUSH, null);
                     return;
                 }
 
-                String text = "상품 삭제";
-                tts.setPitch(1.0f); // 음성 높낮이
-                tts.setSpeechRate(1.0f); // 음성 빠르기
-                tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+                tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() { //tts구현
+                    @Override
+                    public void onInit(int i) {
 
-                //선택한 item 삭제
-                basketList.remove(recyclerItem);
+                        if (i == TextToSpeech.SUCCESS) { //tts 잘되면
+                            tts.setLanguage(Locale.KOREA);     //한국어로 설정
+                            tts.setSpeechRate(0.8f); //말하기 속도 지정 1.0이 기본값
+                            clickCnt++; //클릭 횟수
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (clickCnt == 1) { //한번 클릭했을 경우 버튼내용 음성안내
+                                        tts.speak("상품 삭제 버튼입니다. 활성화하려면 두번 탭하세요.", TextToSpeech.QUEUE_ADD, null);
+                                    } else if (clickCnt == 2) {
+                                        tts.speak("상품이 장바구니에서 삭제되었습니다.", TextToSpeech.QUEUE_ADD, null);
 
-                //List 반영
-                final int checkedPosition = adapter.getCheckedPosition();
-                adapter.notifyItemRemoved(checkedPosition);
+                                        //선택한 item 삭제
+                                        basketList.remove(recyclerItem);
 
-                //선택 항목 초기화
-                adapter.clearSelected();
+                                        //List 반영
+                                        final int checkedPosition = adapter.getCheckedPosition();
+                                        adapter.notifyItemRemoved(checkedPosition);
 
-                //db에서 상품 제거
-                dbHelper.deleteBasket(recyclerItem.getBasketId());
+                                        //선택 항목 초기화
+                                        adapter.clearSelected();
+
+                                        //db에서 상품 제거
+                                        dbHelper.deleteBasket(recyclerItem.getBasketId());
+                                    }
+                                    clickCnt = 0; //클릭횟수 0으로 초기화
+                                }
+                            }, 500); //클릭이 0.5초 이내로 한 번 더 클릭 되어있을 경우
+                        }
+                    }
+                });
             }
         });
 
@@ -140,38 +155,56 @@ public class CartActivity extends AppCompatActivity {
             public void onClick(View v) {
                 final Basket recyclerItem = adapter.getSelected();
                 if (recyclerItem == null) {
-                    Toast.makeText(CartActivity.this, "선택된 아이템이 없습니다.", Toast.LENGTH_SHORT).show();
+                    tts.speak("상품 수량 추가 버튼입니다. 장바구니 상품 항목을 먼저 선택해주세요.", TextToSpeech.QUEUE_FLUSH, null);
                     return;
                 }
-                ;
 
-                String text = "수량 추가";
-                tts.setPitch(1.0f); // 음성 높낮이
-                tts.setSpeechRate(1.0f); // 음성 빠르기
-                tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+                tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() { //tts구현
+                    @Override
+                    public void onInit(int i) {
 
-                Basket basket = new Basket(
-                        recyclerItem.getBasketId(),  //basket_id
-                        recyclerItem.getBarcodeId(),  //barcode_id
-                        recyclerItem.getBarcdoeType(),  //barcode_type
-                        recyclerItem.getItemName(),
-                        recyclerItem.getAmount() + 1,  //amount
-                        recyclerItem.getPrice(),
-                        recyclerItem.getImg()
-                );
+                        if (i == TextToSpeech.SUCCESS) { //tts 잘되면
+                            tts.setLanguage(Locale.KOREA);     //한국어로 설정
+                            tts.setSpeechRate(0.8f); //말하기 속도 지정 1.0이 기본값
+                            clickCnt++; //클릭 횟수
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (clickCnt == 1) { //한번 클릭했을 경우 버튼내용 음성안내
+                                        tts.speak("상품 수량 추가 버튼입니다. 활성화하려면 두번 탭하세요.", TextToSpeech.QUEUE_ADD, null);
+                                    } else if (clickCnt == 2) {
+                                        tts.speak("상품 수량이 추가되었습니다.", TextToSpeech.QUEUE_ADD, null);
 
-                // 선택한 item 수량 추가
-                final int checkedPosition = adapter.getCheckedPosition();
-                basketList.set(checkedPosition, basket);
+                                        Basket basket = new Basket(
+                                                recyclerItem.getBasketId(),  //basket_id
+                                                recyclerItem.getBarcodeId(),  //barcode_id
+                                                recyclerItem.getBarcdoeType(),  //barcode_type
+                                                recyclerItem.getItemName(),
+                                                recyclerItem.getAmount() + 1,  //amount
+                                                recyclerItem.getPrice(),
+                                                recyclerItem.getImg()
+                                        );
 
-                //List 반영
-                adapter.notifyItemRemoved(checkedPosition);
+                                        // 선택한 item 수량 추가
+                                        final int checkedPosition = adapter.getCheckedPosition();
+                                        basketList.set(checkedPosition, basket);
 
-                //선택 항목 초기화
-                adapter.clearSelected();
+                                        //List 반영
+                                        adapter.notifyItemRemoved(checkedPosition);
 
-                //db에서 상품 수량 추가
-                dbHelper.addAmount(recyclerItem.getBasketId());
+                                        //선택 항목 초기화
+                                        adapter.clearSelected();
+
+                                        //db에서 상품 수량 추가
+                                        dbHelper.addAmount(recyclerItem.getBasketId());
+                                    }
+                                    clickCnt = 0; //클릭횟수 0으로 초기화
+                                }
+                            }, 500); //클릭이 0.5초 이내로 한 번 더 클릭 되어있을 경우
+                        }
+                    }
+                });
             }
         });
 
@@ -182,38 +215,56 @@ public class CartActivity extends AppCompatActivity {
             public void onClick(View v) {
                 final Basket recyclerItem = adapter.getSelected();
                 if (recyclerItem == null) {
-                    Toast.makeText(CartActivity.this, "선택된 아이템이 없습니다.", Toast.LENGTH_SHORT).show();
+                    tts.speak("상품 수량 감소 버튼입니다. 장바구니 상품 항목을 먼저 선택해주세요.", TextToSpeech.QUEUE_FLUSH, null);
                     return;
                 }
-                ;
 
-                String text = "수량 감소";
-                tts.setPitch(1.0f); // 음성 높낮이
-                tts.setSpeechRate(1.0f); // 음성 빠르기
-                tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+                tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() { //tts구현
+                    @Override
+                    public void onInit(int i) {
+                        if (i == TextToSpeech.SUCCESS) { //tts 잘되면
+                            tts.setLanguage(Locale.KOREA);     //한국어로 설정
+                            tts.setSpeechRate(0.8f); //말하기 속도 지정 1.0이 기본값
+                            clickCnt++; //클릭 횟수
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (clickCnt == 1) { //한번 클릭했을 경우 버튼내용 음성안내
+                                        tts.speak("상품 수량 감소 버튼입니다. 활성화하려면 두번 탭하세요.", TextToSpeech.QUEUE_ADD, null);
+                                    }
+                                    else if (clickCnt == 2) {
+                                        tts.speak("상품 수량이 감소되었습니다.", TextToSpeech.QUEUE_ADD, null);
 
-                Basket basket = new Basket(
-                        recyclerItem.getBasketId(),  //basket_id
-                        recyclerItem.getBarcodeId(),  //barcode_id
-                        recyclerItem.getBarcdoeType(),  //barcode_type
-                        recyclerItem.getItemName(),  //item_name
-                        recyclerItem.getAmount() - 1,  //amount
-                        recyclerItem.getPrice(),
-                        recyclerItem.getImg()
-                );
+                                        Basket basket = new Basket(
+                                                recyclerItem.getBasketId(),  //basket_id
+                                                recyclerItem.getBarcodeId(),  //barcode_id
+                                                recyclerItem.getBarcdoeType(),  //barcode_type
+                                                recyclerItem.getItemName(),  //item_name
+                                                recyclerItem.getAmount() - 1,  //amount
+                                                recyclerItem.getPrice(),
+                                                recyclerItem.getImg()
+                                        );
 
-                // 선택한 item 수량 감소
-                final int checkedPosition = adapter.getCheckedPosition();
-                basketList.set(checkedPosition, basket);
+                                        // 선택한 item 수량 감소
+                                        final int checkedPosition = adapter.getCheckedPosition();
+                                        basketList.set(checkedPosition, basket);
 
-                //List 반영
-                adapter.notifyItemRemoved(checkedPosition);
+                                        //List 반영
+                                        adapter.notifyItemRemoved(checkedPosition);
 
-                //선택 항목 초기화
-                adapter.clearSelected();
+                                        //선택 항목 초기화
+                                        adapter.clearSelected();
 
-                //db에서 상품 수량 삭제
-                dbHelper.minusAmount(recyclerItem.getBasketId());
+                                        //db에서 상품 수량 삭제
+                                        dbHelper.minusAmount(recyclerItem.getBasketId());
+                                    }
+                                    clickCnt = 0; //클릭횟수 0으로 초기화
+                                }
+                            }, 500); //클릭이 0.5초 이내로 한 번 더 클릭 되어있을 경우
+                        }
+                    }
+                });
             }
         });
 
@@ -228,8 +279,7 @@ public class CartActivity extends AppCompatActivity {
                     price += cursor.getInt(6) * cursor.getInt(5);
                 }
 
-                String text = "총액은 " + Integer.toString(price) + "원 입니다.";
-
+                String text = "총액은 " + price + "원 입니다.";
                 tts.setPitch(1.0f); // 음성 높낮이
                 tts.setSpeechRate(1.0f); // 음성 빠르기
                 tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
@@ -241,86 +291,43 @@ public class CartActivity extends AppCompatActivity {
         barcode_zip_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), CartBarcodeActivity.class);
-                startActivity(intent);
+
+                talkBack("바코드 이미지 화면으로 넘어가는", CartBarcodeActivity.class);
+
             }
         });
     }
 
-    private RecognitionListener listener = new RecognitionListener() {
-        @Override
-        public void onReadyForSpeech(Bundle params) {
-            Toast.makeText(getApplicationContext(), "음성인식을 시작합니다.", Toast.LENGTH_SHORT).show();
-        }
+    /*tts*/
+    public void talkBack(String text,Class intentClassName){
+        //음성안내 구현
+        tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() { //tts구현
+            @Override
+            public void onInit(int i) {
 
-        @Override
-        public void onBeginningOfSpeech() {
-        }
+                if (i == TextToSpeech.SUCCESS) { //tts 잘되면
+                    tts.setLanguage(Locale.KOREA);     //한국어로 설정
+                    tts.setSpeechRate(0.8f); //말하기 속도 지정 1.0이 기본값
+                    clickCnt++; //클릭 횟수
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (clickCnt == 1) { //한번 클릭했을 경우 버튼내용 음성안내
+                                tts.speak(text +" 버튼입니다. 활성화하려면 두번 탭하세요.", TextToSpeech.QUEUE_ADD, null);
+                            } else if (clickCnt == 2) { //두번 클릭했을 경우 다음 화면으로 intent
 
-        @Override
-        public void onRmsChanged(float rmsdB) {
-        }
+                                Intent intent = new Intent(getApplicationContext(), intentClassName);
+                                startActivity(intent);
 
-        @Override
-        public void onBufferReceived(byte[] buffer) {
-        }
+                            }
+                            clickCnt = 0; //클릭횟수 0으로 초기화
+                        }
 
-        @Override
-        public void onEndOfSpeech() {
-        }
+                    }, 500); //클릭이 0.5초 이내로 한 번 더 클릭 되어있을 경우
 
-        @Override
-        public void onError(int error) {
-            String message;
-
-            switch (error) {
-                case SpeechRecognizer.ERROR_AUDIO:
-                    message = "오디오 에러";
-                    break;
-                case SpeechRecognizer.ERROR_CLIENT:
-                    message = "클라이언트 에러";
-                    break;
-                case SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS:
-                    message = "퍼미션 없음";
-                    break;
-                case SpeechRecognizer.ERROR_NETWORK:
-                    message = "네트워크 에러";
-                    break;
-                case SpeechRecognizer.ERROR_NETWORK_TIMEOUT:
-                    message = "네트웍 타임아웃";
-                    break;
-                case SpeechRecognizer.ERROR_NO_MATCH:
-                    message = "찾을 수 없음";
-                    break;
-                case SpeechRecognizer.ERROR_RECOGNIZER_BUSY:
-                    message = "RECOGNIZER가 바쁨";
-                    break;
-                case SpeechRecognizer.ERROR_SERVER:
-                    message = "서버가 이상함";
-                    break;
-                case SpeechRecognizer.ERROR_SPEECH_TIMEOUT:
-                    message = "말하는 시간초과";
-                    break;
-                default:
-                    message = "알 수 없는 오류임";
-                    break;
+                }
             }
-
-            Toast.makeText(getApplicationContext(), "에러가 발생하였습니다. : " + message, Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void onResults(Bundle results) {
-
-        }
-
-        @Override
-        public void onPartialResults(Bundle partialResults) {
-        }
-
-        @Override
-        public void onEvent(int eventType, Bundle params) {
-        }
-
-    };
+        });
+    }
 }

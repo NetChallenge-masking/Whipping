@@ -34,6 +34,7 @@
         android:id="@+id/rec_EditTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/esamanru_bold"
         android:hint="음성 검색 시작"
         android:textColorHint="#FF7373"
         android:textSize="40sp"
