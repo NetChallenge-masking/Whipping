@@ -83,6 +83,11 @@
             android:screenOrientation="landscape"
             android:theme="@style/CleanTheme" />
         <activity
+            android:name=".locationinfo.BeaconDemoActivity"
+            android:exported="false"
+            android:screenOrientation="landscape"
+            android:theme="@style/CleanTheme" />
+        <activity
             android:name=".SplashActivity"
             android:exported="true"
             android:screenOrientation="landscape"
