@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import java.util.Locale;
 
+import kr.co.whipping.locationinfo.BeaconDemoActivity;
 import kr.co.whipping.locationinfo.BeaconMainActivity;
 import kr.co.whipping.scan.ScanActivity;
 import kr.co.whipping.scan.barcordscan.BarcodeScanActivity;
@@ -85,7 +86,7 @@ public class HomeActivity extends AppCompatActivity {
         locationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                talkBack("위치안내",BeaconMainActivity.class);
+                talkBack("위치안내", BeaconDemoActivity.class);
             }
         });
 

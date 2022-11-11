@@ -98,6 +98,9 @@
             android:name=".scan.barcordscan.BarcodeScanActivity"
             android:configChanges="screenSize|orientation" />
         <activity
+            android:name=".locationinfo.BeaconDemoActivity"
+            android:configChanges="screenSize|orientation" />
+        <activity
             android:name=".scan.camerascan.CameraScanActivity"
             android:configChanges="screenSize|orientation" />
         <activity
