@@ -1,10 +1,20 @@
-# Whipping
-## 커밋 유형 지정
+# 2022 K-디지털 챌린지 : NET 챌린지 캠프 시즌9 금상,특별상 수상작품 🏆
+## WHIPPING, 마트를 방문한 시각장애인들이 수월하게 장보도록 돕는 서비스🛒
 
-FEAT : 새로운 기능의 추가 <br>
-FIX: 버그 수정 <br>
-DOCS: 문서 수정 <br>
-STYLE: 스타일 관련 기능(코드 포맷팅, 세미콜론 누락, 코드 자체의 변경이 없는 경우)<br>
-REFACTOR: 코드 리펙토링 <br>
-TEST: 테스트 코트, 리펙토링 테스트 코드 추가 <br>
-CHORE: 빌드 업무 수정, 패키지 매니저 수정(ex .gitignore 수정 같은 경우) <br>
+## Skills
+- 
+
+## Team Members🔮
+### FrontEnd
+- 
+
+### BackEnd  
+- 
+
+## Description
+## <위핑(WHIPPING)> 개발 목적 및 필요성
+
+
+## <쇼북(WHIPPING)> 소개
+
+곧 쓸 예정...
