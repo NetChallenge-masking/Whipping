@@ -6,22 +6,28 @@ https://drive.google.com/drive/folders/1tpcrK5ugG9sGLCYV-YfUUb9Ph1YSLuRl?usp=sha
 
 ![image](https://user-images.githubusercontent.com/80438964/218960041-62528b7e-518e-43b4-b610-70569e02d27f.png)
 
+* 사용한 언어/툴 
+
+  * front-end : Java/android studio 
+  * back-end : mysql, node-js/visual studio code, Koren/PaaS-Ta
+
 
 ## Team: 마스킹(Masking) 🔮
-
-### FrontEnd
-- 안드로이드 애플리케이션 구현: 최애림,서민영,김채은,곽도윤
-- 최애림: 비콘 인식을 이용한 길안내 기능, 텍스트 인식, 음성 인식(STT), 음성 합성(TTS) 구현
-- 서민영: 바코드 인식, 장바구니 기능 구현
-- 김채은: 음성 합성(TTS), 장바구니 기능 구현
-- 곽도윤: 음성 합성(TTS), 비콘 인식을 이용한 길안내 기능 구현
+### Lead 
+* 최애림
+### FrontEnd 
+* 안드로이드 애플리케이션 개발
+    * 서민영: 바코드 인식, 장바구니 기능 구현
+    * 김채은: 음성 합성(TTS), 장바구니 기능 구현
+    *  최애림: 비콘 인식을 이용한 길안내 기능, 텍스트 인식, 음성 인식(STT), 음성 합성(TTS) 구현
+     * 곽도윤: 음성 합성(TTS), 비콘 인식을 이용한 길안내 기능 구현
 
 ### BackEnd  
-- 데이터베이스 설계 및 구축:곽도윤,김채은
-- 서버 개발:김민경,최원경
+* 데이터베이스 설계 및 구축: 곽도윤,김채은
+* 서버 개발: 김민경,최원경
 
 ### Design
-- 김민경
+* 김민경
 
 ## Description
 ## <위핑(WHIPPING)> 개발 목적 및 필요성
