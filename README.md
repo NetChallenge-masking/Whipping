@@ -9,7 +9,7 @@ https://drive.google.com/drive/folders/1tpcrK5ugG9sGLCYV-YfUUb9Ph1YSLuRl?usp=sha
 * 사용한 언어/툴 
 
   * front-end : Java/android studio 
-  * back-end : mysql, node-js/visual studio code, Koren/PaaS-Ta
+  * back-end : mysql, node-js/visual studio code, Koren-PaaS-Ta
 
 
 ## Team: 마스킹(Masking) 🔮
