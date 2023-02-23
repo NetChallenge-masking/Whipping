@@ -41,6 +41,12 @@ https://drive.google.com/drive/folders/1tpcrK5ugG9sGLCYV-YfUUb9Ph1YSLuRl?usp=sha
 
       
 
+## <위핑(WHIPPING)> 의 화면 흐름도
+![image](https://user-images.githubusercontent.com/80438964/220795457-8749e1a0-f0df-4360-827a-516594725b36.png)
+
+## <위핑(WHIPPING)> 의 실행 화면 모음
+![image](https://user-images.githubusercontent.com/80438964/220795466-0741a6dc-83f4-4a69-8149-22fb17399c38.png)
+
 
 
 
