@@ -177,7 +177,7 @@ https://drive.google.com/drive/folders/1tpcrK5ugG9sGLCYV-YfUUb9Ph1YSLuRl?usp=sha
 - 찾은 상품을 텍스트 인식을 이용해 맞는지 확인하고, 바코드를 인식하여 상품을 장바구니에 담습니다. 이를 반복하며 쇼핑을 마친 사용자는 계산대에서 장바구니 화면에 모아져있는 바코드를 통해 손쉽게 계산까지 마무리합니다. 
 
 ![Upload_20230504-1837061024_43](https://user-images.githubusercontent.com/80438964/236301192-235cdf9d-fabb-429f-968b-bbfc9a9d3ed6.jpg)
-- 이 과정을 담은 시연 영상 촬영 과정입니다. 이마트하월곡점에서 진행하였고 프로세스 2부터 6까지의 과정을 자세히 담았으니 이 점 참고하여 시청해주시면 감사하겠습니다. \n
+- 이 과정을 담은 시연 영상 촬영 과정입니다. 이마트하월곡점에서 진행하였고 프로세스 2부터 6까지의 과정을 자세히 담았으니 이 점 참고하여 시청해주시면 감사하겠습니다. 
 * 시연영상 링크: https://drive.google.com/file/d/1iIZhv0231yy5gLZppd7DN0btJzQcB9V6/view?usp=share_link
 
 ![Upload_20230504-1837061024_44](https://user-images.githubusercontent.com/80438964/236303374-324f8920-ea43-4770-901e-5046b13cb11b.jpg)
