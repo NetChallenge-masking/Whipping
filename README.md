@@ -39,12 +39,6 @@ https://drive.google.com/drive/folders/1tpcrK5ugG9sGLCYV-YfUUb9Ph1YSLuRl?usp=sha
  <위핑(Whipping)>은 장보기에 특화된 시각 보조 도구이다. 본 서비스는 마트의 카트에 부착할 수 있는 태블릿 PC를 이용하는 형식으로 지원되어 사용자의 접근성을 제고한다는 점에서 여타 서비스들보다 사용자 친화적이다.
  본 서비스는 사용자가 실내인 마트에서의 본인의 위치를 비콘을 이용해 파악할 수 있다는 점에서 차별성이 있다. 비콘을 이용해 사용자에게 실시간으로 현재 위치를 알려주기 때문에 실내에서의 위치 파악이 어려운 GPS보다 사용자의 위치를 잘 파악할 수 있다는 점에서 혁신적이다. 이러한 기능은 차후에 대형마트 뿐 아니라 실내 시설의 범용적인 길 안내 서비스로서 발전할 가능성이 있다. 
 
-### <위핑(WHIPPING)> 의 화면 흐름도
-![image](https://user-images.githubusercontent.com/80438964/220795457-8749e1a0-f0df-4360-827a-516594725b36.png)
-
-### <위핑(WHIPPING)> 의 실행 화면 모음
-![image](https://user-images.githubusercontent.com/80438964/220795466-0741a6dc-83f4-4a69-8149-22fb17399c38.png)
-
 ## <위핑(WHIPPING)> 소개
 ![Upload_20230504-1837061024_1](https://user-images.githubusercontent.com/80438964/236298774-8abb72c8-67b8-4e57-b8c2-669d0673a3be.jpg)
 - 안녕하세요, 마트를 방문한 시각장애인들이 수월하게 장 보도록 돕는 서비스인 <위핑> 애플리케이션을 제작한 마스킹 팀입니다.
