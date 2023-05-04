@@ -140,9 +140,12 @@ https://drive.google.com/drive/folders/1tpcrK5ugG9sGLCYV-YfUUb9Ph1YSLuRl?usp=sha
 ![Upload_20230504-1837061024_30](https://user-images.githubusercontent.com/80438964/236300796-035659bc-42f6-4788-856a-e9b6733146cb.jpg)
 - 위핑의 데이터 베이스를 설계하는 과정입니다. 왼쪽은 데이터베이스 설계시 사용한 er 다이어그램으로 각 객체별 관계를 나타낸 그림입니다.
 
-![Upload_20230504-1837061024_31](https://user-images.githubusercontent.com/80438964/236300806-7ed77d46-f2bb-44e4-90d9-e55a302216bb.jpg)![Upload_20230504-1837061024_32](https://user-images.githubusercontent.com/80438964/236300881-254bc481-8d92-4119-9df0-d4c389aa266b.jpg)
+![Upload_20230504-1837061024_31](https://user-images.githubusercontent.com/80438964/236300806-7ed77d46-f2bb-44e4-90d9-e55a302216bb.jpg)
+- 위핑에 쓰인 rest api의 코드 사진입니다. Rest api는 노드 제이에스 플랫폼을 이용하여 작성하였고 파스타에 구축한 데이터베이스를 연동하여 작동하도록 제작하였습니다. 왼쪽의 api는 상품 검색시에 오른쪽은 장바구니에 상품을 담을 때 사용됩니다. 
+![Upload_20230504-1837061024_32](https://user-images.githubusercontent.com/80438964/236300881-254bc481-8d92-4119-9df0-d4c389aa266b.jpg)
+- 상품 수량 관련 api입니다. 수량 추가 및 감소시 사용됩니다.
 ![Upload_20230504-1837061024_33](https://user-images.githubusercontent.com/80438964/236300892-987cb667-697e-4bf9-84b8-98d3eff16d69.jpg)
-- 위핑에 쓰인 rest api의 코드 사진입니다. Rest api는 노드 제이에스 플랫폼을 이용하여 작성하였고 파스타에 구축한 데이터베이스를 연동하여 작동하도록 제작하였습니다. 왼쪽의 api는 상품 검색시에 오른쪽은 장바구니에 상품을 담을 때 사용됩니다. 상품 수량 관련 api입니다. 수량 추가 및 감소시 사용됩니다. 마지막으로 비콘 및 바코드 정보를 가져오는 api입니다. 
+- 마지막으로 비콘 및 바코드 정보를 가져오는 api입니다. 
 
 ![Upload_20230504-1837061024_34](https://user-images.githubusercontent.com/80438964/236300935-78667b5e-dd37-4075-84d3-319c4b445864.jpg)
 - 위핑과 연결된 코렌 네트워크에 대해 설명하겠습니다. 노드 js를 이용해 서버를 파스타 내에 배포하고 mysql을 이용하여 위핑의 데이터베이스를 파스타에 구축하였습니다. 각 애플리케이션을 쉽게 연동할 수 있다는 파스타의 장점을 이용하여 쉽게 이 둘을 연동하여 위핑의 핵심 기능들을 제작하였습니다.
