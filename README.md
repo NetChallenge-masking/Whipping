@@ -13,6 +13,9 @@
 
 
 ## Team: 마스킹(Masking) 🔮
+<img src="https://github.com/NetChallenge-masking/Whipping/assets/80438964/33e28d4e-78ee-4123-b7ea-cdd09190a832.jpg"  width="600" height="400"/>
+
+
 ### Lead 
 * 최애림
 ### FrontEnd 
